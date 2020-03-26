@@ -1,0 +1,170 @@
+##################################################################################################
+# Payment service
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-service
+spec:
+  ports:
+  - port: 9800
+    protocol: TCP
+  selector:
+    app: payment
+    version: v1.0.0
+  type: NodePort
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: payment-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment
+      version: v1.0.0
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/status: '{"version":"83ddbe1972cb02a168faa70a43323a767883c49da15df1de7b979155816d4f6e","initContainers":["istio-init"],"containers":["istio-proxy"],"volumes":["istio-envoy","istio-certs"],"imagePullSecrets":null}'
+        traffic.sidecar.istio.io/excludeOutboundIPRanges: 0.0.0.0/0
+      creationTimestamp: null
+      labels:
+        app: payment
+        version: v1.0.0
+    spec:
+      containers:
+      - env:
+     #   - name: registryIP
+      #    valueFrom:
+       #     configMapKeyRef:
+        #      key: registryIP
+         #     name: configmap-service
+        - name: masterIP
+          valueFrom:
+            configMapKeyRef:
+              key: masterIP
+              name: configmap-service
+        - name: MY_POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: zeinaho/payment:1
+        imagePullPolicy: IfNotPresent
+        name: payment-service
+        ports:
+        - containerPort: 9800
+        resources:
+          limits:
+            cpu: 300m
+            memory: 500Mi
+          requests:
+            cpu: 200m
+            memory: 400Mi
+      - args:
+        - proxy
+        - sidecar
+        - --configPath
+        - /etc/istio/proxy
+        - --binaryPath
+        - /usr/local/bin/envoy
+        - --serviceCluster
+        - blur
+        - --drainDuration
+        - 45s
+        - --parentShutdownDuration
+        - 1m0s
+        - --discoveryAddress
+        - istio-pilot.istio-system:15007
+        - --discoveryRefreshDelay
+        - 10s
+        - --zipkinAddress
+        - zipkin.istio-system:9411
+        - --connectTimeout
+        - 10s
+        - --proxyAdminPort
+        - "15000"
+        - --controlPlaneAuthPolicy
+        - NONE
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: INSTANCE_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: ISTIO_META_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: ISTIO_META_INTERCEPTION_MODE
+          value: REDIRECT
+        - name: ISTIO_METAJSON_ANNOTATIONS
+          value: |
+            {"traffic.sidecar.istio.io/excludeOutboundIPRanges":"0.0.0.0/0"}
+        - name: ISTIO_METAJSON_LABELS
+          value: |
+            {"app":"payment","version":"v1.0.0"}
+        image: docker.io/istio/proxyv2:1.0.8
+        imagePullPolicy: IfNotPresent
+        name: istio-proxy
+        ports:
+        - containerPort: 15090
+          name: http-envoy-prom
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 500m
+        securityContext:
+          readOnlyRootFilesystem: true
+          runAsUser: 1337
+        volumeMounts:
+        - mountPath: /etc/istio/proxy
+          name: istio-envoy
+        - mountPath: /etc/certs/
+          name: istio-certs
+          readOnly: true
+      initContainers:
+      - args:
+        - -p
+        - "15001"
+        - -u
+        - "1337"
+        - -m
+        - REDIRECT
+        - -i
+        - '*'
+        - -x
+        - 0.0.0.0/0
+        - -b
+        - "9800"
+        - -d
+        - ""
+        image: docker.io/istio/proxy_init:1.0.8
+        imagePullPolicy: IfNotPresent
+        name: istio-init
+        resources: {}
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
+          privileged: true
+      volumes:
+      - emptyDir:
+          medium: Memory
+        name: istio-envoy
+      - name: istio-certs
+        secret:
+          optional: true
+          secretName: istio.default
+status: {}
+---
