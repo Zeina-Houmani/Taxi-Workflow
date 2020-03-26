@@ -1,0 +1,46 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: vs-taxi
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - system-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /payement
+    route:
+    - destination:
+        host: payment-service.default.svc.cluster.local
+        port:
+          number: 9800
+      weight: 100
+  - match:
+    - uri:
+        prefix: /bills
+    route:
+    - destination:
+        host: billing-service.default.svc.cluster.local
+        port:
+          number: 9700
+      weight: 100
+  - match:
+    - uri:
+        prefix: /trip
+    route:
+    - destination:
+        host: trip-service.default.svc.cluster.local
+        port:
+          number: 9600
+      weight: 100
+  - match:
+    - uri:
+        prefix: /users
+    route:
+    - destination:
+        host: users-service.default.svc.cluster.local
+        port:
+          number: 9600
+      weight: 100
