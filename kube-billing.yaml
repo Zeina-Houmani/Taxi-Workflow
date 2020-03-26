@@ -40,7 +40,8 @@ spec:
     spec:
       containers:
       - env:
-        - name: paymentIP
+      #  - name: paymentIP
+        - name: masterIP
           valueFrom:
             configMapKeyRef:
               key: paymentIP
