@@ -59,7 +59,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
-        image: zeinaho/trip:1
+        image: zeinaho/trip:3
         imagePullPolicy: IfNotPresent
         name: trip-service
         ports:
