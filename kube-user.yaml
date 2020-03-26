@@ -45,7 +45,8 @@ spec:
        #     configMapKeyRef:
         #      key: registryIP
          #     name: configmap-service
-        - name: paymentIP
+        #- name: paymentIP
+        - name: masterIP
           valueFrom:
             configMapKeyRef:
               key: paymentIP
