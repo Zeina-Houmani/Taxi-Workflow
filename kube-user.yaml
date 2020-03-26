@@ -50,11 +50,13 @@ spec:
             configMapKeyRef:
               key: paymentIP
               name: configmap-payment
-        - name: masterIP
-          valueFrom:
-            configMapKeyRef:
-              key: masterIP
-              name: configmap-service
+       # - name: masterIP
+        #  valueFrom:
+         #   configMapKeyRef:
+          
+          #key: masterIP
+           
+           #name: configmap-service
         - name: MY_POD_IP
           valueFrom:
             fieldRef:
