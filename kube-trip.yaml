@@ -40,6 +40,16 @@ spec:
     spec:
       containers:
       - env:
+        - name: billingIP
+          valueFrom:
+            configMapKeyRef:
+              key: billingIP
+              name: configmap-billing
+        - name: usersIP
+          valueFrom:
+            configMapKeyRef:
+              key: usersIP
+              name: configmap-users
         - name: masterIP
           valueFrom:
             configMapKeyRef:
