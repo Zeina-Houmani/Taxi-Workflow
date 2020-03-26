@@ -38,11 +38,11 @@ spec:
     spec:
       containers:
       - env:
- #       - name: registryIP
-  #        valueFrom:
-   #         configMapKeyRef:
-    #          key: registryIP
-     #         name: configmap-service
+        - name: paymentIP
+          valueFrom:
+            configMapKeyRef:
+              key: paymentIP
+              name: configmap-payment
         - name: masterIP
           valueFrom:
             configMapKeyRef:
