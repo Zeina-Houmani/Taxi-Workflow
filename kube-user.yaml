@@ -45,16 +45,17 @@ spec:
        #     configMapKeyRef:
         #      key: registryIP
          #     name: configmap-service
-        - name: paymentIP
+        #- name: paymentIP
+        - name: masterIP
           valueFrom:
             configMapKeyRef:
               key: paymentIP
               name: configmap-payment
-        - name: masterIP
-          valueFrom:
-            configMapKeyRef:
-              key: masterIP
-              name: configmap-service
+       # - name: masterIP
+        #  valueFrom:
+         #   configMapKeyRef:
+          #key: masterIP
+           #name: configmap-service
         - name: MY_POD_IP
           valueFrom:
             fieldRef:

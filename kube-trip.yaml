@@ -50,11 +50,11 @@ spec:
             configMapKeyRef:
               key: usersIP
               name: configmap-users
-        - name: masterIP
-          valueFrom:
-            configMapKeyRef:
-              key: masterIP
-              name: configmap-service
+       # - name: masterIP
+        #  valueFrom:
+         #configMapKeyRef:  
+          #key: masterIP
+           #   name: configmap-service
         - name: MY_POD_IP
           valueFrom:
             fieldRef:
