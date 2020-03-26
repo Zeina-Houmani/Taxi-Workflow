@@ -13,7 +13,7 @@ end_list = {}
 latency = {}
 
 def send(tripID, clientID, taxiID, distance):
-	url = "http://localhost:9600/trip/" + str(tripID) + "/" + str(clientID) + "/" + str(taxiID) + "/" + str(distance)
+	url = "http://" + sys.argv[2] + ":" + sys.argv[3] + "/trip/" + str(tripID) + "/" + str(clientID) + "/" + str(taxiID) + "/" + str(distance)
 	response = requests.get(url)
 
 
@@ -23,7 +23,7 @@ def send_request():
 			list(pool.map(send(random.randint(1,10000), 123, 333, 456)))
 
 def start_latency():
-	url = "http://localhost:9600/trip/latency"
+	url = "http://" + sys.argv[2] + ":9600/trip/latency"
 	response = requests.get(url)
 	global start_list
 	start_list = response.json()
@@ -31,7 +31,7 @@ def start_latency():
 
 
 def end_latency():
-	url = "http://localhost:9800/payement/latency"
+	url = "http://" + sys.argv[4] + ":9800/payement/latency"
 	response = requests.get(url)
 	global end_list
 	end_list= response.json()

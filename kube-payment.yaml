@@ -54,7 +54,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
-        image: zeinaho/payment:1
+        image: zeinaho/payment:2
         imagePullPolicy: IfNotPresent
         name: payment-service
         ports:
