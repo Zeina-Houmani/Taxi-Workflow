@@ -52,8 +52,7 @@ spec:
               name: configmap-users
        # - name: masterIP
         #  valueFrom:
-         #configMapKeyRef:
-          
+         #configMapKeyRef:  
           #key: masterIP
            #   name: configmap-service
         - name: MY_POD_IP
