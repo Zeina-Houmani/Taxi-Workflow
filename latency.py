@@ -6,14 +6,14 @@ from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
 import  random
 import sys
-
+import csv
 
 start_list = {}
 end_list = {}
 latency = {}
 
 def send(tripID, clientID, taxiID, distance):
-	url = "http://" + sys.argv[2] + ":" + sys.argv[3] + "/trip/" + str(tripID) + "/" + str(clientID) + "/" + str(taxiID) + "/" + str(distance)
+	url = "http://" + sys.argv[2] + ":31380" + "/trip/" + str(tripID) + "/" + str(clientID) + "/" + str(taxiID) + "/" + str(distance)
 	response = requests.get(url)
 
 
@@ -23,25 +23,30 @@ def send_request():
 			list(pool.map(send(random.randint(1,10000), 123, 333, 456)))
 
 def start_latency():
-	url = "http://" + sys.argv[2] + ":9600/trip/latency"
+	url = "http://" + sys.argv[2] + ":31380/trip/latency"
+#	url = "http://" + sys.argv[2] + ":9600/trip/latency"
 	response = requests.get(url)
 	global start_list
 	start_list = response.json()
-	print (start_list)
+#	print (start_list)
 
 
 def end_latency():
-	url = "http://" + sys.argv[4] + ":9800/payement/latency"
+	url = "http://" + sys.argv[2] + ":31380/payement/latency"
+#	url = "http://" + sys.argv[4] + ":9800/payement/latency"
 	response = requests.get(url)
 	global end_list
 	end_list= response.json()
-	print (end_list)
+#	print (end_list)
 
 
 def calculate_latency():
 	for key, value in start_list.items():
 		time_start = datetime.strptime(value, '%H:%M:%S.%f')
 		time_end = datetime.strptime(end_list.get(key), '%H:%M:%S.%f')
+		print ( "****************")
+		print (time_start)
+		print (time_end)
 		diff = time_end - time_start
 		print (diff)
 		diff_sec = int(diff.total_seconds() * 1000)
@@ -55,6 +60,10 @@ def calculate_avg():
 		total += value
 	average = total/len(latency)
 	return average
+
+
+def save_results():
+
 
 
 send_request()
