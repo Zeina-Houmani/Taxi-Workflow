@@ -15,30 +15,27 @@ latency = {}
 def send(tripID, clientID, taxiID, distance):
 	url = "http://" + sys.argv[2] + ":31380" + "/trip/" + str(tripID) + "/" + str(clientID) + "/" + str(taxiID) + "/" + str(distance)
 	response = requests.get(url)
-#	print (response.content)
 
 
 def send_request():
 	with ThreadPoolExecutor(max_workers=10) as pool:
 		for i in range(int(sys.argv[1])):
-			list(pool.map(send(random.randint(1,10000), 123, 333, 456)))
+			x=random.randint(1,10000)
+#			print (x)
+			list(pool.map(send(x, 123, 333, 456)))
 
 def start_latency():
 	url = "http://" + sys.argv[2] + ":31380/trip/latency"
-#	url = "http://" + sys.argv[2] + ":9600/trip/latency"
 	response = requests.get(url)
 	global start_list
 	start_list = response.json()
-#	print (start_list)
 
 
 def end_latency():
 	url = "http://" + sys.argv[2] + ":31380/payement/latency"
-#	url = "http://" + sys.argv[4] + ":9800/payement/latency"
 	response = requests.get(url)
 	global end_list
 	end_list= response.json()
-#	print (end_list)
 
 
 def calculate_latency():
