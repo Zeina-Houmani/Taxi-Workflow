@@ -15,6 +15,7 @@ latency = {}
 def send(tripID, clientID, taxiID, distance):
 	url = "http://" + sys.argv[2] + ":31380" + "/trip/" + str(tripID) + "/" + str(clientID) + "/" + str(taxiID) + "/" + str(distance)
 	response = requests.get(url)
+#	print (response.content)
 
 
 def send_request():
@@ -62,14 +63,17 @@ def calculate_avg():
 	return average
 
 
-def save_results():
-
+def save_results(result):
+	with open('latency.csv', 'a', newline='') as file:
+	    writer = csv.writer(file)
+	    writer.writerow([sys.argv[1], result , "one"])
 
 
 send_request()
 start_latency()
 end_latency()
 calculate_latency()
-print (calculate_avg())
+result = calculate_avg()
+save_results(result)
 
 
