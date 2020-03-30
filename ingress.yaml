@@ -44,3 +44,13 @@ spec:
         port:
           number: 9600
       weight: 100
+  - match:
+    - uri:
+        prefix: /blur
+    route:
+    - destination:
+        host: temp-service.default.svc.cluster.local
+        port:
+          number: 9200
+      weight: 100
+
