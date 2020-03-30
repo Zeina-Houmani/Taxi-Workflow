@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 import json
 import requests
@@ -61,7 +61,7 @@ def calculate_avg():
 
 
 def save_results(result):
-	with open('latency.csv', 'a', newline='') as file:
+	with open('latency.csv', 'a') as file:
 	    writer = csv.writer(file)
 	    writer.writerow([sys.argv[1], result , "one"])
 
