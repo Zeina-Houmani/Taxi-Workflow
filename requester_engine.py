@@ -11,7 +11,7 @@ from argparse import ArgumentParser
 import requests
 import sys
 import pytz
-import collect_metrics
+#import collect_metrics
 
 i = 0
 tl = Timeloop()

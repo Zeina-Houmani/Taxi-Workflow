@@ -66,7 +66,7 @@ def save_results(result):
 	    writer.writerow([sys.argv[1], result , "one"])
 
 
-send_request()
+#send_request()
 start_latency()
 end_latency()
 calculate_latency()
