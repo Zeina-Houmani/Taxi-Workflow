@@ -90,6 +90,7 @@ def create_graph(title, ylabel, xlabel, results):
   now = datetime.datetime.now()
   filename= "matplotlib_" + now.strftime("%Y_%m_%d_%H-%M_%p" + ".png")
   nb_of_results = len(results)
+  print results
   ax = plot.subplot(1, 1, 1)
   plot.tick_params(axis="x", pad=8)
   plot.ylabel("Response Time in seconds")
@@ -133,19 +134,49 @@ def save_csv(rq_duration):
 	    print("I/O error")
 
 	
+def Convert_to_float(results):
+  for result in results:
+        for value in result['values']:
+                value[1] = float('{0:.3f}'.format(float(value[1])))
+  return results
+
+
+
 def get_average_request_duration(file):	
 	with open(file, mode='r') as infile:
     		reader = csv.reader(infile)
-	mydict = dict((rows[0],rows[1]) for rows in reader)
+		mydict = dict((rows[0],rows[1]) for rows in reader)
+	for key, value in mydict.iteritems():
+		mydict[key] = float(value) * 1000
+	print mydict
 	return mydict
 
-	
+
+
+
+def test():
+	reader = csv.reader(open('results.csv', 'r'))
+	d = {}
+	for row in reader:
+	   k, v = row
+	   #print v
+	   v = v* 1000
+           #print v 
+           if k != "Time":
+ 		   d[k] = v
+	print d
+
+
 def main():
- handle_args()
+# handle_args()
 
  list = []
- request_duration_one = get_average_request_duration(file1)
- request_duration_two = get_average_request_duration(file2)
+ request_duration_one = get_average_request_duration("results.csv")
+ request_duration_two = get_average_request_duration("results.csv")
+ 
+# request_duration_one = test()
+# request_duration_two = test()
+
  list.append(request_duration_one)
  list.append(request_duration_two)
 # create_matplotlib_file("Variation of response time and percentage of accepted requests", "Number of requests", "", list)
