@@ -132,6 +132,14 @@ def save_csv(rq_duration):
 	except IOError:
 	    print("I/O error")
 
+	
+def get_average_request_duration(file):	
+	with open(file, mode='r') as infile:
+    		reader = csv.reader(infile)
+	mydict = dict((rows[0],rows[1]) for rows in reader)
+	return mydict
+
+	
 def main():
  handle_args()
 
