@@ -168,5 +168,7 @@ spec:
         secret:
           optional: true
           secretName: istio.default
+      nodeSelector:
+        payment: "true"
 status: {}
 ---
