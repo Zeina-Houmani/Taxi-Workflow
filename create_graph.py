@@ -136,13 +136,12 @@ def main():
  handle_args()
 
  list = []
- request_duration = average_request_duration()
- save_csv(request_duration)
-# accepted_requests = get_accepted_requests()
-# list.append(request_duration)
-# list.append(accepted_requests)
+ request_duration_one = get_average_request_duration(file1)
+ request_duration_two = get_average_request_duration(file2)
+ list.append(request_duration_one)
+ list.append(request_duration_two)
 # create_matplotlib_file("Variation of response time and percentage of accepted requests", "Number of requests", "", list)
- #create_graph("Variation of response time and percentage of accepted requests", "Number of requests", "", list)
+ create_graph("Variation of response time", "Number of requests", "", list)
 
 
 if __name__ == "__main__":
