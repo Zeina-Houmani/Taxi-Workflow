@@ -22,7 +22,7 @@ metadata:
   creationTimestamp: null
   name: temp-service
 spec:
-  replicas: 2
+  replicas: 5
   selector:
     matchLabels:
       app: temp
@@ -55,7 +55,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
-        image: zeinaho/tmp:1
+        image: zeinaho/tmp:3
         imagePullPolicy: IfNotPresent
         name: temp-service
         ports:
