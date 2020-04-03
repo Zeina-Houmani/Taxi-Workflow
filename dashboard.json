@@ -17,7 +17,7 @@
   "gnetId": 6336,
   "graphTooltip": 0,
   "id": 12,
-  "iteration": 1585892574932,
+  "iteration": 1585893818262,
   "links": [],
   "panels": [
     {
@@ -900,7 +900,7 @@
           "refId": "A"
         },
         {
-          "expr": " rate(istio_request_duration_seconds_sum{source_app=\"istio-ingressgateway\"}[40s]) \n \n / \n \n rate(istio_request_duration_seconds_count{source_app=\"istio-ingressgateway\"}[40s])",
+          "expr": " rate(istio_request_duration_seconds_sum{source_app=\"istio-ingressgateway\", destination_app=\"trip\"}[30s:1s]) \n \n / \n \n rate(istio_request_duration_seconds_count{source_app=\"istio-ingressgateway\", destination_app=\"trip\"}[30s:1s])",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "B"
@@ -2124,7 +2124,7 @@
     ]
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
@@ -2155,5 +2155,5 @@
   "timezone": "",
   "title": "KubernetesPods (Proetheus)",
   "uid": "-7mPcYniz",
-  "version": 4
+  "version": 5
 }
