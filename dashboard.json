@@ -16,8 +16,8 @@
   "editable": true,
   "gnetId": 6336,
   "graphTooltip": 0,
-  "id": 12,
-  "iteration": 1585893818262,
+  "id": 9,
+  "iteration": 1586022119515,
   "links": [],
   "panels": [
     {
@@ -347,13 +347,13 @@
         "x": 0,
         "y": 8
       },
-      "id": 60,
+      "id": 52,
       "legend": {
         "avg": false,
         "current": false,
         "max": false,
         "min": false,
-        "show": true,
+        "show": false,
         "total": false,
         "values": false
       },
@@ -371,24 +371,39 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(istio_requests_total{request_protocol=\"http\", source_app=\"istio-ingressgateway\", destination_service=\"loadbalancer-service.default.svc.cluster.local\"})  by  (response_code)",
+          "expr": "sum(istio_requests_total{request_protocol=\"http\", source_app=\"istio-ingressgateway\"}) by  (response_code)",
           "format": "time_series",
           "hide": true,
           "intervalFactor": 1,
           "refId": "A"
         },
         {
-          "expr": "istio_requests_total{request_protocol=\"http\", source_app=\"istio-ingressgateway\"}",
+          "expr": "sum(istio_requests_total{request_protocol=\"http\", source_app=\"istio-ingressgateway\", destination_service=\"loadbalancer-service.default.svc.cluster.local\"})  by  (response_code)",
           "format": "time_series",
+          "hide": true,
+          "intervalFactor": 1,
+          "refId": "C"
+        },
+        {
+          "expr": "sum(istio_requests_total{request_protocol=\"http\", source_app=\"istio-ingressgateway\", destination_service=\"istiocontroller-service.default.svc.cluster.local\", response_code=\"200\"})",
+          "format": "time_series",
+          "hide": false,
           "intervalFactor": 1,
           "refId": "B"
+        },
+        {
+          "expr": "sum(istio_requests_total{request_protocol=\"http\", source_app=\"istio-ingressgateway\", destination_service=\"istiocontroller-service.default.svc.cluster.local\", response_code=\"202\"})",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 1,
+          "refId": "D"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Nb of received requests",
+      "title": "Nb of REPLICAS",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -751,13 +766,13 @@
         "x": 0,
         "y": 16
       },
-      "id": 52,
+      "id": 60,
       "legend": {
         "avg": false,
         "current": false,
         "max": false,
         "min": false,
-        "show": false,
+        "show": true,
         "total": false,
         "values": false
       },
@@ -775,39 +790,24 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(istio_requests_total{request_protocol=\"http\", source_app=\"istio-ingressgateway\"}) by  (response_code)",
+          "expr": "sum(istio_requests_total{request_protocol=\"http\", source_app=\"istio-ingressgateway\", destination_service=\"loadbalancer-service.default.svc.cluster.local\"})  by  (response_code)",
           "format": "time_series",
           "hide": true,
           "intervalFactor": 1,
           "refId": "A"
         },
         {
-          "expr": "sum(istio_requests_total{request_protocol=\"http\", source_app=\"istio-ingressgateway\", destination_service=\"loadbalancer-service.default.svc.cluster.local\"})  by  (response_code)",
+          "expr": "istio_requests_total{request_protocol=\"http\", source_app=\"istio-ingressgateway\"}",
           "format": "time_series",
-          "hide": true,
-          "intervalFactor": 1,
-          "refId": "C"
-        },
-        {
-          "expr": "sum(istio_requests_total{request_protocol=\"http\", source_app=\"istio-ingressgateway\", destination_service=\"istiocontroller-service.default.svc.cluster.local\", response_code=\"200\"})",
-          "format": "time_series",
-          "hide": false,
           "intervalFactor": 1,
           "refId": "B"
-        },
-        {
-          "expr": "sum(istio_requests_total{request_protocol=\"http\", source_app=\"istio-ingressgateway\", destination_service=\"istiocontroller-service.default.svc.cluster.local\", response_code=\"202\"})",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "refId": "D"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Nb of REPLICAS",
+      "title": "Nb of received requests",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -970,12 +970,150 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "Prometheus",
+      "decimals": 2,
+      "editable": true,
+      "error": false,
+      "fill": 1,
+      "grid": {},
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 24
+      },
+      "id": 66,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "sideWidth": null,
+        "sort": "current",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "connected",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum (rate (container_network_receive_bytes_total{id!=\"/\",pod_name=~\"^$Deployment$Statefulset$Daemonset.*$\",kubernetes_io_hostname=~\"^$Node$\"}[1m])) by (pod_name, kubernetes_io_hostname)",
+          "format": "time_series",
+          "hide": true,
+          "interval": "10s",
+          "intervalFactor": 1,
+          "legendFormat": "-> {{ kubernetes_io_hostname }} | {{ pod_name }}",
+          "metric": "network",
+          "refId": "A",
+          "step": 60
+        },
+        {
+          "expr": "- sum( rate (container_network_transmit_bytes_total{id!=\"/\",pod_name=~\"^$Deployment$Statefulset$Daemonset.*$\",kubernetes_io_hostname=~\"^$Node$\"}[1m])) by (pod_name, kubernetes_io_hostname)",
+          "format": "time_series",
+          "hide": true,
+          "interval": "10s",
+          "intervalFactor": 1,
+          "legendFormat": "<- {{ kubernetes_io_hostname }} | {{ pod_name }}",
+          "metric": "network",
+          "refId": "B",
+          "step": 60
+        },
+        {
+          "expr": "sum (rate (container_network_receive_bytes_total{id!=\"/\",kubernetes_io_hostname=~\"^$Node$\"}[1m])) by ( kubernetes_io_hostname)",
+          "format": "time_series",
+          "hide": true,
+          "intervalFactor": 1,
+          "refId": "C"
+        },
+        {
+          "expr": "- sum( rate (container_network_transmit_bytes_total{id!=\"/\",kubernetes_io_hostname=~\"^$Node$\"}[1m])) by (kubernetes_io_hostname)",
+          "format": "time_series",
+          "hide": true,
+          "intervalFactor": 1,
+          "refId": "D"
+        },
+        {
+          "expr": "sum( container_network_transmit_bytes_total{id!=\"/\",kubernetes_io_hostname=~\".*\"}) by (kubernetes_io_hostname)",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 1,
+          "refId": "E"
+        },
+        {
+          "expr": "- sum (container_network_receive_bytes_total{id!=\"/\",kubernetes_io_hostname=~\".*\"}) by ( kubernetes_io_hostname)",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 1,
+          "refId": "F"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "All processes network I/O",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 2,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "Bps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
       "fill": 1,
       "gridPos": {
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 24
+        "y": 34
       },
       "id": 2,
       "legend": {
@@ -1062,7 +1200,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 24
+        "y": 34
       },
       "id": 4,
       "legend": {
@@ -1145,154 +1283,6 @@
       }
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Prometheus",
-      "decimals": 2,
-      "editable": true,
-      "error": false,
-      "fill": 1,
-      "grid": {},
-      "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 33
-      },
-      "id": 66,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": true,
-        "max": true,
-        "min": false,
-        "rightSide": true,
-        "show": true,
-        "sideWidth": null,
-        "sort": "current",
-        "sortDesc": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 2,
-      "links": [],
-      "nullPointMode": "connected",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "sum (rate (container_network_receive_bytes_total{id!=\"/\",pod_name=~\"^$Deployment$Statefulset$Daemonset.*$\",kubernetes_io_hostname=~\"^$Node$\"}[1m])) by (pod_name, kubernetes_io_hostname)",
-          "format": "time_series",
-          "hide": true,
-          "interval": "10s",
-          "intervalFactor": 1,
-          "legendFormat": "-> {{ kubernetes_io_hostname }} | {{ pod_name }}",
-          "metric": "network",
-          "refId": "A",
-          "step": 60
-        },
-        {
-          "expr": "- sum( rate (container_network_transmit_bytes_total{id!=\"/\",pod_name=~\"^$Deployment$Statefulset$Daemonset.*$\",kubernetes_io_hostname=~\"^$Node$\"}[1m])) by (pod_name, kubernetes_io_hostname)",
-          "format": "time_series",
-          "hide": true,
-          "interval": "10s",
-          "intervalFactor": 1,
-          "legendFormat": "<- {{ kubernetes_io_hostname }} | {{ pod_name }}",
-          "metric": "network",
-          "refId": "B",
-          "step": 60
-        },
-        {
-          "expr": "sum (rate (container_network_receive_bytes_total{id!=\"/\",kubernetes_io_hostname=~\"^$Node$\"}[1m])) by ( kubernetes_io_hostname)",
-          "format": "time_series",
-          "hide": true,
-          "intervalFactor": 1,
-          "refId": "C"
-        },
-        {
-          "expr": "- sum( rate (container_network_transmit_bytes_total{id!=\"/\",kubernetes_io_hostname=~\"^$Node$\"}[1m])) by (kubernetes_io_hostname)",
-          "format": "time_series",
-          "hide": true,
-          "intervalFactor": 1,
-          "refId": "D"
-        },
-        {
-          "expr": "sum( container_network_transmit_bytes_total{id!=\"/\",kubernetes_io_hostname=~\"^$Node$\"}) by (kubernetes_io_hostname)",
-          "format": "time_series",
-          "hide": true,
-          "intervalFactor": 1,
-          "refId": "E"
-        },
-        {
-          "expr": "sum (container_network_receive_bytes_total{id!=\"/\",kubernetes_io_hostname=~\".*\"}) by ( kubernetes_io_hostname)",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "refId": "F"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "All processes network I/O",
-      "tooltip": {
-        "msResolution": false,
-        "shared": true,
-        "sort": 2,
-        "value_type": "cumulative"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "Bps",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": false
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 43
-      },
-      "id": 64,
-      "title": "Row title",
-      "type": "row"
-    },
-    {
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": true,
@@ -1314,7 +1304,7 @@
         "h": 3,
         "w": 6,
         "x": 0,
-        "y": 44
+        "y": 43
       },
       "id": 43,
       "interval": null,
@@ -1411,7 +1401,7 @@
         "h": 3,
         "w": 6,
         "x": 6,
-        "y": 44
+        "y": 43
       },
       "id": 44,
       "interval": null,
@@ -1471,6 +1461,17 @@
         }
       ],
       "valueName": "current"
+    },
+    {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 46
+      },
+      "id": 64,
+      "title": "Row title",
+      "type": "row"
     },
     {
       "datasource": "Prometheus",
@@ -2124,7 +2125,7 @@
     ]
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {
@@ -2155,5 +2156,5 @@
   "timezone": "",
   "title": "KubernetesPods (Proetheus)",
   "uid": "-7mPcYniz",
-  "version": 5
+  "version": 1
 }
