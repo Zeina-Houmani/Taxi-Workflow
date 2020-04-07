@@ -15,6 +15,13 @@ counter_dict = OrderedDict()
 dict_to_file = OrderedDict()
 dict_to_file['Received requests'] = []
 
+DEFAULT_PROXY_CPU = 0
+DEFAULT_PROXY_RAM = 0
+DEFAULT_PROXY_DISK = 0
+
+DEFAULT_POD_CPU = 0
+DEFAULT_POD_RAM = 0
+DEFAULT_POD_DISK = 0
 
 def get_metrics(START_TIME, END_TIME):
 	global POD_IP
@@ -74,7 +81,6 @@ def get_metrics_app():
 		metrics_app["replicas"] =  deployment.items[0].spec.replicas
 		#metrics_app["Limit CPU"] = 
 		containers_list = deployment.items[0].spec.template.spec.containers
-		print containers_list
 		total_limit_cpu = 0
 		total_limit_mem = 0
 		total_limit_disk = 0
@@ -96,7 +102,7 @@ def get_metrics_app():
 				else:
 					print "no limit storage is specified"
         dict_to_file['Microservices'].append(metrics_app)
-	print dict_to_file
+	#print dict_to_file
 
 
 def get_Requests_counter():
