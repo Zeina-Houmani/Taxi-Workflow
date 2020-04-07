@@ -106,6 +106,7 @@ def test():
         apps_list= core_api.list_namespaced_service(namespace_name)
 	for app in apps_list.items:
 		APP_NAME = app.metadata.name
+		print APP_NAME
 		metrics_app["name"] = APP_NAME
 		key = app.spec.selector.keys()[0]
 		value = app.spec.selector.values()[0]
@@ -119,7 +120,7 @@ def test():
 		total_limit_disk = 0
 		for container in containers_list:
 			limits = container.resources.limits
-			print container
+			#print container
 			print limits
 #			if not limits:
 			total_limit_cpu = total_limit_cpu + int(limits["cpu"][:-1])
