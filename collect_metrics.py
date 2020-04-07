@@ -84,7 +84,7 @@ def get_metrics_app():
 				print "*********************"
 			else:
 				if "cpu" in limits:
-					total_limit_cpu = total_limit_cpu + int(limits["cpu"])
+					total_limit_cpu = total_limit_cpu + int(limits["cpu"][:-1])
 				else:
 					print "no limit cpu is specified"
 				if "memory" in limits:
