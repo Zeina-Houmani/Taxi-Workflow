@@ -112,11 +112,10 @@ def test():
 		label = key + "=" + value
 		pod_list = core_api.list_namespaced_pod(namespace_name, label_selector=label)
 		#deployment = apps_api.list_namespaced_deployment(namespace_name, label_selector=label)
-		print pod_list
 		metrics_app["replicas"] =  len(pod_list.items)
 		#deployment.items[0].spec.replicas
 		#containers_list = deployment.items[0].spec.template.spec.containers
-		containers_list = pod_list[0].spec.containers
+		containers_list = pod_list.items[0].spec.containers
 		print containers_list
 		total_limit_cpu = 0
 		total_limit_mem = 0
