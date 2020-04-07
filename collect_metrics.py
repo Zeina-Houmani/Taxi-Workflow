@@ -125,12 +125,11 @@ def test():
 				total_limit_cpu = total_limit_cpu + int(limits["cpu"][:-1])
 				total_limit_mem = total_limit_mem + int(limits["memory"][:-2])
 				total_limit_disk = total_limit_disk + int(limits["ephemeral-storage"][:-2])	
-				print "__________________"
 			metrics_app["Limit CPU"] = str(total_limit_cpu) + "m"
 			metrics_app["Limit RAM"] = str(total_limit_mem) + "Mi"
 			metrics_app["Limit Storage"] = str(total_limit_disk) + "Gi"
-        	dict_to_file['Microservices'].append(metrics_app)
-		#print dict_to_file
+        		dict_to_file['Microservices'].append(metrics_app)
+			print dict_to_file
 	with open('result.json', 'w') as fp:
         	 json.dump(dict_to_file, fp,  indent=4)
 
