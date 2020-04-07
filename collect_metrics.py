@@ -106,32 +106,33 @@ def test():
         apps_list= core_api.list_namespaced_service(namespace_name)
 	for app in apps_list.items:
 		APP_NAME = app.metadata.name
-		print APP_NAME
-		metrics_app["name"] = APP_NAME
-		key = app.spec.selector.keys()[0]
-		value = app.spec.selector.values()[0]
-		label = key + "=" + value
-		pod_list = core_api.list_namespaced_pod(namespace_name, label_selector=label)
-		metrics_app["replicas"] =  len(pod_list.items)
-		containers_list = pod_list.items[0].spec.containers
-		print len(containers_list)
-		total_limit_cpu = 0
-		total_limit_mem = 0
-		total_limit_disk = 0
-		for container in containers_list:
-			limits = container.resources.limits
-			#print container
-			print limits
-#			if not limits:
-			total_limit_cpu = total_limit_cpu + int(limits["cpu"][:-1])
-			total_limit_mem = total_limit_mem + int(limits["memory"][:-2])
-			total_limit_disk = total_limit_disk + int(limits["ephemeral-storage"][:-2])	
-			print "__________________"
-		metrics_app["Limit CPU"] = str(total_limit_cpu) + "m"
-		metrics_app["Limit RAM"] = str(total_limit_mem) + "Mi"
-		metrics_app["Limit Storage"] = str(total_limit_disk) + "Gi"
-        dict_to_file['Microservices'].append(metrics_app)
-	#print dict_to_file
+		if APP_NAME != "kubernetes":
+			print APP_NAME
+			metrics_app["name"] = APP_NAME
+			key = app.spec.selector.keys()[0]
+			value = app.spec.selector.values()[0]
+			label = key + "=" + value
+			pod_list = core_api.list_namespaced_pod(namespace_name, label_selector=label)
+			metrics_app["replicas"] =  len(pod_list.items)
+			containers_list = pod_list.items[0].spec.containers
+			print len(containers_list)
+			total_limit_cpu = 0
+			total_limit_mem = 0
+			total_limit_disk = 0
+			for container in containers_list:
+				limits = container.resources.limits
+				#print container
+				print limits
+#				if not limits:
+				total_limit_cpu = total_limit_cpu + int(limits["cpu"][:-1])
+				total_limit_mem = total_limit_mem + int(limits["memory"][:-2])
+				total_limit_disk = total_limit_disk + int(limits["ephemeral-storage"][:-2])	
+				print "__________________"
+			metrics_app["Limit CPU"] = str(total_limit_cpu) + "m"
+			metrics_app["Limit RAM"] = str(total_limit_mem) + "Mi"
+			metrics_app["Limit Storage"] = str(total_limit_disk) + "Gi"
+        	dict_to_file['Microservices'].append(metrics_app)
+		#print dict_to_file
 
 #def set_Default():
 #	core_api = client.CoreV1Api()
