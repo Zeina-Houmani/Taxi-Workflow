@@ -111,12 +111,9 @@ def test():
 		value = app.spec.selector.values()[0]
 		label = key + "=" + value
 		pod_list = core_api.list_namespaced_pod(namespace_name, label_selector=label)
-		#deployment = apps_api.list_namespaced_deployment(namespace_name, label_selector=label)
 		metrics_app["replicas"] =  len(pod_list.items)
-		#deployment.items[0].spec.replicas
-		#containers_list = deployment.items[0].spec.template.spec.containers
 		containers_list = pod_list.items[0].spec.containers
-		print containers_list
+		print len(containers_list)
 		total_limit_cpu = 0
 		total_limit_mem = 0
 		total_limit_disk = 0
@@ -128,6 +125,7 @@ def test():
 			total_limit_cpu = total_limit_cpu + int(limits["cpu"][:-1])
 			total_limit_mem = total_limit_mem + int(limits["memory"][:-2])
 			total_limit_disk = total_limit_disk + int(limits["ephemeral-storage"][:-2])	
+			print "__________________"
 		metrics_app["Limit CPU"] = str(total_limit_cpu) + "m"
 		metrics_app["Limit RAM"] = str(total_limit_mem) + "Mi"
 		metrics_app["Limit Storage"] = str(total_limit_disk) + "Gi"
