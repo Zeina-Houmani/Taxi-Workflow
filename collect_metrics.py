@@ -88,11 +88,11 @@ def get_metrics_app():
 				else:
 					print "no limit cpu is specified"
 				if "memory" in limits:
-					total_limit_mem += limits["memory"]
+					total_limit_mem = total_limit_mem + int(limits["memory"][:-2])
 				else:
 					print "no limit memory is specified"
 				if "ephemeral-storage" in limits:
-					total_limit_disk += limits["disk"]
+					total_limit_disk = total_limit_disk + int(limits["disk"][:-2])
 				else:
 					print "no limit storage is specified"
         dict_to_file['Microservices'].append(metrics_app)
