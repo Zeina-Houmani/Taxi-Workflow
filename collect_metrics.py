@@ -71,7 +71,7 @@ def get_metrics_app():
 		value = app.spec.selector.values()[0]
 		label = key + "=" + value
 		deployment = apps_api.list_namespaced_deployment(namespace_name, label_selector=label)
-		print deployment
+		print deployment.items[0]
 #		pod_list = v1.list_namespaced_pod(namespace_name, label_selector=label)
 		metrics_app["replicas"] = deployment.spec.replicas
 		#metrics_app["Limit CPU"] = 
