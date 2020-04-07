@@ -81,6 +81,8 @@ def get_metrics_app():
 		for container in containers_list:
 			limits = container.resources.limits
 			print limits
+			if not limits:
+				print "*********************"
 			if "cpu" in limits:
 				limit_cpu = limits["cpu"]
         dict_to_file['Microservices'].append(metrics_app)
