@@ -78,8 +78,8 @@ def get_metrics_app():
 		total_limit_cpu = 0
 		total_limit_mem = 0
 		total_limit_disk = 0
-		for container in containers_list.items:
-			limits = deployment.items[0].spec.template.spec.containers[container].resources.limits
+		for container in containers_list:
+			limits = container.resources.limits
 			print limits
 			if "cpu" in limits:
 				limit_cpu = limits["cpu"]
