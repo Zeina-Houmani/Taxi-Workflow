@@ -77,6 +77,7 @@ def get_metrics_app():
 		total_limit_disk = 0
 		for container in containers_list:
 			limits = container.resources.limits
+			print container
 			print limits
 #			if not limits:
 			total_limit_cpu = total_limit_cpu + int(limits["cpu"][:-1])
