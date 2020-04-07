@@ -79,31 +79,29 @@ def get_metrics_app():
 		label = key + "=" + value
 		deployment = apps_api.list_namespaced_deployment(namespace_name, label_selector=label)
 		metrics_app["replicas"] =  deployment.items[0].spec.replicas
-		#metrics_app["Limit CPU"] = 
 		containers_list = deployment.items[0].spec.template.spec.containers
-		print len(containers_list)
 		total_limit_cpu = 0
 		total_limit_mem = 0
 		total_limit_disk = 0
 		for container in containers_list:
 			limits = container.resources.limits
-			if not limits:
-				print "*********************"
-			else:
-				if "cpu" in limits:
-					total_limit_cpu = total_limit_cpu + int(limits["cpu"][:-1])
-				else:
-					print "no limit cpu is specified"
-				if "memory" in limits:
-					total_limit_mem = total_limit_mem + int(limits["memory"][:-2])
-				else:
-					print "no limit memory is specified"
-				if "ephemeral-storage" in limits:
-					total_limit_disk = total_limit_disk + int(limits["disk"][:-2])
-				else:
-					print "no limit storage is specified"
+			print limits
+#			if not limits:
+			total_limit_cpu = total_limit_cpu + int(limits["cpu"][:-1])
+			total_limit_mem = total_limit_mem + int(limits["memory"][:-2])
+			#total_limit_disk = total_limit_disk + int(limits["disk"][:-2])	
+		metrics_app["Limit CPU"] = str(total_limit_cpu) + "m"
+		metrics_app["Limit RAM"] = str(total_limit_mem) + "Mi"
         dict_to_file['Microservices'].append(metrics_app)
 	#print dict_to_file
+
+	
+
+#def set_Default():
+#	core_api = client.CoreV1Api()
+	#limitRange_list= core_api.list_namespaced_limit_range("default")
+#	 api_response = api_instance.read_namespaced_limit_range(name, namespace, pretty=pretty, exact=exact, export=export)
+
 
 
 def get_Requests_counter():
