@@ -71,11 +71,9 @@ def get_metrics_app():
 		value = app.spec.selector.values()[0]
 		label = key + "=" + value
 		deployment = apps_api.list_namespaced_deployment(namespace_name, label_selector=label)
-		print deployment.items[0].spec.replicas
-#		pod_list = v1.list_namespaced_pod(namespace_name, label_selector=label)
-		metrics_app["replicas"] = deployment.spec.replicas
+		metrics_app["replicas"] =  deployment.items[0].spec.replicas
 		#metrics_app["Limit CPU"] = 
-		print deployment.spec.template.spec.containers[0].resources.limits
+		print deployment.items[0].spec.template.spec.containers[0].resources.limits
         dict_to_file['Microservices'].append(metrics_app)
 	print dict_to_file
 
