@@ -110,7 +110,7 @@ def test():
 		key = app.spec.selector.keys()[0]
 		value = app.spec.selector.values()[0]
 		label = key + "=" + value
-		pod_list = v1.list_namespaced_pod(namespace_name, label_selector=label)
+		pod_list = core_api.list_namespaced_pod(namespace_name, label_selector=label)
 		#deployment = apps_api.list_namespaced_deployment(namespace_name, label_selector=label)
 		metrics_app["replicas"] =  len(pod_list)
 		#deployment.items[0].spec.replicas
