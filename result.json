@@ -1,0 +1,32 @@
+{
+    "Microservices": [
+        {
+            "name": "billing-service", 
+            "replicas": 2, 
+            "Limit CPU": "800m", 
+            "Limit RAM": "1012Mi", 
+            "Limit Storage": "2Gi"
+        }, 
+        {
+            "name": "payment-service", 
+            "replicas": 1, 
+            "Limit CPU": "800m", 
+            "Limit RAM": "1012Mi", 
+            "Limit Storage": "2Gi"
+        }, 
+        {
+            "name": "trip-service", 
+            "replicas": 1, 
+            "Limit CPU": "800m", 
+            "Limit RAM": "1012Mi", 
+            "Limit Storage": "2Gi"
+        }, 
+        {
+            "name": "users-service", 
+            "replicas": 1, 
+            "Limit CPU": "800m", 
+            "Limit RAM": "1012Mi", 
+            "Limit Storage": "2Gi"
+        }
+    ]
+}
