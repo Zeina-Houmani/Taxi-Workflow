@@ -104,11 +104,10 @@ def test():
 	apps_api = client.AppsV1Api()
 	namespace_name = "default"
         apps_list= core_api.list_namespaced_service(namespace_name)
-	print apps_list
 	for app in apps_list.items:
 		APP_NAME = app.metadata.name
 		if APP_NAME != "kubernetes":
-			metrics_app = {}
+			metrics_app =  OrderedDict()
 			metrics_app["name"] = APP_NAME
 			key = app.spec.selector.keys()[0]
 			value = app.spec.selector.values()[0]
@@ -129,7 +128,6 @@ def test():
 			metrics_app["Limit RAM"] = str(total_limit_mem) + "Mi"
 			metrics_app["Limit Storage"] = str(total_limit_disk) + "Gi"
         		dict_to_file['Microservices'].append(metrics_app)
-			print dict_to_file
 	with open('result.json', 'w') as fp:
         	 json.dump(dict_to_file, fp,  indent=4)
 
