@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: disk-limit-range
+spec:
+  limits:
+  - default:
+      ephemeral-storage: "1Gi"
+    type: Container
