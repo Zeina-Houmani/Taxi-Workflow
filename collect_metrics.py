@@ -81,7 +81,7 @@ def get_metrics_app():
 #			if not limits:
 			total_limit_cpu = total_limit_cpu + int(limits["cpu"][:-1])
 			total_limit_mem = total_limit_mem + int(limits["memory"][:-2])
-			total_limit_disk = total_limit_disk + int(limits["disk"][:-2])	
+			total_limit_disk = total_limit_disk + int(limits["ephemeral-storage"][:-2])	
 		metrics_app["Limit CPU"] = str(total_limit_cpu) + "m"
 		metrics_app["Limit RAM"] = str(total_limit_mem) + "Mi"
 		metrics_app["Limit Storage"] = str(total_limit_disk) + "Gi"
