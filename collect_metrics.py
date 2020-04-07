@@ -73,7 +73,16 @@ def get_metrics_app():
 		deployment = apps_api.list_namespaced_deployment(namespace_name, label_selector=label)
 		metrics_app["replicas"] =  deployment.items[0].spec.replicas
 		#metrics_app["Limit CPU"] = 
-		print deployment.items[0].spec.template.spec.containers[0].resources.limits
+		containers_list = deployment.items[0].spec.template.spec.containers
+		print containers_list
+		total_limit_cpu = 0
+		total_limit_mem = 0
+		total_limit_disk = 0
+		for container in containers_list.items:
+			limits = deployment.items[0].spec.template.spec.containers[container].resources.limits
+			print limits
+			if "cpu" in limits:
+				limit_cpu = limits["cpu"]
         dict_to_file['Microservices'].append(metrics_app)
 	print dict_to_file
 
