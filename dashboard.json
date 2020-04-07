@@ -16,8 +16,8 @@
   "editable": true,
   "gnetId": 6336,
   "graphTooltip": 0,
-  "id": 9,
-  "iteration": 1586022119515,
+  "id": 10,
+  "iteration": 1586242242008,
   "links": [],
   "panels": [
     {
@@ -1142,10 +1142,37 @@
         {
           "expr": "avg(irate(container_cpu_usage_seconds_total{pod_name!=\"\", pod_name=~\"[[pod_name]].*\", namespace=~\"[[namespace]].*\"}[5m])) by (pod_name)",
           "format": "time_series",
-          "hide": false,
+          "hide": true,
           "intervalFactor": 1,
           "legendFormat": "",
           "refId": "A"
+        },
+        {
+          "expr": "avg(irate(container_cpu_usage_seconds_total{pod_name!=\"\", pod_name=~\"billing-service-.*\", namespace=~\"[[namespace]].*\"}[5m])) by (pod_name)",
+          "format": "time_series",
+          "hide": true,
+          "intervalFactor": 1,
+          "refId": "B"
+        },
+        {
+          "expr": "kube_pod_container_resource_requests_cpu_cores{pod_name!=\"\", pod_name=~\"billing-service-.*\"}",
+          "format": "time_series",
+          "hide": true,
+          "intervalFactor": 1,
+          "refId": "C"
+        },
+        {
+          "expr": "sum(kube_pod_container_resource_limits_cpu_cores{namespace=\"default\", pod=~\"billing-service-.*\"}) by (pod)",
+          "format": "time_series",
+          "hide": true,
+          "intervalFactor": 1,
+          "refId": "D"
+        },
+        {
+          "expr": "kube_pod_container_resource_limits_cpu_cores{namespace=\"default\", pod=~\"billing-service-.*\"}",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "refId": "E"
         }
       ],
       "thresholds": [],
@@ -2041,7 +2068,7 @@
       }
     }
   ],
-  "refresh": "5s",
+  "refresh": false,
   "schemaVersion": 18,
   "style": "dark",
   "tags": [],
@@ -2125,8 +2152,8 @@
     ]
   },
   "time": {
-    "from": "now-6h",
-    "to": "now"
+    "from": "2020-04-07T06:50:51.071Z",
+    "to": "2020-04-07T07:00:51.071Z"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -2156,5 +2183,5 @@
   "timezone": "",
   "title": "KubernetesPods (Proetheus)",
   "uid": "-7mPcYniz",
-  "version": 1
+  "version": 2
 }
