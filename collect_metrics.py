@@ -13,6 +13,7 @@ APP_PORT = 0
 URI = []
 counter_dict = OrderedDict()
 dict_to_file = OrderedDict()
+dict_to_file['Microservices'] = []
 
 
 def get_metrics(START_TIME, END_TIME):
@@ -104,6 +105,7 @@ def test():
 	apps_api = client.AppsV1Api()
 	namespace_name = "default"
         apps_list= core_api.list_namespaced_service(namespace_name)
+	print apps_list
 	for app in apps_list.items:
 		APP_NAME = app.metadata.name
 		if APP_NAME != "kubernetes":
