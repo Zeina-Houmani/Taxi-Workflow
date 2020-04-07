@@ -98,7 +98,6 @@ def test():
 	global POD_IP
 	global APP_PORT
 	global URI
-	metrics_app = {}
 	app_counter =0
 	config.load_kube_config()
 	core_api = client.CoreV1Api()
@@ -109,6 +108,7 @@ def test():
 	for app in apps_list.items:
 		APP_NAME = app.metadata.name
 		if APP_NAME != "kubernetes":
+			metrics_app = {}
 			metrics_app["name"] = APP_NAME
 			key = app.spec.selector.keys()[0]
 			value = app.spec.selector.values()[0]
