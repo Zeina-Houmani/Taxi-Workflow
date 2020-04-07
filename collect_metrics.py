@@ -13,15 +13,7 @@ APP_PORT = 0
 URI = []
 counter_dict = OrderedDict()
 dict_to_file = OrderedDict()
-#dict_to_file['Received requests'] = []
 
-DEFAULT_PROXY_CPU = 2
-DEFAULT_PROXY_RAM = "1Gi"
-DEFAULT_PROXY_DISK = 0
-
-DEFAULT_POD_CPU = 0
-DEFAULT_POD_RAM = 0
-DEFAULT_POD_DISK = 0
 
 def get_metrics(START_TIME, END_TIME):
 	global POD_IP
