@@ -80,11 +80,21 @@ def get_metrics_app():
 		total_limit_disk = 0
 		for container in containers_list:
 			limits = container.resources.limits
-			print limits
 			if not limits:
 				print "*********************"
-			if "cpu" in limits:
-				limit_cpu = limits["cpu"]
+			else:
+				if "cpu" in limits:
+					total_limit_cpu += limits["cpu"]
+				else:
+					print "no limit cpu is specified"
+				if "memory" in limits:
+					total_limit_mem += limits["memory"]
+				else:
+					print "no limit memory is specified"
+				if "ephemeral-storage" in limits:
+					total_limit_disk += limits["disk"]
+				else:
+					print "no limit storage is specified"
         dict_to_file['Microservices'].append(metrics_app)
 	print dict_to_file
 
