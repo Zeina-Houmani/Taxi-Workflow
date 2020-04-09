@@ -111,7 +111,6 @@ def get_static_metrics():
 		APP_NAME = app.metadata.name
 		if APP_NAME != "kubernetes":
 			metrics_app =  OrderedDict()
-			metrics_app['Replicas'] = []
 			metrics_app["name"] = APP_NAME
 			key = app.spec.selector.keys()[0]
 			value = app.spec.selector.values()[0]
@@ -131,7 +130,7 @@ def get_static_metrics():
 			metrics_app["Limit CPU"] = str(total_limit_cpu) + "m"
 			metrics_app["Limit RAM"] = str(total_limit_mem) + "Mi"
 			metrics_app["Limit Storage"] = str(total_limit_disk) + "Gi"
-        		#dict_to_file['Microservices'].append(metrics_app)
+        		metrics_app['Replicas'] = []
 			for pod in pod_list.items:
 				#metrics_replicas =  OrderedDict()
 				#metrics_replicas['Replicas'] = []
