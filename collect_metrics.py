@@ -161,8 +161,8 @@ def get_prometheus_URL():
 	
 def get_date():
   dt = datetime.datetime.now()
-  x = dt.strftime("%Y-%m-%dT%H:%M:%SZ")
-  print(x)
+ # x = dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+  print(dt.isoformat())
 
 
 
