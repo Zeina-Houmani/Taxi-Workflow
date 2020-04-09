@@ -194,7 +194,8 @@ def get_CPU_usage(POD_NAME, NAMESPACE):
   else:
 	print("It's a success")
   results = response.json()['data']['result']	
-  print results[0].get('value')[0]
+  value = results[0].get('value')[1]
+  print "%.2f" % float(value)
   #return "%.2f" % float(results['value'])
 			
 	
