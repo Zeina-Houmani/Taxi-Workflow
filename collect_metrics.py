@@ -13,6 +13,7 @@ APP_PORT = 0
 URI = []
 PROMETHEUS_URL = ''
 QUERY_API = '/api/v1/query'
+TIME = ''
 counter_dict = OrderedDict()
 dict_to_file = OrderedDict()
 dict_to_file['Microservices'] = []
@@ -160,14 +161,14 @@ def get_prometheus_URL():
 
 	
 def get_time():
+    global TIME
     tz_NY = pytz.timezone('America/New_York')
     datetime_NY = datetime.now(tz_NY)
-    return str(datetime_NY.strftime("%Y-%m-%dT%H:%M:%SZ"))
+    TIME = str(datetime_NY.strftime("%Y-%m-%dT%H:%M:%SZ"))
 
 
 	
-def get_CPU_usage():
-#time=2020-04-07T17:00:16Z
+def get_CPU_usage(POD_NAME, NAMESPACE):
   response = requests.get(PROMETHEUS_URL + QUERY_API, params={'query': 'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", \
 		pod_name=~"' + POD_NAME + '.*", namespace=~"' + NAMESPACE + '.*"}[5m])) by (pod_name)', 'time': TIME})
 
@@ -178,7 +179,7 @@ def get_CPU_usage():
   else:
 	print("It's a success")
   results = response.json()['data']['result']			
-			
+  print results		
 			
 			
 			
@@ -186,5 +187,7 @@ if __name__ == "__main__":
  	#get_static_metrics()
 	if get_prometheus_URL():
 		print PROMETHEUS_URL
-		
-	print get_time()
+	
+        get_time()
+	get_CPU_usage("billing-service", "default")
+	
