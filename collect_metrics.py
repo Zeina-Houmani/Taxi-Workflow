@@ -149,7 +149,7 @@ def get_prometheus_URL():
         apps_list= core_api.list_namespaced_service(namespace_name, label_selector="app=prometheus")
 	for app in apps_list.items:
 		APP_NAME = app.metadata.name
-		if APP_NAME != "kubernetes":
+		if APP_NAME != "prometheus":
 			print "Can't get prometheus IP address"
 		else:
 			PROMETHEUS_IP = app.spec.clusterIP
