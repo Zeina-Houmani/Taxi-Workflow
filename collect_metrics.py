@@ -111,6 +111,7 @@ def get_static_metrics():
 		APP_NAME = app.metadata.name
 		if APP_NAME != "kubernetes":
 			metrics_app =  OrderedDict()
+			metrics_app['Replicas'] = []
 			metrics_app["name"] = APP_NAME
 			key = app.spec.selector.keys()[0]
 			value = app.spec.selector.values()[0]
