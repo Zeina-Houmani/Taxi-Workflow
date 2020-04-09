@@ -208,7 +208,10 @@ def get_RAM_usage(POD_NAME, NAMESPACE):
 	return 0.0
   else:
 	print("It's a success")
-  results = response.json()['data']['result']			
+  results = response.json()['data']['result']	
+  print results
+  print "***********"
+  print results['value']
   return "%.2f" % float(results['value'])
 			
 	
