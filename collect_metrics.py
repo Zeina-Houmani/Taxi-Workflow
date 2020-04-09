@@ -2,6 +2,7 @@ import requests
 import sys
 import time
 import datetime
+import pytz
 from argparse import ArgumentParser
 from kubernetes import client, config
 from pprint import pprint
@@ -162,7 +163,10 @@ def get_prometheus_URL():
 def get_date():
   dt = datetime.datetime.now()
  # x = dt.strftime("%Y-%m-%dT%H:%M:%SZ")
-  print(datetime.datetime.utcnow())
+	
+
+  utc_now = pytz.utc.localize(datetime.datetime.utcnow())
+  print(utc_now)
 
 
 
