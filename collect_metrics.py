@@ -175,4 +175,6 @@ def get_cpu_usage():
 			
 			
 if __name__ == "__main__":
- 	get_static_metrics()
+ 	#get_static_metrics()
+	get_prometheus_URL()
+	print PROMETHEUS_URL
