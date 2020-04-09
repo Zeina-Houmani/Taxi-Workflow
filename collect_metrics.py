@@ -134,12 +134,12 @@ def get_static_metrics():
 			for pod in pod_list.items:
 				metrics_replicas =  OrderedDict()
 				metrics_replicas['Replicas'] = []
+				dynamic =  OrderedDict()
 				pod_name = pod.metadata.name
-				print pod_name
-				metrics_replicas['CPU usage']= get_CPU_usage(pod_name,namespace_name)
+				dynamic['CPU usage']= get_CPU_usage(pod_name,namespace_name)
 				#metrics_replicas['Memory usage']= get_RAM_usage(pod_name,namespace_name)
 				#metrics_replicas['Disk usage']= get_DISK_usage(pod_name,namespace_name)
-				metrics_app.append(metrics_replicas)
+				metrics_app['Replicas'].append(dynamic)
 			dict_to_file['Microservices'].append(metrics_app)
 	with open('result.json', 'w') as fp:
         	 json.dump(dict_to_file, fp,  indent=4)
