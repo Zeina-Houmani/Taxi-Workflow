@@ -147,14 +147,15 @@ def get_prometheus_URL():
 	PROMETHEUS_IP=''
 	PROMETHEUS_PORT=''
         apps_list= core_api.list_namespaced_service(namespace_name, label_selector="app=prometheus")
-	for app in apps_list.items:
-		APP_NAME = app.metadata.name
-		if APP_NAME != "prometheus":
-			print "Can't get prometheus IP address"
-		else:
-			PROMETHEUS_IP = app.spec.clusterIP
-			PROMETHEUS_PORT = app.spec.ports[0].port		
- 	PROMETHEUS_URL= "http://" + PROMETHEUS_IP + ":" + PROMETHEUS_PORT
+	app = apps_list.items[0]
+	APP_NAME = app.metadata.name
+	if APP_NAME != "prometheus":
+		print "Can't get prometheus IP address"
+	else:
+		print app.spec
+		PROMETHEUS_IP = app.spec.clusterIP
+		PROMETHEUS_PORT = app.spec.ports[0].port		
+ 		PROMETHEUS_URL= "http://" + PROMETHEUS_IP + ":" + PROMETHEUS_PORT
 
 	
 	
