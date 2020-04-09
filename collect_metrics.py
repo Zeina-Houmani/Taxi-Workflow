@@ -184,7 +184,8 @@ def get_CPU_usage(POD_NAME, NAMESPACE):
 	sys.exit(2)
   else:
 	print("It's a success")
-  results = response.json()['data']['result']			
+  #results = response.json()['data']['result']			
+  results = response.json()
   print results		
 			
 			
