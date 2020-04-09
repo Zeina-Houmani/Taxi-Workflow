@@ -194,9 +194,8 @@ def get_CPU_usage(POD_NAME, NAMESPACE):
   else:
 	print("It's a success")
   results = response.json()['data']['result']	
-  value = results[0].get('value')[1]
-  print "%.2f" % float(value)
-  #return "%.2f" % float(results['value'])
+  value = "%.2f" % float(results[0].get('value')[1])
+  return value
 			
 	
 	
@@ -233,9 +232,8 @@ def get_DISK_usage(POD_NAME, NAMESPACE):
 			
 			
 if __name__ == "__main__":
- 	#get_static_metrics()
 	if get_prometheus_URL():
 		print PROMETHEUS_URL
         get_utc_date()
-	get_CPU_usage("billing", "default")
+	get_static_metrics()
 	
