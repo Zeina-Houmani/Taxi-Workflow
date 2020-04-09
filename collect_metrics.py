@@ -117,14 +117,13 @@ def get_static_metrics():
 			label = key + "=" + value
 			pod_list = core_api.list_namespaced_pod(namespace_name, label_selector=label)
 			replicas_count = len(pod_list.items)
-			metrics_app["replicas"] = replicas_count
+			metrics_app["replicas set"] = replicas_count
 			containers_list = pod_list.items[0].spec.containers
 			total_limit_cpu = 0
 			total_limit_mem = 0
 			total_limit_disk = 0
 			for container in containers_list:
 				limits = container.resources.limits
-#				if not limits:
 				total_limit_cpu = total_limit_cpu + int(limits["cpu"][:-1])
 				total_limit_mem = total_limit_mem + int(limits["memory"][:-2])
 				total_limit_disk = total_limit_disk + int(limits["ephemeral-storage"][:-2])	
