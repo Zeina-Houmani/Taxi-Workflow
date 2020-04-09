@@ -170,6 +170,9 @@ def get_time():
 	
 def get_CPU_usage(POD_NAME, NAMESPACE):
   print TIME
+  QUERY =  'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", \
+		pod_name=~"' + POD_NAME + '.*", namespace=~"' + NAMESPACE + '"}[5m])) by (pod_name)'
+  print QUERY
   response = requests.get(PROMETHEUS_URL + QUERY_API, params={'query': 'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", \
 		pod_name=~"' + POD_NAME + '.*", namespace=~"' + NAMESPACE + '"}[5m])) by (pod_name)', 'time': TIME})
 
