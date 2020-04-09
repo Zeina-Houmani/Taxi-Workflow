@@ -1,7 +1,6 @@
 import requests
 import sys
-import time
-import datetime
+from datetime import datetime
 import pytz
 from argparse import ArgumentParser
 from kubernetes import client, config
