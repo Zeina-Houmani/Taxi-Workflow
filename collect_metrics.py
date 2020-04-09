@@ -132,12 +132,10 @@ def get_static_metrics():
 			metrics_app["Limit Storage"] = str(total_limit_disk) + "Gi"
         		metrics_app['Replicas'] = []
 			for pod in pod_list.items:
-				#metrics_replicas =  OrderedDict()
-				#metrics_replicas['Replicas'] = []
 				dynamic =  OrderedDict()
 				pod_name = pod.metadata.name
 				dynamic['CPU usage']= get_CPU_usage(pod_name,namespace_name)
-				#metrics_replicas['Memory usage']= get_RAM_usage(pod_name,namespace_name)
+				dynamic['RAM usage']= get_RAM_usage(pod_name,namespace_name)
 				#metrics_replicas['Disk usage']= get_DISK_usage(pod_name,namespace_name)
 				metrics_app['Replicas'].append(dynamic)
 			dict_to_file['Microservices'].append(metrics_app)
@@ -190,8 +188,7 @@ def get_CPU_usage(POD_NAME, NAMESPACE):
   status = response.json()['status']
   if status == "error":
         print(response.json())
-	#sys.exit(2)
-	return 0.0
+	return 'NaN'
   print("It's a success")
   results = response.json()['data']['result']
   if not results:
@@ -208,15 +205,14 @@ def get_RAM_usage(POD_NAME, NAMESPACE):
   status = response.json()['status']
   if status == "error":
         print(response.json())
-	#sys.exit(2)
-	return 0.0
+	return 'NaN'
+  print("It's a success")
+  results = response.json()['data']['result']
+  if not results:
+	value = 'NaN'
   else:
-	print("It's a success")
-  results = response.json()['data']['result']	
-  print results
-  print "***********"
-  print results['value']
-  return "%.2f" % float(results['value'])
+     value = "%.2f" % float(results[0].get('value')[1])
+  return value
 			
 	
 	
