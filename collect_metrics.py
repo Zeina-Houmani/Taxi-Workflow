@@ -181,6 +181,25 @@ def get_utc_date():
   TIME= dt.strftime("%Y-%m-%dT%H:%M:%SZ")
 	
 
+def humanbytes(B):
+   'Return the given bytes as a human friendly KB, MB, GB, or TB string'
+   B = float(B)
+   KB = float(1024)
+   MB = float(KB ** 2) # 1,048,576
+   GB = float(KB ** 3) # 1,073,741,824
+   TB = float(KB ** 4) # 1,099,511,627,776
+   if B < KB:
+      return '{0} {1}'.format(B,'Bytes' if 0 == B > 1 else 'Byte')
+   elif KB <= B < MB:
+      return '{0:.2f} KB'.format(B/KB)
+   elif MB <= B < GB:
+      return '{0:.2f} MB'.format(B/MB)
+   elif GB <= B < TB:
+      return '{0:.2f} GB'.format(B/GB)
+   elif TB <= B:
+      return '{0:.2f} TB'.format(B/TB)
+
+
 	
 def get_CPU_usage(POD_NAME, NAMESPACE):
   QUERY =  'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", pod_name=~"' + POD_NAME + '.*", namespace=~"' + NAMESPACE + '"}[5m])) by (pod_name)'
@@ -212,6 +231,7 @@ def get_RAM_usage(POD_NAME, NAMESPACE):
 	value = 'NaN'
   else:
      value = "%.2f" % float(results[0].get('value')[1])
+     value = humanbytes(value)
   return value
 			
 	
