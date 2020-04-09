@@ -235,7 +235,7 @@ def get_RAM_usage(POD_NAME, NAMESPACE):
 	
 	
 def get_DISK_usage(POD_NAME, NAMESPACE):
-  QUERY =  'sum(rate(container_fs_usage_bytes{pod_name!="", image!="", pod_name=~"' + POD_NAME + '.*", namespace=~"' + NAMESPACE + '"}[5m])) by (pod_name)'
+  QUERY =  'sum(container_fs_usage_bytes{pod_name!="", image!="", pod_name=~"' + POD_NAME + '.*", namespace=~"' + NAMESPACE + '"}) by (pod_name)'
   response = requests.get(PROMETHEUS_URL + QUERY_API, params={'query': QUERY, 'time': TIME})
   status = response.json()['status']
   if status == "error":
