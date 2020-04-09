@@ -152,8 +152,7 @@ def get_prometheus_URL():
 	if APP_NAME != "prometheus":
 		print "Can't get prometheus IP address"
 	else:
-		print app.spec
-		PROMETHEUS_IP = app.spec.clusterIP
+		PROMETHEUS_IP = app.spec.cluster_ip
 		PROMETHEUS_PORT = app.spec.ports[0].port		
  		PROMETHEUS_URL= "http://" + PROMETHEUS_IP + ":" + PROMETHEUS_PORT
 
