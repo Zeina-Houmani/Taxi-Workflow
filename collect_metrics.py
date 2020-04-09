@@ -169,7 +169,7 @@ def get_time():
 
 	
 def get_CPU_usage(POD_NAME, NAMESPACE):
-  TIME = "2020-04-09 01:29:50"
+  TIME = "2020-04-09T01:44:50"
   QUERY =  'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", pod_name=~"' + POD_NAME + '.*", namespace=~"' + NAMESPACE + '"}[5m])) by (pod_name)'
   response = requests.get(PROMETHEUS_URL + QUERY_API, params={'query': QUERY, 'time': TIME})
   status = response.json()['status']
