@@ -138,6 +138,7 @@ def get_static_metrics():
 				pod_name = pod.metadata.name
 				dynamic['instance'] = str(counter) + "/" + str(replicas_count)
 				counter = counter + 1
+				print pod.spec
 				dynamic['server'] = pod.spec.nodeName
 				dynamic['CPU usage'] = get_CPU_usage(pod_name,namespace_name)
 				dynamic['RAM usage'] = get_RAM_usage(pod_name,namespace_name)
