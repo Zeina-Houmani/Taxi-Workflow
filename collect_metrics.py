@@ -151,10 +151,12 @@ def get_prometheus_URL():
 	APP_NAME = app.metadata.name
 	if APP_NAME != "prometheus":
 		print "Can't get prometheus IP address"
+		return false
 	else:
 		PROMETHEUS_IP = app.spec.cluster_ip
 		PROMETHEUS_PORT = app.spec.ports[0].port		
  		PROMETHEUS_URL= "http://" + PROMETHEUS_IP + ":" + str(PROMETHEUS_PORT)
+		return true
 
 	
 	
@@ -176,5 +178,5 @@ def get_cpu_usage():
 			
 if __name__ == "__main__":
  	#get_static_metrics()
-	get_prometheus_URL()
-	print PROMETHEUS_URL
+	if get_prometheus_URL():
+		print PROMETHEUS_URL
