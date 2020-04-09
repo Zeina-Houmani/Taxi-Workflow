@@ -154,7 +154,7 @@ def get_prometheus_URL():
 	else:
 		PROMETHEUS_IP = app.spec.cluster_ip
 		PROMETHEUS_PORT = app.spec.ports[0].port		
- 		PROMETHEUS_URL= "http://" + PROMETHEUS_IP + ":" + PROMETHEUS_PORT
+ 		PROMETHEUS_URL= "http://" + PROMETHEUS_IP + ":" + str(PROMETHEUS_PORT)
 
 	
 	
