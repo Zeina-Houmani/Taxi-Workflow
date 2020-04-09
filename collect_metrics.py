@@ -131,7 +131,7 @@ def get_static_metrics():
 			metrics_app["Limit RAM"] = str(total_limit_mem) + "Mi"
 			metrics_app["Limit Storage"] = str(total_limit_disk) + "Gi"
         		#dict_to_file['Microservices'].append(metrics_app)
-			for pod in pod_list:
+			for pod in pod_list.items:
 				metrics_replicas =  OrderedDict()
 				pod_name = pod.metadata.name
 				print pod_name
