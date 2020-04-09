@@ -169,14 +169,11 @@ def get_time():
 
 	
 def get_CPU_usage(POD_NAME, NAMESPACE):
-  print PROMETHEUS_URL 
   print QUERY_API
   TIME = "2020-04-09T01:29:50Z"
-  QUERY =  'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", \
-		pod_name=~"' + POD_NAME + '.*", namespace=~"' + NAMESPACE + '"}[5m])) by (pod_name)'
+  QUERY =  'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", pod_name=~"' + POD_NAME + '.*", namespace=~"' + NAMESPACE + '"}[5m])) by (pod_name)'
   print QUERY
-  response = requests.get(PROMETHEUS_URL + QUERY_API, params={'query': 'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", \
-		pod_name=~"' + POD_NAME + '.*", namespace=~"' + NAMESPACE + '"}[5m])) by (pod_name)', 'time': TIME})
+  response = requests.get(PROMETHEUS_URL + QUERY_API, params={'query': 'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", pod_name=~"' + POD_NAME + '.*", namespace=~"' + NAMESPACE + '"}[5m])) by (pod_name)', 'time': TIME})
 
   status = response.json()['status']
   if status == "error":
@@ -184,8 +181,8 @@ def get_CPU_usage(POD_NAME, NAMESPACE):
 	sys.exit(2)
   else:
 	print("It's a success")
-  #results = response.json()['data']['result']			
-  results = response.json()
+  results = response.json()['data']['result']			
+  #results = response.json()
   print results		
 			
 			
@@ -196,5 +193,5 @@ if __name__ == "__main__":
 		print PROMETHEUS_URL
 	
         get_time()
-	get_CPU_usage("billing-service-", "default")
+	get_CPU_usage("billing", "default")
 	
