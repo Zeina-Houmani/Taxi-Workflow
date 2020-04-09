@@ -116,7 +116,8 @@ def get_static_metrics():
 			value = app.spec.selector.values()[0]
 			label = key + "=" + value
 			pod_list = core_api.list_namespaced_pod(namespace_name, label_selector=label)
-			metrics_app["replicas"] =  len(pod_list.items)
+			replicas_count = len(pod_list.items)
+			metrics_app["replicas"] = replicas_count
 			containers_list = pod_list.items[0].spec.containers
 			total_limit_cpu = 0
 			total_limit_mem = 0
@@ -127,18 +128,20 @@ def get_static_metrics():
 				total_limit_cpu = total_limit_cpu + int(limits["cpu"][:-1])
 				total_limit_mem = total_limit_mem + int(limits["memory"][:-2])
 				total_limit_disk = total_limit_disk + int(limits["ephemeral-storage"][:-2])	
-			metrics_app["Limit CPU"] = str(total_limit_cpu) + "m"
+			metrics_app["limit CPU"] = str(total_limit_cpu) + "m"
 			#metrics_app["Limit RAM"] = str(total_limit_mem) + "Mi"
-			metrics_app["Limit RAM"] = humanbytes(total_limit_mem * 1024 * 1024)
-			metrics_app["Limit Storage"] = str(total_limit_disk) + " GB"
-        		metrics_app['Replicas'] = []
+			metrics_app["limit RAM"] = humanbytes(total_limit_mem * 1024 * 1024)
+			metrics_app["limit Storage"] = str(total_limit_disk) + " GB"
+        		metrics_app['replicas'] = []
+			counter = 1
 			for pod in pod_list.items:
 				dynamic =  OrderedDict()
 				pod_name = pod.metadata.name
+				dynamic['instance'] = count + "/" + replicas_count
 				dynamic['CPU usage'] = get_CPU_usage(pod_name,namespace_name)
 				dynamic['RAM usage'] = get_RAM_usage(pod_name,namespace_name)
 				dynamic['Disk usage'] = get_DISK_usage(pod_name,namespace_name)
-				metrics_app['Replicas'].append(dynamic)
+				metrics_app['replicas'].append(dynamic)
 			dict_to_file['Microservices'].append(metrics_app)
 	with open('result.json', 'w') as fp:
         	 json.dump(dict_to_file, fp,  indent=4)
