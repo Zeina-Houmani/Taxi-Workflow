@@ -158,9 +158,18 @@ def get_prometheus_URL():
 
 	
 	
+	
+def get_date():
+  dt = datetime.datetime.now()
+  x = dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+  print(x)
+
+
+
+	
 def get_CPU_usage():
 #time=2020-04-07T17:00:16Z
-response = requests.get(PROMETHEUS_URL + QUERY_API, params={'query': 'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", \
+  response = requests.get(PROMETHEUS_URL + QUERY_API, params={'query': 'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", \
 		pod_name=~"' + POD_NAME + '.*", namespace=~"' + NAMESPACE + '.*"}[5m])) by (pod_name)', 'time': TIME})
 
   status = response.json()['status']
@@ -178,3 +187,5 @@ if __name__ == "__main__":
  	#get_static_metrics()
 	if get_prometheus_URL():
 		print PROMETHEUS_URL
+		
+	get_date()
