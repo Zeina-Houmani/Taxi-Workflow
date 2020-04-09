@@ -139,9 +139,23 @@ def get_static_metrics():
 	
 	
 def get_prometheus_URL():
-  global PROMETHEUS_URL	
-  #Get IP address from the platform
-  PROMETHEUS_URL= "http://" + PROMETHEUS_IP + ":9090"
+ 	global PROMETHEUS_URL	
+ 	#Get Prometheus IP address and port from the platform
+	config.load_kube_config()
+	core_api = client.CoreV1Api()
+	namespace_name = "istio-system"
+	PROMETHEUS_IP=''
+	PROMETHEUS_PORT=''
+        apps_list= core_api.list_namespaced_service(namespace_name, label_selector="app=prometheus")
+	for app in apps_list.items:
+		APP_NAME = app.metadata.name
+		if APP_NAME != "kubernetes":
+			print "Can't get prometheus IP address"
+		else:
+			PROMETHEUS_IP = app.spec.clusterIP
+			PROMETHEUS_PORT = app.spec.ports[0].port		
+ 	PROMETHEUS_URL= "http://" + PROMETHEUS_IP + ":" + PROMETHEUS_PORT
+
 	
 	
 def get_cpu_usage():
