@@ -195,11 +195,10 @@ def get_CPU_usage(POD_NAME, NAMESPACE):
 	return 0.0
   print("It's a success")
   results = response.json()['data']['result']
-  print results
   if not results:
-  	value = "%.2f" % float(results[0].get('value')[1])
-  else:
 	value = 'NaN'
+  else:
+     value = "%.2f" % float(results[0].get('value')[1])
   return value
 			
 	
