@@ -111,7 +111,6 @@ def get_static_metrics():
 		APP_NAME = app.metadata.name
 		if APP_NAME != "kubernetes":
 			metrics_app =  OrderedDict()
-			metrics_app['Replicas'] = []
 			metrics_app["name"] = APP_NAME
 			key = app.spec.selector.keys()[0]
 			value = app.spec.selector.values()[0]
@@ -134,12 +133,13 @@ def get_static_metrics():
         		#dict_to_file['Microservices'].append(metrics_app)
 			for pod in pod_list.items:
 				metrics_replicas =  OrderedDict()
+				metrics_replicas['Replicas'] = []
 				pod_name = pod.metadata.name
 				print pod_name
 				metrics_replicas['CPU usage']= get_CPU_usage(pod_name,namespace_name)
 				#metrics_replicas['Memory usage']= get_RAM_usage(pod_name,namespace_name)
 				#metrics_replicas['Disk usage']= get_DISK_usage(pod_name,namespace_name)
-				metrics_app['Replicas'].append(metrics_replicas)
+				metrics_app.append(metrics_replicas)
 			dict_to_file['Microservices'].append(metrics_app)
 	with open('result.json', 'w') as fp:
         	 json.dump(dict_to_file, fp,  indent=4)
