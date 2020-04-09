@@ -130,7 +130,7 @@ def get_static_metrics():
 			metrics_app["Limit CPU"] = str(total_limit_cpu) + "m"
 			#metrics_app["Limit RAM"] = str(total_limit_mem) + "Mi"
 			metrics_app["Limit RAM"] = humanbytes(total_limit_mem * 1024 * 1024)
-			metrics_app["Limit Storage"] = str(total_limit_disk) + "Gi"
+			metrics_app["Limit Storage"] = str(total_limit_disk) + " GB"
         		metrics_app['Replicas'] = []
 			for pod in pod_list.items:
 				dynamic =  OrderedDict()
