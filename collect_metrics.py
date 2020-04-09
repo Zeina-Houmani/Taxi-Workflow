@@ -237,7 +237,6 @@ if __name__ == "__main__":
  	#get_static_metrics()
 	if get_prometheus_URL():
 		print PROMETHEUS_URL
-	
-        get_time()
+        get_utc_date():
 	get_CPU_usage("billing", "default")
 	
