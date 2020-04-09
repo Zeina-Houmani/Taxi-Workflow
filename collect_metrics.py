@@ -163,7 +163,7 @@ def get_prometheus_URL():
 def get_time():
     tz_NY = pytz.timezone('America/New_York')
     datetime_NY = datetime.now(tz_NY)
-    return str(datetime_NY.strftime("%Y-%m-%dT%H:%M:%SZ))
+    return str(datetime_NY.strftime("%Y-%m-%dT%H:%M:%S))
 
 
 	
@@ -188,4 +188,4 @@ if __name__ == "__main__":
 	if get_prometheus_URL():
 		print PROMETHEUS_URL
 		
-	get_time()
+	print get_time()
