@@ -137,7 +137,7 @@ def get_static_metrics():
 			for pod in pod_list.items:
 				dynamic =  OrderedDict()
 				pod_name = pod.metadata.name
-				dynamic['instance'] = counter + "/" + replicas_count
+				dynamic['instance'] = str(counter) + "/" + str(replicas_count)
 				counter = counter + 1
 				dynamic['CPU usage'] = get_CPU_usage(pod_name,namespace_name)
 				dynamic['RAM usage'] = get_RAM_usage(pod_name,namespace_name)
