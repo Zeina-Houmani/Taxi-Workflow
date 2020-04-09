@@ -169,7 +169,6 @@ def get_time():
 
 	
 def get_CPU_usage(POD_NAME, NAMESPACE):
-  print TIME
   print PROMETHEUS_URL 
   print QUERY_API
   TIME = "2020-04-09T01:29:50Z"
