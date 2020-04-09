@@ -136,8 +136,6 @@ def get_static_metrics():
 			
 
 
-	
-	
 def get_prometheus_URL():
  	global PROMETHEUS_URL	
  	#Get Prometheus IP address and port from the platform
@@ -160,10 +158,10 @@ def get_prometheus_URL():
 
 	
 	
-def get_cpu_usage():
-  response = requests.get(PROMETHEUS_URL + QUERY_RANGE_API, params={'query': 'rate(istio_request_duration_seconds_sum{destination_service_name= "loadbalancer-service", \
-  			source_app="istio-ingressgateway"}[10s:1s]) /rate(istio_request_duration_seconds_count{destination_service_name= "loadbalancer-service", \
-			source_app="istio-ingressgateway"}[10s:1s])', 'start': START, 'end': END, 'step': '1'})
+def get_CPU_usage():
+#time=2020-04-07T17:00:16Z
+response = requests.get(PROMETHEUS_URL + QUERY_API, params={'query': 'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", \
+		pod_name=~"' + POD_NAME + '.*", namespace=~"' + NAMESPACE + '.*"}[5m])) by (pod_name)', 'time': TIME})
 
   status = response.json()['status']
   if status == "error":
