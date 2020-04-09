@@ -133,7 +133,8 @@ def get_static_metrics():
         		#dict_to_file['Microservices'].append(metrics_app)
 			for pod in pod_list:
 				metrics_replicas =  OrderedDict()
-				#pod_name = pod.metadata.name
+				pod_name = pod.metadata.name
+				print pod_name
 				metrics_replicas['CPU usage']= get_CPU_usage(pod_name,namespace_name)
 				#metrics_replicas['Memory usage']= get_RAM_usage(pod_name,namespace_name)
 				#metrics_replicas['Disk usage']= get_DISK_usage(pod_name,namespace_name)
