@@ -11,6 +11,8 @@ from collections import OrderedDict
 POD_IP = ''
 APP_PORT = 0
 URI = []
+PROMETHEUS_URL = ''
+QUERY_API = '/api/v1/query'
 counter_dict = OrderedDict()
 dict_to_file = OrderedDict()
 dict_to_file['Microservices'] = []
@@ -131,6 +133,32 @@ def get_static_metrics():
 	with open('result.json', 'w') as fp:
         	 json.dump(dict_to_file, fp,  indent=4)
 
+			
 
+
+	
+	
+def get_prometheus_URL():
+  global PROMETHEUS_URL	
+  #Get IP address from the platform
+  PROMETHEUS_URL= "http://" + PROMETHEUS_IP + ":9090"
+	
+	
+def get_cpu_usage():
+  response = requests.get(PROMETHEUS_URL + QUERY_RANGE_API, params={'query': 'rate(istio_request_duration_seconds_sum{destination_service_name= "loadbalancer-service", \
+  			source_app="istio-ingressgateway"}[10s:1s]) /rate(istio_request_duration_seconds_count{destination_service_name= "loadbalancer-service", \
+			source_app="istio-ingressgateway"}[10s:1s])', 'start': START, 'end': END, 'step': '1'})
+
+  status = response.json()['status']
+  if status == "error":
+        print(response.json())
+	sys.exit(2)
+  else:
+	print("It's a success")
+  results = response.json()['data']['result']			
+			
+			
+			
+			
 if __name__ == "__main__":
  	get_static_metrics()
