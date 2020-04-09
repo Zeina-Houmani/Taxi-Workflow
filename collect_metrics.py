@@ -139,6 +139,7 @@ def get_static_metrics():
 				dynamic['CPU usage']= get_CPU_usage(pod_name,namespace_name)
 				#metrics_replicas['Memory usage']= get_RAM_usage(pod_name,namespace_name)
 				#metrics_replicas['Disk usage']= get_DISK_usage(pod_name,namespace_name)
+				metrics_app['Replicas'] = []
 				metrics_app['Replicas'].append(dynamic)
 			dict_to_file['Microservices'].append(metrics_app)
 	with open('result.json', 'w') as fp:
