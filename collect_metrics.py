@@ -180,6 +180,7 @@ def get_utc_date():
   dt = datetime.utcnow()
   TIME= dt.strftime("%Y-%m-%dT%H:%M:%SZ")
 	
+
 	
 def get_CPU_usage(POD_NAME, NAMESPACE):
   QUERY =  'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", pod_name=~"' + POD_NAME + '.*", namespace=~"' + NAMESPACE + '"}[5m])) by (pod_name)'
@@ -187,12 +188,42 @@ def get_CPU_usage(POD_NAME, NAMESPACE):
   status = response.json()['status']
   if status == "error":
         print(response.json())
-	sys.exit(2)
+	#sys.exit(2)
+	return 0.0
   else:
 	print("It's a success")
   results = response.json()['data']['result']			
-  print results['value']
+  return "%.2f" % float(results['value'])
 			
+	
+	
+def get_RAM_usage(POD_NAME, NAMESPACE):
+  QUERY =  'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", pod_name=~"' + POD_NAME + '.*", namespace=~"' + NAMESPACE + '"}[5m])) by (pod_name)'
+  response = requests.get(PROMETHEUS_URL + QUERY_API, params={'query': QUERY, 'time': TIME})
+  status = response.json()['status']
+  if status == "error":
+        print(response.json())
+	#sys.exit(2)
+	return 0.0
+  else:
+	print("It's a success")
+  results = response.json()['data']['result']			
+  return "%.2f" % float(results['value'])
+			
+	
+	
+def get_DISK_usage(POD_NAME, NAMESPACE):
+  QUERY =  'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", pod_name=~"' + POD_NAME + '.*", namespace=~"' + NAMESPACE + '"}[5m])) by (pod_name)'
+  response = requests.get(PROMETHEUS_URL + QUERY_API, params={'query': QUERY, 'time': TIME})
+  status = response.json()['status']
+  if status == "error":
+        print(response.json())
+	#sys.exit(2)
+	return 0.0
+  else:
+	print("It's a success")
+  results = response.json()['data']['result']			
+  return "%.2f" % float(results['value'])
 			
 			
 if __name__ == "__main__":
