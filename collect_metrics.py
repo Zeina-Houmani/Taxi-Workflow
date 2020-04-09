@@ -134,7 +134,7 @@ def get_static_metrics():
 			for pod in pod_list.items:
 				dynamic =  OrderedDict()
 				pod_name = pod.metadata.name
-				dynamic['CPU usage']= get_CPU_usage(pod_name,namespace_name) + " core"
+				dynamic['CPU usage']= get_CPU_usage(pod_name,namespace_name)
 				dynamic['RAM usage']= get_RAM_usage(pod_name,namespace_name)
 				#metrics_replicas['Disk usage']= get_DISK_usage(pod_name,namespace_name)
 				metrics_app['Replicas'].append(dynamic)
@@ -208,7 +208,6 @@ def get_CPU_usage(POD_NAME, NAMESPACE):
   if status == "error":
         print(response.json())
 	return 'NaN'
-  print("It's a success")
   results = response.json()['data']['result']
   if not results:
 	value = 'NaN'
@@ -225,7 +224,6 @@ def get_RAM_usage(POD_NAME, NAMESPACE):
   if status == "error":
         print(response.json())
 	return 'NaN'
-  print("It's a success")
   results = response.json()['data']['result']
   if not results:
 	value = 'NaN'
