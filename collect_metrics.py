@@ -134,9 +134,9 @@ def get_static_metrics():
 			for pod in pod_list.items:
 				dynamic =  OrderedDict()
 				pod_name = pod.metadata.name
-				dynamic['CPU usage']= get_CPU_usage(pod_name,namespace_name)
-				dynamic['RAM usage']= get_RAM_usage(pod_name,namespace_name)
-				#metrics_replicas['Disk usage']= get_DISK_usage(pod_name,namespace_name)
+				dynamic['CPU usage'] = get_CPU_usage(pod_name,namespace_name)
+				dynamic['RAM usage'] = get_RAM_usage(pod_name,namespace_name)
+				dynamic['Disk usage'] = get_DISK_usage(pod_name,namespace_name)
 				metrics_app['Replicas'].append(dynamic)
 			dict_to_file['Microservices'].append(metrics_app)
 	with open('result.json', 'w') as fp:
@@ -235,18 +235,21 @@ def get_RAM_usage(POD_NAME, NAMESPACE):
 	
 	
 def get_DISK_usage(POD_NAME, NAMESPACE):
-  QUERY =  'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", pod_name=~"' + POD_NAME + '.*", namespace=~"' + NAMESPACE + '"}[5m])) by (pod_name)'
+  QUERY =  'sum(rate(container_fs_usage_bytes{pod_name!="", image!="", pod_name=~"' + POD_NAME + '.*", namespace=~"' + NAMESPACE + '"}[5m])) by (pod_name)'
   response = requests.get(PROMETHEUS_URL + QUERY_API, params={'query': QUERY, 'time': TIME})
   status = response.json()['status']
-  if status == "error":
+   if status == "error":
         print(response.json())
-	#sys.exit(2)
-	return 0.0
+	return 'NaN'
+  results = response.json()['data']['result']
+  if not results:
+	value = 'NaN'
   else:
-	print("It's a success")
-  results = response.json()['data']['result']			
-  return "%.2f" % float(results['value'])
-			
+     value = "%.2f" % float(results[0].get('value')[1])
+     value = humanbytes(value)
+  return value
+
+
 			
 if __name__ == "__main__":
 	if get_prometheus_URL():
