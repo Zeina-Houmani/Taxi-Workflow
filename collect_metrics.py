@@ -130,7 +130,15 @@ def get_static_metrics():
 			metrics_app["Limit CPU"] = str(total_limit_cpu) + "m"
 			metrics_app["Limit RAM"] = str(total_limit_mem) + "Mi"
 			metrics_app["Limit Storage"] = str(total_limit_disk) + "Gi"
-        		dict_to_file['Microservices'].append(metrics_app)
+        		#dict_to_file['Microservices'].append(metrics_app)
+			for pod in pod_list:
+				metrics_replicas =  OrderedDict()
+				#pod_name = pod.metadata.name
+				metrics_replicas['CPU usage']= get_CPU_usage(pod_name,namespace_name)
+				#metrics_replicas['Memory usage']= get_RAM_usage(pod_name,namespace_name)
+				#metrics_replicas['Disk usage']= get_DISK_usage(pod_name,namespace_name)
+				metrics_app['Replicas'].append(metrics_replicas)
+			dict_to_file['Microservices'].append(metrics_app)
 	with open('result.json', 'w') as fp:
         	 json.dump(dict_to_file, fp,  indent=4)
 
