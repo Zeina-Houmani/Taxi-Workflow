@@ -94,7 +94,7 @@ def get_metrics_app():
 	
 	
 	
-def test():
+def get_static_metrics():
 	global POD_IP
 	global APP_PORT
 	global URI
@@ -133,5 +133,4 @@ def test():
 
 
 if __name__ == "__main__":
- 	test()
-	#get_metrics_app()
+ 	get_static_metrics()
