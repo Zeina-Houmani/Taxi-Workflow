@@ -128,7 +128,8 @@ def get_static_metrics():
 				total_limit_mem = total_limit_mem + int(limits["memory"][:-2])
 				total_limit_disk = total_limit_disk + int(limits["ephemeral-storage"][:-2])	
 			metrics_app["Limit CPU"] = str(total_limit_cpu) + "m"
-			metrics_app["Limit RAM"] = str(total_limit_mem) + "Mi"
+			#metrics_app["Limit RAM"] = str(total_limit_mem) + "Mi"
+			metrics_app["Limit RAM"] = humanbytes(total_limit_mem * 1024 * 1024)
 			metrics_app["Limit Storage"] = str(total_limit_disk) + "Gi"
         		metrics_app['Replicas'] = []
 			for pod in pod_list.items:
