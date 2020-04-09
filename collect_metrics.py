@@ -169,9 +169,8 @@ def get_time():
 
 	
 def get_CPU_usage(POD_NAME, NAMESPACE):
-  TIME = datetime.now().isoformat()
+  TIME = datetime.utcnow()
   #TIME= dt.strftime("%Y-%m-%dT%H:%M:%S")
-  TIME = TIME + "Z"
   print TIME
   #TIME = "2020-04-09T01:44:50Z"
   QUERY =  'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", pod_name=~"' + POD_NAME + '.*", namespace=~"' + NAMESPACE + '"}[5m])) by (pod_name)'
