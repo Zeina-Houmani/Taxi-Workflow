@@ -25,7 +25,7 @@ dict_to_file['Microservices'] = []
 #containers_list = deployment.items[0].spec.template.spec.containers	
 	
 	
-def get_single_value(QUERY):
+def get_query_result(QUERY):
     response = requests.get(PROMETHEUS_URL + QUERY_API, params={'query': QUERY, 'time': TIME})
     status = response.json()['status']
     if status == "error":
@@ -46,7 +46,7 @@ def get_server_metrics():
     metrics_capacity =  OrderedDict()
     metrics_server["Servers"] = []
     QUERY_nodes = 'node_uname_info'
-    QUERY_memory =  'sum(kube_node_status_capacity_memory_bytes) by (node)'
+    #QUERY_memory =  'kube_node_status_capacity_memory_bytes{node=~"' + NODE_NAME + '"}'
     QUERY_cpu =  'kube_node_status_capacity_cpu_cores'
     QUERY_disk = 'sum(node_filesystem_size_bytes{device!="rootfs"}) by (instance)'
     
@@ -55,12 +55,17 @@ def get_server_metrics():
     counter = 1
     for node in nodes:
 	metrics_node = OrderedDict()
-	metrics_node["name"] = node.get("metric").get("nodename")
+	NODE_NAME= node.get("metric").get("nodename")
+	metrics_node["name"] = NODE_NAME
 	metrics_node['instance'] = str(counter) + "/" + str(total_nodes)
-	#metrics_node['memory capacity'] = get_single_value(QUERY_memory).
+	QUERY_memory =  'kube_node_status_capacity_memory_bytes{node=~"' + NODE_NAME + '"}'
+	MEMORY_CAPACITY = get_query_result(QUERY_memory)
+	metrics_node['memory capacity'] = humanbytes(MEMORY_CAPACITY[0].get('value')[1])
 	metrics_server["Servers"].append(metrics_node)
+	counter = counter +1
     print metrics_server
-    #metrics_capacity[] = 
+
+
 	
 def get_service_metrics():
 	global POD_IP
