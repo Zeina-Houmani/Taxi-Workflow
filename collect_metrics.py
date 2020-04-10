@@ -60,7 +60,7 @@ def get_server_metrics():
 	metrics_node['instance'] = str(counter) + "/" + str(total_nodes)
 	QUERY_memory =  'kube_node_status_capacity_memory_bytes{node=~"' + NODE_NAME + '"}'
 	MEMORY_CAPACITY = get_query_result(QUERY_memory)
-	metrics_node['memory capacity'] = humanbytes("%.2f" % float(MEMORY_CAPACITY[0].get('value')[1]))
+	metrics_node['memory capacity'] = MEMORY_CAPACITY[0].get('value')[1]
 	metrics_server["Servers"].append(metrics_node)
 	counter = counter +1
     print metrics_server
