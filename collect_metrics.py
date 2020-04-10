@@ -73,8 +73,7 @@ def get_server_metrics():
 	metrics_server["Servers"].append(metrics_node)
 	counter = counter +1
     write_file( metrics_server)   
-#with open(RESULT_FILE, 'w') as fp:
-     #   	 json.dump(metrics_server, fp,  indent=4)
+
 
 
 def write_file(DATA):
@@ -136,8 +135,7 @@ def get_service_metrics():
 				dynamic['Disk usage'] = get_DISK_usage(pod_name,namespace_name)
 				metrics_app['replicas'].append(dynamic)
 			dict_to_file['Microservices'].append(metrics_app)
-	with open('result.json', 'w') as fp:
-        	 json.dump(dict_to_file, fp,  indent=4)
+	write_file(dict_to_file)
 
 			
 
@@ -252,5 +250,7 @@ if __name__ == "__main__":
 	if get_prometheus_URL():
 		print PROMETHEUS_URL
         get_utc_date()
-	#get_service_metrics()
+	
 	get_server_metrics()
+	
+	get_service_metrics()
