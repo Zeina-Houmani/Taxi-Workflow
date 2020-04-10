@@ -45,11 +45,8 @@ def get_server_metrics():
     metrics_server =  OrderedDict()
     metrics_capacity =  OrderedDict()
     metrics_server["Servers"] = []
-    QUERY_nodes = 'node_uname_info'
-    #QUERY_memory =  'kube_node_status_capacity_memory_bytes{node=~"' + NODE_NAME + '"}'
-    #QUERY_cpu =  'kube_node_status_capacity_cpu_cores'
-    QUERY_disk = 'sum(node_filesystem_size_bytes{device!="rootfs"}) by (instance)'
-    
+
+    QUERY_nodes = 'node_uname_info'  
     nodes = get_query_result(QUERY_nodes)
     total_nodes = len(nodes)
     counter = 1
@@ -73,7 +70,8 @@ def get_server_metrics():
 	
 	metrics_server["Servers"].append(metrics_node)
 	counter = counter +1
-    print metrics_server
+    with open('result.json', 'w') as fp:
+        	 json.dump(metrics_server, fp,  indent=4)
 
 
 	
