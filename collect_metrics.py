@@ -158,15 +158,6 @@ def get_prometheus_URL():
 		PROMETHEUS_PORT = app.spec.ports[0].port		
  		PROMETHEUS_URL= "http://" + PROMETHEUS_IP + ":" + str(PROMETHEUS_PORT)
 		return True
-	
-
-	
-def get_time():
-    global TIME
-    tz_NY = pytz.timezone('America/New_York')
-    datetime_NY = datetime.now(tz_NY)
-    TIME = str(datetime_NY.strftime("%Y-%m-%dT%H:%M:%SZ"))
-
 
 	
 def get_utc_date():
