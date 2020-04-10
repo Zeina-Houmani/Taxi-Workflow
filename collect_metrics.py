@@ -67,9 +67,9 @@ def get_server_metrics():
 	CPU_CAPACITY = get_query_result(QUERY_cpu)
 	metrics_node['cpu capacity'] = CPU_CAPACITY[0].get('value')[1])
 	
-	QUERY_disk =  'kube_node_status_capacity_memory_bytes{node=~"' + NODE_NAME + '"}'
+	QUERY_disk =  'node_filesystem_size_bytes{fstype="ext4", device!="rootfs"}'
 	DISK_CAPACITY = get_query_result(QUERY_disk)
-	metrics_node['memory capacity'] = humanbytes(DISK_CAPACITY[0].get('value')[1])
+	metrics_node['disk capacity'] = humanbytes(DISK_CAPACITY[0].get('value')[1])
 	
 	metrics_server["Servers"].append(metrics_node)
 	counter = counter +1
