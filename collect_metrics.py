@@ -37,7 +37,7 @@ def get_single_value(query):
     #else:    
 #   value = "%.2f" % float(results[0].get('value')[1])
 #    return value
-     return results
+    return results
 
 	
 def get_server_metrics(query):
