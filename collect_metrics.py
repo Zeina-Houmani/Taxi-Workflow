@@ -50,9 +50,11 @@ def get_server_metrics(query):
     QUERY_cpu =  'kube_node_status_capacity_cpu_cores'
     QUERY_disk = 'sum(node_filesystem_size_bytes{device!="rootfs"}) by (instance)'
     
-    nodes = get_single_value
-    capacity_memory = get_single_value(QUERY_memory)
-    metrics_capacity[] = 
+    nodes = get_single_value(QUERY_nodes)
+    for node in nodes.items:
+		print node
+   # capacity_memory = get_single_value(QUERY_memory)
+    #metrics_capacity[] = 
 	
 def get_service_metrics():
 	global POD_IP
@@ -217,5 +219,5 @@ if __name__ == "__main__":
 	if get_prometheus_URL():
 		print PROMETHEUS_URL
         get_utc_date()
-	get_service_metrics()
-	
+	#get_service_metrics()
+	get_server_metrics()
