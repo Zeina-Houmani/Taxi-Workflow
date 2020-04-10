@@ -82,7 +82,7 @@ def write_file(DATA):
         		 json.dump(DATA, fp,  indent=4)
 	else:
 		 with open(RESULT_FILE) as fp:
-			feeds = json.load(fp)
+			feeds = json.load(fp , object_pairs_hook=OrderedDict)
 		 feeds.update(DATA)
         	 with open(RESULT_FILE, 'w') as fp:
         		 json.dump(feeds, fp,  indent=4)
