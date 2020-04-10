@@ -8,6 +8,7 @@ from pprint import pprint
 import json
 from collections import OrderedDict
 
+RESULT_FILE="result.json"
 POD_IP = ''
 APP_PORT = 0
 URI = []
@@ -70,11 +71,23 @@ def get_server_metrics():
 	
 	metrics_server["Servers"].append(metrics_node)
 	counter = counter +1
-    with open('result.json', 'w') as fp:
-        	 json.dump(metrics_server, fp,  indent=4)
+    write_file( metrics_server)   
+#with open(RESULT_FILE, 'w') as fp:
+     #   	 json.dump(metrics_server, fp,  indent=4)
 
 
-	
+def write_file(DATA):
+	if not os.path.isfile(RESULT_FILE):
+		 with open(RESULT_FILE, 'w') as fp:
+        		 json.dump(DATA, fp,  indent=4)
+	else:
+		 with open(RESULT_FILE, 'w') as fp:
+				feeds = json.load(fp)
+		 feeds.append(DATA)
+        	 with open(RESULT_FILE, 'w') as fp:
+        		 json.dump(feeds, fp,  indent=4)
+		
+
 def get_service_metrics():
 	global POD_IP
 	global APP_PORT
