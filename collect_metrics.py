@@ -55,8 +55,8 @@ def get_server_metrics():
     for node in nodes:
 	metrics_node = OrderedDict()
 	NODE_NAME= node.get("metric").get("nodename")
-	metrics_node["name"] = NODE_NAME
 	metrics_node['instance'] = str(counter) + "/" + str(total_nodes)
+	metrics_node["name"] = NODE_NAME
 	
 	QUERY_memory =  'kube_node_status_capacity_memory_bytes{node=~"' + NODE_NAME + '"}'
 	MEMORY_CAPACITY = get_query_result(QUERY_memory)
