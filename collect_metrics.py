@@ -25,7 +25,7 @@ dict_to_file['Microservices'] = []
 #containers_list = deployment.items[0].spec.template.spec.containers	
 	
 	
-def get_single_value(query):
+def get_single_value(QUERY):
     response = requests.get(PROMETHEUS_URL + QUERY_API, params={'query': QUERY, 'time': TIME})
     status = response.json()['status']
     if status == "error":
