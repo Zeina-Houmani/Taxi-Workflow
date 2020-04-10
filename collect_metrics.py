@@ -31,12 +31,12 @@ def get_single_value(query):
     if status == "error":
         print(response.json())
 	return 'NaN'
-  results = response.json()['data']['result']
-  if not results:
+    results = response.json()['data']['result']
+    if not results:
 	value = 'NaN'
-  else:
-     value = "%.2f" % float(results[0].get('value')[1])
-  return value
+    else:
+        value = "%.2f" % float(results[0].get('value')[1])
+    return value
 
 
 	
