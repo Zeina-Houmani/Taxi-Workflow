@@ -25,6 +25,11 @@ dict_to_file['Microservices'] = []
 #containers_list = deployment.items[0].spec.template.spec.containers	
 	
 	
+def get_server_metrics():
+	#collect general metric about server
+	
+	
+	
 def get_service_metrics():
 	global POD_IP
 	global APP_PORT
