@@ -40,7 +40,7 @@ def get_single_value(query):
     return results
 
 	
-def get_server_metrics(query):
+def get_server_metrics():
 	#collect general metric about server
     metrics_server =  OrderedDict()
     metrics_capacity =  OrderedDict()
