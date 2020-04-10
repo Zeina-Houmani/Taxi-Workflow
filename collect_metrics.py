@@ -25,9 +25,26 @@ dict_to_file['Microservices'] = []
 #containers_list = deployment.items[0].spec.template.spec.containers	
 	
 	
-def get_server_metrics():
-	#collect general metric about server
+def get_single_value(query):
+    response = requests.get(PROMETHEUS_URL + QUERY_API, params={'query': QUERY, 'time': TIME})
+    status = response.json()['status']
+    if status == "error":
+        print(response.json())
+	return 'NaN'
+  results = response.json()['data']['result']
+  if not results:
+	value = 'NaN'
+  else:
+     value = "%.2f" % float(results[0].get('value')[1])
+  return value
+
+
 	
+def get_server_metrics(query):
+	#collect general metric about server
+    QUERY_memory =  'kube_node_status_capacity_memory_bytes'
+    QUERY_cpu =  'kube_node_status_capacity_cpu_cores'
+    QUERY_disk = ''
 	
 	
 def get_service_metrics():
@@ -113,9 +130,9 @@ def get_time():
 
 	
 def get_utc_date():
-  global TIME
-  dt = datetime.utcnow()
-  TIME= dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+    global TIME
+    dt = datetime.utcnow()
+    TIME= dt.strftime("%Y-%m-%dT%H:%M:%SZ")
 	
 
 	
