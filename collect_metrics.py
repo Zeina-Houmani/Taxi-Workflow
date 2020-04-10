@@ -1,5 +1,6 @@
 import requests
 import sys
+import os
 from datetime import datetime
 import pytz
 from argparse import ArgumentParser
