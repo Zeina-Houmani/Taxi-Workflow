@@ -51,7 +51,7 @@ def get_server_metrics():
     QUERY_disk = 'sum(node_filesystem_size_bytes{device!="rootfs"}) by (instance)'
     
     nodes = get_single_value(QUERY_nodes)
-    for node in nodes.items:
+    for node in nodes:
 		print node
    # capacity_memory = get_single_value(QUERY_memory)
     #metrics_capacity[] = 
