@@ -34,18 +34,25 @@ def get_single_value(query):
     results = response.json()['data']['result']
     if not results:
 	value = 'NaN'
-    else:
-        value = "%.2f" % float(results[0].get('value')[1])
-    return value
-
+    #else:    
+#   value = "%.2f" % float(results[0].get('value')[1])
+#    return value
+     return results
 
 	
 def get_server_metrics(query):
 	#collect general metric about server
-    QUERY_memory =  'kube_node_status_capacity_memory_bytes'
+    metrics_server =  OrderedDict()
+    metrics_capacity =  OrderedDict()
+    metrics_server["Servers"] = []
+    QUERY_nodes = 'node_uname_info'
+    QUERY_memory =  'sum(kube_node_status_capacity_memory_bytes) by (node)'
     QUERY_cpu =  'kube_node_status_capacity_cpu_cores'
-    QUERY_disk = ''
-	
+    QUERY_disk = 'sum(node_filesystem_size_bytes{device!="rootfs"}) by (instance)'
+    
+    nodes = get_single_value
+    capacity_memory = get_single_value(QUERY_memory)
+    metrics_capacity[] = 
 	
 def get_service_metrics():
 	global POD_IP
