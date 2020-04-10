@@ -56,4 +56,4 @@ spec:
           - --threshold=5
           - --deployment=kube-state-metrics
       nodeSelector:
-        node_label_key: node_label_value
+        node_label_key: prometheus
