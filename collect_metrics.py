@@ -80,13 +80,13 @@ def get_server_metrics():
 def write_file(DATA):
 	if not os.path.isfile(RESULT_FILE):
 		 with open(RESULT_FILE, 'w') as fp:
-        		 json.dump(DATA, fp,  indent=4)
+        		 json.dump(DATA, fp,  indent=2)
 	else:
 		 with open(RESULT_FILE) as fp:
-				feeds = json.load(fp)
+			feeds = json.load(fp)
 		 feeds.append(DATA)
         	 with open(RESULT_FILE, 'w') as fp:
-        		 json.dump(feeds, fp,  indent=4)
+        		 json.dump(feeds, fp,  indent=2)
 		
 
 def get_service_metrics():
