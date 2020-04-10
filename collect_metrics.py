@@ -55,7 +55,7 @@ def get_server_metrics():
     for node in nodes:
 	metrics_node = OrderedDict()
 	#metrics_node["name"] = 
-	print node.get("metric")
+	print node.get("metric").get("nodename")
    # capacity_memory = get_single_value(QUERY_memory)
     #metrics_capacity[] = 
 	
