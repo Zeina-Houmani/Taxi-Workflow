@@ -50,7 +50,7 @@ def get_server_metrics():
     QUERY_cpu =  'kube_node_status_capacity_cpu_cores'
     QUERY_disk = 'sum(node_filesystem_size_bytes{device!="rootfs"}) by (instance)'
     
-    nodes = get_single_value(QUERY_nodes)
+    nodes = get_query_result(QUERY_nodes)
     total_nodes = len(nodes)
     counter = 1
     for node in nodes:
