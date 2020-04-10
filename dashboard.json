@@ -16,8 +16,8 @@
   "editable": true,
   "gnetId": 6336,
   "graphTooltip": 0,
-  "id": 10,
-  "iteration": 1586242242008,
+  "id": 9,
+  "iteration": 1586483643721,
   "links": [],
   "panels": [
     {
@@ -1171,8 +1171,23 @@
         {
           "expr": "kube_pod_container_resource_limits_cpu_cores{namespace=\"default\", pod=~\"billing-service-.*\"}",
           "format": "time_series",
+          "hide": true,
           "intervalFactor": 1,
           "refId": "E"
+        },
+        {
+          "expr": "container_fs_usage_bytes{namespace=\"default\"} ",
+          "format": "time_series",
+          "hide": true,
+          "intervalFactor": 1,
+          "refId": "F"
+        },
+        {
+          "expr": "container_fs_limit_bytes{}",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 1,
+          "refId": "G"
         }
       ],
       "thresholds": [],
@@ -1195,7 +1210,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "decbytes",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -1256,7 +1271,7 @@
         {
           "expr": "sum (container_memory_working_set_bytes{pod_name!=\"\", pod_name=~\"[[pod_name]].*\", namespace=~\"[[namespace]].*\"}) by (pod_name)",
           "format": "time_series",
-          "hide": false,
+          "hide": true,
           "intervalFactor": 1,
           "refId": "A"
         },
@@ -1266,6 +1281,19 @@
           "hide": true,
           "intervalFactor": 1,
           "refId": "B"
+        },
+        {
+          "expr": "kube_node_status_capacity_memory_bytes",
+          "format": "time_series",
+          "hide": true,
+          "intervalFactor": 1,
+          "refId": "C"
+        },
+        {
+          "expr": "kube_node_status_allocatable_memory_bytes",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "refId": "D"
         }
       ],
       "thresholds": [],
@@ -2068,7 +2096,7 @@
       }
     }
   ],
-  "refresh": false,
+  "refresh": "5s",
   "schemaVersion": 18,
   "style": "dark",
   "tags": [],
@@ -2152,8 +2180,8 @@
     ]
   },
   "time": {
-    "from": "2020-04-07T06:50:51.071Z",
-    "to": "2020-04-07T07:00:51.071Z"
+    "from": "now-5m",
+    "to": "now"
   },
   "timepicker": {
     "refresh_intervals": [
