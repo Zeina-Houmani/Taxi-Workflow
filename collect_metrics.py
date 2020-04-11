@@ -209,57 +209,6 @@ def humanbytes(B):
    elif TB <= B:
       return '{0:.2f} TB'.format(B/TB)
 
-
-	
-def get_CPU_usage(POD_NAME, NAMESPACE):
-  QUERY =  'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", pod_name=~"' + POD_NAME + '.*", namespace=~"' + NAMESPACE + '"}[5m])) by (pod_name)'
-  response = requests.get(PROMETHEUS_URL + QUERY_API, params={'query': QUERY, 'time': TIME})
-  status = response.json()['status']
-  if status == "error":
-        print(response.json())
-	return 'NaN'
-  results = response.json()['data']['result']
-  if not results:
-	value = 'NaN'
-  else:
-     value = "%.2f" % float(results[0].get('value')[1])
-  return value
-			
-	
-	
-def get_RAM_usage(POD_NAME, NAMESPACE):
-  QUERY =  'sum(container_memory_working_set_bytes{pod_name!="", image!="", pod_name=~"' + POD_NAME + '.*", namespace=~"' + NAMESPACE + '"}) by (pod_name)'
-  response = requests.get(PROMETHEUS_URL + QUERY_API, params={'query': QUERY, 'time': TIME})
-  status = response.json()['status']
-  if status == "error":
-        print(response.json())
-	return 'NaN'
-  results = response.json()['data']['result']
-  if not results:
-	value = 'NaN'
-  else:
-     value = "%.2f" % float(results[0].get('value')[1])
-     value = humanbytes(value)
-  return value
-			
-	
-	
-def get_DISK_usage(POD_NAME, NAMESPACE):
-  QUERY =  'sum(container_fs_usage_bytes{pod_name!="", image!="", pod_name=~"' + POD_NAME + '.*", namespace=~"' + NAMESPACE + '"}) by (pod_name)'
-  response = requests.get(PROMETHEUS_URL + QUERY_API, params={'query': QUERY, 'time': TIME})
-  status = response.json()['status']
-  if status == "error":
-        print(response.json())
-	return 'NaN'
-  results = response.json()['data']['result']
-  if not results:
-	value = 'NaN'
-  else:
-     value = "%.2f" % float(results[0].get('value')[1])
-     value = humanbytes(value)
-  return value
-
-
 			
 if __name__ == "__main__":
 	if get_prometheus_URL():
