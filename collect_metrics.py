@@ -56,8 +56,8 @@ def get_server_metrics():
 	metrics_node["name"] = NODE_NAME
 	
 	QUERY_memory =  'kube_node_status_capacity_memory_bytes{node=~"' + NODE_NAME + '"}'
-	MEMORY_CAPACITY = get_query_result(QUERY_memory)
-	metrics_node['memory capacity'] = humanbytes(MEMORY_CAPACITY[0].get('value')[1])
+	MEMORY_CAPACITY = get_query_result(QUERY_memory)[0].get('value')[1])
+	metrics_node['memory capacity'] = humanbytes(MEMORY_CAPACITY)
 	
 	QUERY_cpu =  'kube_node_status_capacity_cpu_cores{node=~"' + NODE_NAME + '"}'
 	CPU_CAPACITY = get_query_result(QUERY_cpu)[0].get('value')[1]
@@ -69,9 +69,12 @@ def get_server_metrics():
 	
 	metrics_node['resource usage'] = []
 	usage_metrics = OrderedDict() 
+	
 	QUERY_USAGE_memory = 'sum(container_memory_working_set_bytes{id="/",kubernetes_io_hostname=~"' +NODE_NAME + '"})'
-	MEMORY_CAPACITY = get_query_result(QUERY_USAGE_memory)
-	usage_metrics['Memory used'] =  humanbytes(MEMORY_CAPACITY[0].get('value')[1])
+	MEMORY_USAGE = get_query_result(QUERY_USAGE_memory)[0].get('value')[1]
+	QUERY_USAGE_memory_percentage = str ("%.2f" % float(( float(MEMORY_USAGE) / float(MEMORY_CAPACITY)) * 100) ) + "%"
+	usage_metrics['Memory used'] =  str(humanbytes(MEMORY_USAGE))  + " (" + str(QUERY_USAGE_memory_percentage) + ")"
+	
 	
 	QUERY_USAGE_cpu = 'sum(rate(container_cpu_usage_seconds_total{id="/",kubernetes_io_hostname=~"' + NODE_NAME + '"}[5m]))'
 	CPU_USAGE = "%.2f" % float(get_query_result(QUERY_USAGE_cpu)[0].get('value')[1])
