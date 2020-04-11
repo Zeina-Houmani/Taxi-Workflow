@@ -70,6 +70,21 @@ def get_server_metrics():
 	DISK_CAPACITY = get_query_result(QUERY_disk)
 	metrics_node['disk capacity'] = humanbytes(DISK_CAPACITY[0].get('value')[1])
 	
+	metrics_node['resource usage'] = []
+	usage_metrics = OrderedDict() 
+	QUERY_USAGE_memory = 'sum(container_memory_working_set_bytes{id="/",kubernetes_io_hostname=~"' +NODE_NAME + '"})'
+	MEMORY_CAPACITY = get_query_result(QUERY_USAGE_memory)
+	usage_metrics['Memory used'] =  humanbytes(MEMORY_CAPACITY[0].get('value')[1])
+	
+	QUERY_USAGE_cpu = 'sum(rate(container_cpu_usage_seconds_total{id="/",kubernetes_io_hostname=~"' + NODE_NAME + '"}[5m]))'
+	CPU_CAPACITY = get_query_result(QUERY_USAGE_cpu)
+	usage_metrics['cpu used'] = CPU_CAPACITY[0].get('value')[1]
+	
+	QUERY_USAGE_disk =  'sum(container_fs_usage_bytes{device=~"^/dev/sda.$",id="/",kubernetes_io_hostname=~"' + NODE_NAME + '"})'
+	DISK_CAPACITY = get_query_result(QUERY_USAGE_disk)
+	usage_metrics['disk used'] = humanbytes(DISK_CAPACITY[0].get('value')[1])
+	
+	metrics_node['resource usage'] .append(usage_metrics) 
 	metrics_server["Servers"].append(metrics_node)
 	counter = counter +1
     write_file( metrics_server)   
