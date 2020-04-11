@@ -78,7 +78,7 @@ def get_server_metrics():
 	
 	QUERY_USAGE_cpu = 'sum(rate(container_cpu_usage_seconds_total{id="/",kubernetes_io_hostname=~"' + NODE_NAME + '"}[5m]))'
 	CPU_CAPACITY = get_query_result(QUERY_USAGE_cpu)
-	usage_metrics['cpu used'] = CPU_CAPACITY[0].get('value')[1]
+	usage_metrics['cpu used'] = "%.2f" % float( CPU_CAPACITY[0].get('value')[1])
 	
 	QUERY_USAGE_disk =  'sum(container_fs_usage_bytes{device=~"^/dev/sda.$",id="/",kubernetes_io_hostname=~"' + NODE_NAME + '"})'
 	DISK_CAPACITY = get_query_result(QUERY_USAGE_disk)
