@@ -60,8 +60,8 @@ def get_server_metrics():
 	metrics_node['memory capacity'] = humanbytes(MEMORY_CAPACITY[0].get('value')[1])
 	
 	QUERY_cpu =  'kube_node_status_capacity_cpu_cores{node=~"' + NODE_NAME + '"}'
-	CPU_CAPACITY = get_query_result(QUERY_cpu)
-	metrics_node['cpu capacity'] = CPU_CAPACITY[0].get('value')[1]
+	CPU_CAPACITY = get_query_result(QUERY_cpu)[0].get('value')[1]
+	metrics_node['cpu capacity'] = CPU_CAPACITY
 	
 	QUERY_disk =  'node_filesystem_size_bytes{fstype="ext4", device!="rootfs"}'
 	DISK_CAPACITY = get_query_result(QUERY_disk)
@@ -74,12 +74,11 @@ def get_server_metrics():
 	usage_metrics['Memory used'] =  humanbytes(MEMORY_CAPACITY[0].get('value')[1])
 	
 	QUERY_USAGE_cpu = 'sum(rate(container_cpu_usage_seconds_total{id="/",kubernetes_io_hostname=~"' + NODE_NAME + '"}[5m]))'
-	CPU_CAPACITY = get_query_result(QUERY_USAGE_cpu)
-	print "%.2f" % float(get_query_result(QUERY_USAGE_cpu)[0].get('value')[1])
-	CPU_CAPACITY = "%.2f" % float( CPU_CAPACITY[0].get('value')[1])
-	usage_metrics['cpu used'] = CPU_CAPACITY
+	CPU_USAGE = "%.2f" % float(get_query_result(QUERY_USAGE_cpu)[0].get('value')[1])
+	usage_metrics['cpu used'] = CPU_USAGE
 	
-	#QUERY_USAGE_cpu_percentage = 
+	QUERY_USAGE_cpu_percentage = str( CPU_USAGE * 100 / CPU_CAPACITY) + "%"
+	print QUERY_USAGE_cpu_percentage
 	
 	QUERY_USAGE_disk =  'sum(container_fs_usage_bytes{device=~"^/dev/sda.$",id="/",kubernetes_io_hostname=~"' + NODE_NAME + '"})'
 	DISK_CAPACITY = get_query_result(QUERY_USAGE_disk)
