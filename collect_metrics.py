@@ -77,7 +77,7 @@ def get_server_metrics():
 	CPU_USAGE = "%.2f" % float(get_query_result(QUERY_USAGE_cpu)[0].get('value')[1])
 	usage_metrics['cpu used'] = CPU_USAGE
 	
-	QUERY_USAGE_cpu_percentage = str( CPU_USAGE * 100 / CPU_CAPACITY) + "%"
+	QUERY_USAGE_cpu_percentage = (CPU_USAGE / CPU_CAPACITY) * 100
 	print QUERY_USAGE_cpu_percentage
 	
 	QUERY_USAGE_disk =  'sum(container_fs_usage_bytes{device=~"^/dev/sda.$",id="/",kubernetes_io_hostname=~"' + NODE_NAME + '"})'
