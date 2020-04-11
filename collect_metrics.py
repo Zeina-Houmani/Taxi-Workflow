@@ -131,7 +131,6 @@ def get_service_metrics():
 				total_limit_mem = total_limit_mem + int(limits["memory"][:-2])
 				total_limit_disk = total_limit_disk + int(limits["ephemeral-storage"][:-2])	
 			metrics_app["limit CPU"] = str(total_limit_cpu) + "m"
-			#metrics_app["Limit RAM"] = str(total_limit_mem) + "Mi"
 			metrics_app["limit RAM"] = humanbytes(total_limit_mem * 1024 * 1024)
 			metrics_app["limit Storage"] = str(total_limit_disk) + " GB"
         		metrics_app['replicas'] = []
@@ -147,10 +146,17 @@ def get_service_metrics():
 				CPU_CAPACITY = get_query_result(QUERY_USAGE_cpu)
 			        dynamic['CPU usage'] =  "%.2f" % float( CPU_CAPACITY[0].get('value')[1])
 				#dynamic['CPU usage'] = get_CPU_usage(pod_name,namespace_name)
-				
 	
-				dynamic['RAM usage'] = get_RAM_usage(pod_name,namespace_name)
-				dynamic['Disk usage'] = get_DISK_usage(pod_name,namespace_name)
+		   		QUERY_USAGE_memory ='sum(container_memory_working_set_bytes{pod_name!="", image!="", pod_name=~"' + pod_name + '.*", namespace=~"' + namespace_name + '"}) by (pod_name)' 
+				MEMORY_CAPACITY = get_query_result(QUERY_USAGE_memory)
+				dynamic['RAM usage'] =  humanbytes(MEMORY_CAPACITY[0].get('value')[1])
+				#dynamic['RAM usage'] = get_RAM_usage(pod_name,namespace_name)
+				
+				QUERY_USAGE_disk ='sum(container_fs_usage_bytes{pod_name!="", image!="", pod_name=~"' + pod_name + '.*", namespace=~"' + namespace_name + '"}) by (pod_name)'
+				DISK_CAPACITY = get_query_result(QUERY_USAGE_disk)
+				dynamic['Disk usage'] = humanbytes(DISK_CAPACITY[0].get('value')[1])
+				#dynamic['Disk usage'] = get_DISK_usage(pod_name,namespace_name)
+				
 				metrics_app['replicas'].append(dynamic)
 			dict_to_file['Microservices'].append(metrics_app)
 	write_file(dict_to_file)
