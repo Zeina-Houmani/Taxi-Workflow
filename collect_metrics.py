@@ -75,7 +75,7 @@ def get_server_metrics():
 	
 	QUERY_USAGE_cpu = 'sum(rate(container_cpu_usage_seconds_total{id="/",kubernetes_io_hostname=~"' + NODE_NAME + '"}[5m]))'
 	CPU_USAGE = "%.2f" % float(get_query_result(QUERY_USAGE_cpu)[0].get('value')[1])
-	QUERY_USAGE_cpu_percentage = str ("%.2f" % float(( float(CPU_USAGE) / float(CPU_CAPACITY)) * 100) ) + " %"
+	QUERY_USAGE_cpu_percentage = str ("%.2f" % float(( float(CPU_USAGE) / float(CPU_CAPACITY)) * 100) ) + "%"
 	usage_metrics['cpu used'] = str (CPU_USAGE) + " (" + str(QUERY_USAGE_cpu_percentage) + ")"
 	
 	
