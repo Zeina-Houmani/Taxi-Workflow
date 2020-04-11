@@ -64,8 +64,8 @@ def get_server_metrics():
 	metrics_node['cpu capacity'] = CPU_CAPACITY
 	
 	QUERY_disk =  'node_filesystem_size_bytes{fstype="ext4", device!="rootfs"}'
-	DISK_CAPACITY = get_query_result(QUERY_disk)
-	metrics_node['disk capacity'] = humanbytes(DISK_CAPACITY[0].get('value')[1])
+	DISK_CAPACITY = get_query_result(QUERY_disk)[0].get('value')[1]
+	metrics_node['disk capacity'] = humanbytes(DISK_CAPACITY)
 	
 	metrics_node['resource usage'] = []
 	usage_metrics = OrderedDict() 
@@ -82,10 +82,10 @@ def get_server_metrics():
 	usage_metrics['cpu used'] = str (CPU_USAGE) + " (" + str(QUERY_USAGE_cpu_percentage) + ")"
 	
 	
-	
 	QUERY_USAGE_disk =  'sum(container_fs_usage_bytes{device=~"^/dev/sda.$",id="/",kubernetes_io_hostname=~"' + NODE_NAME + '"})'
-	DISK_CAPACITY = get_query_result(QUERY_USAGE_disk)
-	usage_metrics['disk used'] = humanbytes(DISK_CAPACITY[0].get('value')[1])
+	DISK_USAGE = get_query_result(QUERY_USAGE_disk)[0].get('value')[1]
+	QUERY_USAGE_disk_percentage = str ("%.2f" % float(( float(DISK_USAGE) / float(DISK_CAPACITY)) * 100) ) + "%"
+	usage_metrics['disk used'] =  str(humanbytes(DISK_USAGE))  + " (" + str(QUERY_USAGE_disk_percentage) + ")"
 	
 	metrics_node['resource usage'] .append(usage_metrics) 
 	metrics_server["Servers"].append(metrics_node)
