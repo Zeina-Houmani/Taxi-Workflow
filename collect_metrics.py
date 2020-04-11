@@ -36,14 +36,11 @@ def get_query_result(QUERY):
     results = response.json()['data']['result']
     if not results:
 	value = 'NaN'
-    #else:    
-#   value = "%.2f" % float(results[0].get('value')[1])
-#    return value
     return results
 
-	
+
+#Collect general metric about server	
 def get_server_metrics():
-	#collect general metric about server
     metrics_server =  OrderedDict()
     metrics_capacity =  OrderedDict()
     metrics_server["Servers"] = []
@@ -145,7 +142,13 @@ def get_service_metrics():
 				dynamic['instance'] = str(counter) + "/" + str(replicas_count)
 				counter = counter + 1
 				dynamic['server'] = pod.spec.node_name
-				dynamic['CPU usage'] = get_CPU_usage(pod_name,namespace_name)
+				
+				QUERY_USAGE_cpu =  'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", pod_name=~"' + pod_name + '.*", namespace=~"' + namespace_name + '"}[5m])) by (pod_name)'
+				CPU_CAPACITY = get_query_result(QUERY_USAGE_cpu)
+			        dynamic['CPU usage'] =  "%.2f" % float( CPU_CAPACITY[0].get('value')[1])
+				#dynamic['CPU usage'] = get_CPU_usage(pod_name,namespace_name)
+				
+	
 				dynamic['RAM usage'] = get_RAM_usage(pod_name,namespace_name)
 				dynamic['Disk usage'] = get_DISK_usage(pod_name,namespace_name)
 				metrics_app['replicas'].append(dynamic)
