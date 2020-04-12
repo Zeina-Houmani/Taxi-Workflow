@@ -181,7 +181,11 @@ def get_replicas_network_usage(POD_NAME):
 	network_usage =  OrderedDict()
 	QUERY_RECEIVE = 'rate (container_network_receive_bytes_total{image!="", pod_name="' + POD_NAME + '"}[5m])'
 	NETWORK_RECEIVE = "%.2f" % float(get_query_result(QUERY_RECEIVE)[0].get('value')[1])
-	network_usage['receive bytes'] = humanbytes(NETWORK_RECEIVE)
+	network_usage['received bytes'] = humanbytes(NETWORK_RECEIVE)
+	
+	QUERY_TRANSMIT = 'rate (container_network_transmit_bytes_total{image!="", pod_name="' + POD_NAME + '"}[5m])'
+	NETWORK_TRANSMIT = "%.2f" % float(get_query_result(QUERY_TRANSMIT)[0].get('value')[1])
+	network_usage['sent bytes'] = humanbytes(NETWORK_TRANSMIT)
 	print network_usage
 	
 	
