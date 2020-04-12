@@ -206,7 +206,7 @@ def get_memory_usage(QUERY_USAGE_memory, MEMORY_CAPACITY ):
 def get_disk_usage(QUERY_USAGE_disk, DISK_CAPACITY):
 	DISK_USAGE = get_query_result(QUERY_USAGE_disk)[0].get('value')[1]
 	QUERY_USAGE_disk_percentage = (float(DISK_USAGE) / float(DISK_CAPACITY))* 100 
-	return = str("%.2f" % float(humanbytes(DISK_USAGE)))  + " (" + str("%.2f" % QUERY_USAGE_disk_percentage) + "%)"
+	return str("%.2f" % float(humanbytes(DISK_USAGE)))  + " (" + str("%.2f" % QUERY_USAGE_disk_percentage) + "%)"
 	
 
 	
