@@ -63,7 +63,8 @@ def get_server_metrics():
 	CPU_CAPACITY = get_query_result(QUERY_cpu)[0].get('value')[1]
 	metrics_node['cpu capacity'] = CPU_CAPACITY
 	
-	QUERY_disk =  'node_filesystem_size_bytes{fstype="ext4", device!="rootfs"}'
+	#QUERY_disk =  'node_filesystem_size_bytes{fstype="ext4", device!="rootfs"}'
+	QUERY_disk = 'sum(container_fs_limit_bytes{device=~"^/dev/[sv]d[a-z][1-9]$",id="/", kubernetes_io_hostname=~"' + NODE_NAME + '"})
 	DISK_CAPACITY = get_query_result(QUERY_disk)[0].get('value')[1]
 	metrics_node['disk capacity'] = humanbytes(DISK_CAPACITY)
 	
