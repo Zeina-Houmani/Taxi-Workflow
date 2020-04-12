@@ -189,9 +189,8 @@ def get_cpu_usage(QUERY_USAGE_cpu, CPU_CAPACITY):
 	CPU_USAGE = get_query_result(QUERY_USAGE_cpu)[0].get('value')[1]
 	QUERY_USAGE_cpu_percentage = (float(CPU_USAGE) / (float (CPU_CAPACITY))*100
 	#PERCENTAGE = str("%.2f" % float(CPU_USAGE)) + " (" + str("%.2f" % QUERY_USAGE_cpu_percentage) + "%)"	
-	PERCENTAGE = ""
-	PERCENTAGE =  str ("%.2f" % float(CPU_USAGE)) + " (" + str(  "%.2f" % QUERY_USAGE_cpu_percentage) + "%)"
-	return PERCENTAGE
+	USAGE_ALL =  str ("%.2f" % float(CPU_USAGE)) + " (" + str(  "%.2f" % QUERY_USAGE_cpu_percentage) + "%)"
+	return USAGE_ALL
 	
 	
 	
