@@ -166,13 +166,25 @@ def get_service_metrics():
 				DISK_USAGE = get_query_result(QUERY_USAGE_disk)[0].get('value')[1]
 				QUERY_USAGE_disk_percentage = "%.2f" % float(( float(DISK_USAGE) / float(total_limit_disk * 1024 * 1024 * 1024)) * 100) 
 				dynamic['Disk usage'] = str(humanbytes(DISK_USAGE))  + " (" + str(QUERY_USAGE_disk_percentage) + "%)"
-								
+				
+				#Network usage
+				get_replicas_network_usage(pod_name)
+				
 				metrics_app['replicas'].append(dynamic)
 			dict_to_file['Microservices'].append(metrics_app)
 	write_file(dict_to_file)
 
-			
-
+	
+def get_replicas_network_usage(POD_NAME):
+	network =  OrderedDict()
+	network['network I/O'] = []
+	network_usage =  OrderedDict()
+	QUERY_RECEIVE = 'rate (container_network_receive_bytes_total{image!="", pod_name="' + POD_NAME + '"}[5m])
+	NETWORK_RECEIVE = get_query_result(QUERY_RECEIVE)[0].get('value')[1]
+	network_usage['receive bytes'] = humanbytes(NETWORK_RECEIVE)
+	print network_usage
+	
+	
 def get_prometheus_URL():
  	global PROMETHEUS_URL	
  	#Get Prometheus IP address and port from the platform
