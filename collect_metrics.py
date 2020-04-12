@@ -197,7 +197,7 @@ def get_cpu_usage(QUERY_USAGE_cpu, CPU_CAPACITY):
 def get_memory_usage(QUERY_USAGE_memory, MEMORY_CAPACITY ):
 	MEMORY_USAGE = get_query_result(QUERY_USAGE_memory)[0].get('value')[1]
 	QUERY_USAGE_memory_percentage = (float(MEMORY_USAGE) / float(MEMORY_CAPACITY)) * 100 
-	return  str("%.2f" % float(humanbytes(MEMORY_USAGE)))  + " (" + str( "%.2f" % QUERY_USAGE_memory_percentage) + "%)"
+	return  str(humanbytes(MEMORY_USAGE))  + " (" + str( "%.2f" % QUERY_USAGE_memory_percentage) + "%)"
 	#MEMORY_USAGE = get_query_result(QUERY_USAGE_memory)[0].get('value')[1]
 	#QUERY_USAGE_memory_percentage = "%.2f" % float(( float(MEMORY_USAGE) / float(total_limit_mem * 1024 * 1024 )) * 100)
 	#dynamic['RAM usage'] =  str(humanbytes(MEMORY_USAGE))  + " (" + str(QUERY_USAGE_memory_percentage) + "%)"
