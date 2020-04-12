@@ -149,21 +149,21 @@ def get_service_metrics():
 				counter = counter + 1
 				dynamic['server'] = pod.spec.node_name
 				
+				
+				
 				QUERY_USAGE_cpu =  'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", pod_name=~"' + pod_name + '.*", namespace=~"' + namespace_name + '"}[5m])) by (pod_name)'
-				CPU_CAPACITY = get_query_result(QUERY_USAGE_cpu)
-			        dynamic['CPU usage'] =  "%.2f" % float( CPU_CAPACITY[0].get('value')[1])
-				#dynamic['CPU usage'] = get_CPU_usage(pod_name,namespace_name)
+				CPU_CAPACITY = get_query_result(QUERY_USAGE_cpu)[0].get('value')[1]
+			        dynamic['CPU usage'] =  "%.2f" % float( CPU_CAPACITY)
 	
 		   		QUERY_USAGE_memory ='sum(container_memory_working_set_bytes{pod_name!="", image!="", pod_name=~"' + pod_name + '.*", namespace=~"' + namespace_name + '"}) by (pod_name)' 
-				MEMORY_CAPACITY = get_query_result(QUERY_USAGE_memory)
-				dynamic['RAM usage'] =  humanbytes(MEMORY_CAPACITY[0].get('value')[1])
-				#dynamic['RAM usage'] = get_RAM_usage(pod_name,namespace_name)
-				
+				MEMORY_CAPACITY = get_query_result(QUERY_USAGE_memory)[0].get('value')[1]
+				dynamic['RAM usage'] =  humanbytes(MEMORY_CAPACITY)
+							
+					
 				QUERY_USAGE_disk ='sum(container_fs_usage_bytes{pod_name!="", image!="", pod_name=~"' + pod_name + '.*", namespace=~"' + namespace_name + '"}) by (pod_name)'
-				DISK_CAPACITY = get_query_result(QUERY_USAGE_disk)
-				dynamic['Disk usage'] = humanbytes(DISK_CAPACITY[0].get('value')[1])
-				#dynamic['Disk usage'] = get_DISK_usage(pod_name,namespace_name)
-				
+				DISK_CAPACITY = get_query_result(QUERY_USAGE_disk)[0].get('value')[1]
+				dynamic['Disk usage'] = humanbytes(DISK_CAPACITY)
+								
 				metrics_app['replicas'].append(dynamic)
 			dict_to_file['Microservices'].append(metrics_app)
 	write_file(dict_to_file)
