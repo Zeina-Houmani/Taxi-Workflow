@@ -149,6 +149,7 @@ def get_service_metrics():
 				counter = counter + 1
 				dynamic['server'] = pod.spec.node_name
 			
+			        print (total_limit_cpu / 1000)
 				QUERY_USAGE_cpu =  'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", pod_name=~"' + pod_name + '.*", namespace=~"' + namespace_name + '"}[5m])) by (pod_name)'
 				CPU_USAGE = "%.2f" % float(get_query_result(QUERY_USAGE_cpu)[0].get('value')[1])
 				QUERY_USAGE_cpu_percentage = str ("%.2f" % float(( float(CPU_USAGE) / (total_limit_cpu / 1000)) * 100) ) + "%"
@@ -160,8 +161,8 @@ def get_service_metrics():
 			        QUERY_USAGE_memory_percentage = str ("%.2f" % float(( float(MEMORY_USAGE) / float(total_limit_mem)) * 100) ) + "%"
 				dynamic['RAM usage'] =  str(humanbytes(MEMORY_USAGE))  + " (" + str(QUERY_USAGE_memory_percentage) + ")"
 				
-				print total_limit_mem
-				print MEMORY_USAGE
+				#print total_limit_mem
+				#print MEMORY_USAGE
 		
 					
 				QUERY_USAGE_disk ='sum(container_fs_usage_bytes{pod_name!="", image!="", pod_name=~"' + pod_name + '.*", namespace=~"' + namespace_name + '"}) by (pod_name)'
