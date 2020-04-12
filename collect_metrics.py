@@ -187,12 +187,25 @@ def get_cpu_usage(QUERY_USAGE_cpu, CPU_CAPACITY):
 	#QUERY_USAGE_cpu_percentage = str ("%.2f" % float(( float(CPU_USAGE) / float(CPU_CAPACITY)) * 100) ) + "%"
 	#usage_metrics['cpu used'] = str ("%.2f" % float(CPU_USAGE)) + " (" + str(QUERY_USAGE_cpu_percentage) + ")"
 	CPU_USAGE = get_query_result(QUERY_USAGE_cpu)[0].get('value')[1]
-	QUERY_USAGE_cpu_percentage = (float(CPU_USAGE) / (float (CPU_CAPACITY))*100
-	#PERCENTAGE = str("%.2f" % float(CPU_USAGE)) + " (" + str("%.2f" % QUERY_USAGE_cpu_percentage) + "%)"	
-	USAGE_ALL =  str ("%.2f" % float(CPU_USAGE)) + " (" + str(  "%.2f" % QUERY_USAGE_cpu_percentage) + "%)"
-	return USAGE_ALL
+	QUERY_USAGE_cpu_percentage = (float(CPU_USAGE) / float (CPU_CAPACITY))*100
+	return str ("%.2f" % float(CPU_USAGE)) + " (" + str(  "%.2f" % QUERY_USAGE_cpu_percentage) + "%)" 
 	
+
+def get_memory_usage(QUERY_USAGE_memory, MEMORY_CAPACITY ):
+	MEMORY_USAGE = get_query_result(QUERY_USAGE_memory)[0].get('value')[1]
+	QUERY_USAGE_memory_percentage = (float(MEMORY_USAGE) / float(MEMORY_CAPACITY)) * 100 
+	return  str("%.2f" % float(humanbytes(MEMORY_USAGE)))  + " (" + str( "%.2f" % QUERY_USAGE_memory_percentage) + "%)"
+	#MEMORY_USAGE = get_query_result(QUERY_USAGE_memory)[0].get('value')[1]
+	#QUERY_USAGE_memory_percentage = "%.2f" % float(( float(MEMORY_USAGE) / float(total_limit_mem * 1024 * 1024 )) * 100)
+	#dynamic['RAM usage'] =  str(humanbytes(MEMORY_USAGE))  + " (" + str(QUERY_USAGE_memory_percentage) + "%)"
+				
+		
+def get_disk_usage(QUERY_USAGE_disk, DISK_CAPACITY):
+	DISK_USAGE = get_query_result(QUERY_USAGE_disk)[0].get('value')[1]
+	QUERY_USAGE_disk_percentage = (float(DISK_USAGE) / float(DISK_CAPACITY))* 100 
+	return = str("%.2f" % float(humanbytes(DISK_USAGE)))  + " (" + str("%.2f" % QUERY_USAGE_disk_percentage) + "%)"
 	
+
 	
 def get_replicas_network_usage(POD_NAME):
 	network_usage =  OrderedDict()
