@@ -77,11 +77,9 @@ def get_server_metrics():
 	usage_metrics['Memory used'] =  str(humanbytes(MEMORY_USAGE))  + " (" + str(QUERY_USAGE_memory_percentage) + ")"
 	
 	
-	QUERY_USAGE_cpu = 'sum(rate(container_cpu_usage_seconds_total{id="/",kubernetes_io_hostname=~"' + NODE_NAME + '"}[5m]))'
-	CPU_USAGE = "%.2f" % float(get_query_result(QUERY_USAGE_cpu)[0].get('value')[1])
-	QUERY_USAGE_cpu_percentage = str ("%.2f" % float(( float(CPU_USAGE) / float(CPU_CAPACITY)) * 100) ) + "%"
-	usage_metrics['cpu used'] = str (CPU_USAGE) + " (" + str(QUERY_USAGE_cpu_percentage) + ")"
-	
+	#usage cpu
+	QUERY_USAGE_cpu = 'sum(rate(container_cpu_usage_seconds_total{id="/",kubernetes_io_hostname=~"' + NODE_NAME + '"}[5m]))'			
+	usage_metrics['cpu used'] =get_cpu_usage(QUERY_USAGE_cpu, CPU_CAPACITY)
 	
 	QUERY_USAGE_disk =  'sum(container_fs_usage_bytes{device=~"^/dev/sda.$",id="/",kubernetes_io_hostname=~"' + NODE_NAME + '"})'
 	DISK_USAGE = get_query_result(QUERY_USAGE_disk)[0].get('value')[1]
@@ -156,19 +154,19 @@ def get_service_metrics():
 				dynamic['server'] = pod.spec.node_name
 			
 	
-				QUERY_USAGE_cpu =  'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", pod_name=~"' + pod_name + '.*", namespace=~"' + namespace_name + '"}[5m])) by (pod_name)'
+				QUERY_USAGE_cpu =  'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", pod_name=~"' + pod_name + '.*"}[5m]))'
 				CPU_USAGE = get_query_result(QUERY_USAGE_cpu)[0].get('value')[1]
 				QUERY_USAGE_cpu_percentage = (float(CPU_USAGE) / (float (total_limit_cpu)/ 1000))*100
 			        dynamic['CPU usage'] =  str ("%.2f" % float(CPU_USAGE)) + " (" + str(  "%.2f" % QUERY_USAGE_cpu_percentage) + "%)"
 				
 				
-		   		QUERY_USAGE_memory ='sum(container_memory_working_set_bytes{pod_name!="", image!="", pod_name=~"' + pod_name + '.*", namespace=~"' + namespace_name + '"}) by (pod_name)' 
+		   		QUERY_USAGE_memory ='sum(container_memory_working_set_bytes{pod_name!="", image!="", pod_name=~"' + pod_name + '.* "})' 
 				MEMORY_USAGE = get_query_result(QUERY_USAGE_memory)[0].get('value')[1]
 			        QUERY_USAGE_memory_percentage = "%.2f" % float(( float(MEMORY_USAGE) / float(total_limit_mem * 1024 * 1024 )) * 100)
 				dynamic['RAM usage'] =  str(humanbytes(MEMORY_USAGE))  + " (" + str(QUERY_USAGE_memory_percentage) + "%)"
 				
 					
-				QUERY_USAGE_disk ='sum(container_fs_usage_bytes{pod_name!="", image!="", pod_name=~"' + pod_name + '.*", namespace=~"' + namespace_name + '"}) by (pod_name)'
+				QUERY_USAGE_disk ='sum(container_fs_usage_bytes{pod_name!="", image!="", pod_name=~"' + pod_name + '.*"})'
 				DISK_USAGE = get_query_result(QUERY_USAGE_disk)[0].get('value')[1]
 				QUERY_USAGE_disk_percentage = "%.2f" % float(( float(DISK_USAGE) / float(total_limit_disk * 1024 * 1024 * 1024)) * 100) 
 				dynamic['Disk usage'] = str(humanbytes(DISK_USAGE))  + " (" + str(QUERY_USAGE_disk_percentage) + "%)"
@@ -183,6 +181,16 @@ def get_service_metrics():
 			dict_to_file['Microservices'].append(metrics_app)
 	write_file(dict_to_file)
 
+
+def get_cpu_usage(QUERY_USAGE_cpu, CPU_CAPACITY):
+	#CPU_USAGE = get_query_result(QUERY_USAGE_cpu)[0].get('value')[1]
+	#QUERY_USAGE_cpu_percentage = str ("%.2f" % float(( float(CPU_USAGE) / float(CPU_CAPACITY)) * 100) ) + "%"
+	#usage_metrics['cpu used'] = str ("%.2f" % float(CPU_USAGE)) + " (" + str(QUERY_USAGE_cpu_percentage) + ")"
+	CPU_USAGE = get_query_result(QUERY_USAGE_cpu)[0].get('value')[1]
+	QUERY_USAGE_cpu_percentage = (float(CPU_USAGE) / (float (CPU_CAPACITY))*100
+	return str ("%.2f" % float(CPU_USAGE)) + " (" + str(  "%.2f" % QUERY_USAGE_cpu_percentage) + "%)"	
+	
+	
 	
 	
 def get_replicas_network_usage(POD_NAME):
