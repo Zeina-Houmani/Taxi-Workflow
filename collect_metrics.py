@@ -88,6 +88,12 @@ def get_server_metrics():
 	QUERY_USAGE_disk_percentage = str ("%.2f" % float(( float(DISK_USAGE) / float(DISK_CAPACITY)) * 100) ) + "%"
 	usage_metrics['disk used'] =  str(humanbytes(DISK_USAGE))  + " (" + str(QUERY_USAGE_disk_percentage) + ")"
 	
+	#Network usage
+	network =  OrderedDict()
+	network = get_server_network_usage(NODE_NAME)
+	usage_metrics['network I/O'] = []
+	usage_metrics['network I/O'].append(network)
+	
 	metrics_node['resource usage'] .append(usage_metrics) 
 	metrics_server["Servers"].append(metrics_node)
 	counter = counter +1
@@ -186,6 +192,18 @@ def get_replicas_network_usage(POD_NAME):
 	network_usage['received bytes'] = humanbytes(NETWORK_RECEIVE)
 	
 	QUERY_TRANSMIT = 'rate (container_network_transmit_bytes_total{image!="", pod_name="' + POD_NAME + '"}[5m])'
+	NETWORK_TRANSMIT = "%.2f" % float(get_query_result(QUERY_TRANSMIT)[0].get('value')[1])
+	network_usage['sent bytes'] = humanbytes(NETWORK_TRANSMIT)
+	return network_usage
+	
+	
+def get_server_network_usage(NODE_NAME):
+	network_usage =  OrderedDict()
+	QUERY_RECEIVE = 'sum(rate (container_network_receive_bytes_total{image!="",name=~"^k8s_.*", instance="' + NODE_NAME + '"}[5m]))'
+	NETWORK_RECEIVE = "%.2f" % float(get_query_result(QUERY_RECEIVE)[0].get('value')[1])
+	network_usage['received bytes'] = humanbytes(NETWORK_RECEIVE)
+	
+	QUERY_TRANSMIT = 'sum(rate (container_network_transmit_bytes_total{image!="",name=~"^k8s_.*", instance="' + NODE_NAME + '"}[5m]))'
 	NETWORK_TRANSMIT = "%.2f" % float(get_query_result(QUERY_TRANSMIT)[0].get('value')[1])
 	network_usage['sent bytes'] = humanbytes(NETWORK_TRANSMIT)
 	return network_usage
