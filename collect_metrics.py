@@ -137,9 +137,9 @@ def get_service_metrics():
 				total_limit_cpu = total_limit_cpu + int(limits["cpu"][:-1])
 				total_limit_mem = total_limit_mem + int(limits["memory"][:-2])
 				total_limit_disk = total_limit_disk + int(limits["ephemeral-storage"][:-2])	
-			metrics_app["limit CPU"] = str(total_limit_cpu) + "m"
+			metrics_app["limit CPU"] = total_limit_cpu / 1000
 			metrics_app["limit RAM"] = humanbytes(total_limit_mem * 1024 * 1024)
-			metrics_app["limit Storage"] = str(total_limit_disk) + " GB"
+			metrics_app["limit Storage"] = humanbytes(total_limit_disk) 
         		metrics_app['replicas'] = []
 			counter = 1
 			for pod in pod_list.items:
@@ -151,17 +151,18 @@ def get_service_metrics():
 			
 				QUERY_USAGE_cpu =  'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", pod_name=~"' + pod_name + '.*", namespace=~"' + namespace_name + '"}[5m])) by (pod_name)'
 				CPU_USAGE = "%.2f" % float(get_query_result(QUERY_USAGE_cpu)[0].get('value')[1])
-				QUERY_USAGE_cpu_percentage = str ("%.2f" % float(( float(CPU_USAGE) / float(total_limit_cpu)) * 100) ) + "%"
+				QUERY_USAGE_cpu_percentage = str ("%.2f" % float(( float(CPU_USAGE) / float(total_limit_cpu / 1000)) * 100) ) + "%"
 			        dynamic['CPU usage'] =  str (CPU_USAGE) + " (" + str(QUERY_USAGE_cpu_percentage) + ")"
 	
-				print total_limit_cpu
-				print CPU_USAGE
-		
+				
 		   		QUERY_USAGE_memory ='sum(container_memory_working_set_bytes{pod_name!="", image!="", pod_name=~"' + pod_name + '.*", namespace=~"' + namespace_name + '"}) by (pod_name)' 
 				MEMORY_USAGE = get_query_result(QUERY_USAGE_memory)[0].get('value')[1]
 			        QUERY_USAGE_memory_percentage = str ("%.2f" % float(( float(MEMORY_USAGE) / float(total_limit_mem)) * 100) ) + "%"
 				dynamic['RAM usage'] =  str(humanbytes(MEMORY_USAGE))  + " (" + str(QUERY_USAGE_memory_percentage) + ")"
-							
+				
+				print total_limit_mem
+				print MEMORY_USAGE
+		
 					
 				QUERY_USAGE_disk ='sum(container_fs_usage_bytes{pod_name!="", image!="", pod_name=~"' + pod_name + '.*", namespace=~"' + namespace_name + '"}) by (pod_name)'
 				DISK_USAGE = get_query_result(QUERY_USAGE_disk)[0].get('value')[1]
