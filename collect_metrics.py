@@ -163,7 +163,7 @@ def get_service_metrics():
 			        dynamic['CPU usage'] =  str ("%.2f" % float(CPU_USAGE)) + " (" + str(  "%.2f" % QUERY_USAGE_cpu_percentage) + "%)"
 				
 				
-		   		QUERY_USAGE_memory ='sum(container_memory_working_set_bytes{pod_name!="", image!="", pod_name=~"' + pod_name '"})' 
+		   		QUERY_USAGE_memory ='sum(container_memory_working_set_bytes{pod_name!="", image!="", pod_name=~"' + pod_name +'"})' 
 				print QUERY_USAGE_memory
 				print get_query_result(QUERY_USAGE_memory)
 				MEMORY_USAGE = get_query_result(QUERY_USAGE_memory)[0].get('value')[1]
