@@ -186,7 +186,9 @@ def get_replicas_network_usage(POD_NAME):
 	QUERY_TRANSMIT = 'rate (container_network_transmit_bytes_total{image!="", pod_name="' + POD_NAME + '"}[5m])'
 	NETWORK_TRANSMIT = "%.2f" % float(get_query_result(QUERY_TRANSMIT)[0].get('value')[1])
 	network_usage['sent bytes'] = humanbytes(NETWORK_TRANSMIT)
-	print network_usage
+	
+	network['network I/O'].append(network_usage)
+	print network
 	
 	
 def get_prometheus_URL():
