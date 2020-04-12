@@ -153,9 +153,8 @@ def get_service_metrics():
 				QUERY_USAGE_cpu =  'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", pod_name=~"' + pod_name + '.*", namespace=~"' + namespace_name + '"}[5m])) by (pod_name)'
 				CPU_USAGE = get_query_result(QUERY_USAGE_cpu)[0].get('value')[1]
 				QUERY_USAGE_cpu_percentage = (float(CPU_USAGE) / (float (total_limit_cpu)/ 1000))*100
-			        dynamic['CPU usage'] =  str ("%.2f" % float(CPU_USAGE)) + " (" + str(  "%.2f" % QUERY_USAGE_cpu_percentage) + "%)"
+			        dynamic['CPU usage'] =  str ("%.2f" % CPU_USAGE) + " (" + str(  "%.2f" % QUERY_USAGE_cpu_percentage) + "%)"
 				
-				print (float(CPU_USAGE) / (float (total_limit_cpu)/ 1000))*100
 				
 		   		QUERY_USAGE_memory ='sum(container_memory_working_set_bytes{pod_name!="", image!="", pod_name=~"' + pod_name + '.*", namespace=~"' + namespace_name + '"}) by (pod_name)' 
 				MEMORY_USAGE = get_query_result(QUERY_USAGE_memory)[0].get('value')[1]
