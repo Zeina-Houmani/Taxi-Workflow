@@ -170,6 +170,7 @@ def get_service_metrics():
 				#Network usage
 				network =  OrderedDict()
 				network = get_replicas_network_usage(pod_name)
+				dynamic['network I/O'] = []
 				dynamic['network I/O'].append(network)
 				
 				metrics_app['replicas'].append(dynamic)
