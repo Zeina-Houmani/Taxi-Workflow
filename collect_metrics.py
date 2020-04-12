@@ -55,19 +55,19 @@ def get_server_metrics():
 	metrics_node['instance'] = str(counter) + "/" + str(total_nodes)
 	metrics_node["name"] = NODE_NAME
 	
-	if counter == 1:
-		QUERY_memory =  'kube_node_status_capacity_memory_bytes{node=~"' + NODE_NAME + '"}'
-		MEMORY_CAPACITY = get_query_result(QUERY_memory)[0].get('value')[1]
-		metrics_server['memory capacity'] = humanbytes(MEMORY_CAPACITY)
+
+	QUERY_memory =  'kube_node_status_capacity_memory_bytes{node=~"' + NODE_NAME + '"}'
+	MEMORY_CAPACITY = get_query_result(QUERY_memory)[0].get('value')[1]
+	metrics_node['memory capacity'] = humanbytes(MEMORY_CAPACITY)
 	
-		QUERY_cpu =  'kube_node_status_capacity_cpu_cores{node=~"' + NODE_NAME + '"}'
-		CPU_CAPACITY = get_query_result(QUERY_cpu)[0].get('value')[1]
-		metrics_server['cpu capacity'] = CPU_CAPACITY
+	QUERY_cpu =  'kube_node_status_capacity_cpu_cores{node=~"' + NODE_NAME + '"}'
+	CPU_CAPACITY = get_query_result(QUERY_cpu)[0].get('value')[1]
+	metrics_node['cpu capacity'] = CPU_CAPACITY
 	
 	#QUERY_disk =  'node_filesystem_size_bytes{fstype="ext4", device!="rootfs"}'
-		QUERY_disk = 'sum(container_fs_limit_bytes{device=~"^/dev/[sv]d[a-z][1-9]$",id="/", kubernetes_io_hostname=~"' + NODE_NAME + '"})'
-		DISK_CAPACITY = get_query_result(QUERY_disk)[0].get('value')[1]
-		metrics_server['disk capacity'] = humanbytes(DISK_CAPACITY)
+	QUERY_disk = 'sum(container_fs_limit_bytes{device=~"^/dev/[sv]d[a-z][1-9]$",id="/", kubernetes_io_hostname=~"' + NODE_NAME + '"})'
+	DISK_CAPACITY = get_query_result(QUERY_disk)[0].get('value')[1]
+	metrics_node['disk capacity'] = humanbytes(DISK_CAPACITY)
 	
 	metrics_node['resource usage'] = []
 	usage_metrics = OrderedDict() 
