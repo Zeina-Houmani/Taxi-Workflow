@@ -139,7 +139,7 @@ def get_service_metrics():
 				total_limit_disk = total_limit_disk + int(limits["ephemeral-storage"][:-2])	
 			metrics_app["limit CPU"] = total_limit_cpu / 1000
 			metrics_app["limit RAM"] = humanbytes(total_limit_mem * 1024 * 1024)
-			metrics_app["limit Storage"] = humanbytes(total_limit_disk) 
+			metrics_app["limit Storage"] = humanbytes(total_limit_disk * 1024 * 1024) 
         		metrics_app['replicas'] = []
 			counter = 1
 			for pod in pod_list.items:
@@ -149,7 +149,6 @@ def get_service_metrics():
 				counter = counter + 1
 				dynamic['server'] = pod.spec.node_name
 			
-				print total_limit_disk
 	
 				QUERY_USAGE_cpu =  'sum(rate(container_cpu_usage_seconds_total{pod_name!="", image!="", pod_name=~"' + pod_name + '.*", namespace=~"' + namespace_name + '"}[5m])) by (pod_name)'
 				CPU_USAGE = get_query_result(QUERY_USAGE_cpu)[0].get('value')[1]
@@ -165,7 +164,7 @@ def get_service_metrics():
 					
 				QUERY_USAGE_disk ='sum(container_fs_usage_bytes{pod_name!="", image!="", pod_name=~"' + pod_name + '.*", namespace=~"' + namespace_name + '"}) by (pod_name)'
 				DISK_USAGE = get_query_result(QUERY_USAGE_disk)[0].get('value')[1]
-				QUERY_USAGE_disk_percentage = "%.2f" % float(( float(DISK_USAGE) / float(total_limit_disk)) * 100) 
+				QUERY_USAGE_disk_percentage = "%.2f" % float(( float(DISK_USAGE) / float(total_limit_disk * 1024 * 1024)) * 100) 
 				dynamic['Disk usage'] = str(humanbytes(DISK_USAGE))  + " (" + str(QUERY_USAGE_disk_percentage) + "%)"
 								
 				metrics_app['replicas'].append(dynamic)
