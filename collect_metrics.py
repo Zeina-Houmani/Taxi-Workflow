@@ -55,7 +55,7 @@ def get_server_metrics():
 	metrics_node['instance'] = str(counter) + "/" + str(total_nodes)
 	metrics_node["name"] = NODE_NAME
 	
-	if count == 1:
+	if counter == 1:
 		QUERY_memory =  'kube_node_status_capacity_memory_bytes{node=~"' + NODE_NAME + '"}'
 		MEMORY_CAPACITY = get_query_result(QUERY_memory)[0].get('value')[1]
 		metrics_server['memory capacity'] = humanbytes(MEMORY_CAPACITY)
