@@ -42,9 +42,9 @@ def get_query_result(QUERY):
 def get_cluster_metrics():
     cluster_state =  OrderedDict()
     cluster_state["Cluster"] = []
-    cluster_state["Cluster"].update(get_cluster_state())
+    cluster_state["Cluster"].append(get_cluster_state())
 
-    cluster_state["Cluster"].update(get_server_metrics())
+    cluster_state["Cluster"].append(get_server_metrics())
     write_file(cluster_state) 
    # print cluster_state
 	
