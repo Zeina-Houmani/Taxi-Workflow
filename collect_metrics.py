@@ -108,7 +108,7 @@ def get_cluster_state():
 	load =  OrderedDict()
 	
 	QUERY_count_node = 'sum(node_uname_info)'
-	NODE_COUNT = get_query_result(QUERY_cpu_load)[0].get('value')[1]
+	NODE_COUNT = get_query_result(QUERY_count_node)[0].get('value')[1]
 	load['Number of nodes'] = NODE_COUNT
 		
 	QUERY_cpu_load= '(sum (rate (container_cpu_usage_seconds_total{id="/"}[5m])) / sum(machine_cpu_cores) )* 100'
