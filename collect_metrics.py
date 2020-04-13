@@ -155,7 +155,7 @@ def get_service_metrics():
 				total_limit_cpu = total_limit_cpu + int(limits["cpu"][:-1])
 				total_limit_mem = total_limit_mem + int(limits["memory"][:-2])
 				total_limit_disk = total_limit_disk + int(limits["ephemeral-storage"][:-2])	
-			metrics_app["limit CPU"] = total_limit_cpu / 1000
+			metrics_app["limit CPU"] = float(total_limit_cpu) / 1000
 			print metrics_app
 			metrics_app["limit RAM"] = humanbytes(total_limit_mem * 1024 * 1024)
 			metrics_app["limit Storage"] = humanbytes(total_limit_disk * 1024 * 1024 * 1024 ) 
