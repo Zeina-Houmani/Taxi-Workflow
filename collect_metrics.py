@@ -44,7 +44,7 @@ def get_cluster_metrics():
 	
 	
 	
-#Collect general metric about server	
+#Collect metric about the cluster nodes	
 def get_server_metrics():
     metrics_server =  OrderedDict()
     metrics_capacity =  OrderedDict()
@@ -101,7 +101,7 @@ def get_server_metrics():
     return metrics_server
 
 
-
+#Collect metric about the cluster state
 def get_cluster_state():
 	load =  OrderedDict()
 	QUERY_count_node = 'sum(node_uname_info)'
@@ -149,7 +149,7 @@ def write_file(DATA):
         	 with open(RESULT_FILE, 'w') as fp:
         		 json.dump(feeds, fp,  indent=4)
 		
-
+#Collect metric about the deployed microservices	
 def get_service_metrics():
 	global POD_IP
 	global APP_PORT
@@ -215,7 +215,6 @@ def get_service_metrics():
 				metrics_app['replicas'].append(dynamic)
 			dict_to_file['Microservices'].append(metrics_app)
 	return dict_to_file
-	#write_file(dict_to_file)
 
 	
 def get_cpu_usage(QUERY_USAGE_cpu, CPU_CAPACITY):
@@ -290,6 +289,4 @@ if __name__ == "__main__":
 	if get_prometheus_URL():
 		print PROMETHEUS_URL
         get_utc_date()
-	#get_server_metrics()
-	#get_service_metrics()
 	get_cluster_metrics()
