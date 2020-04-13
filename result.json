@@ -2,9 +2,9 @@
     "Cluster": [
         {
             "Number of nodes": "5", 
-            "Cluster CPU load": "0.96%", 
-            "Cluster RAM load": "4.96%", 
-            "Cluster storage load": "2.09%", 
+            "Cluster CPU load": "0.92%", 
+            "Cluster RAM load": "5.03%", 
+            "Cluster storage load": "2.12%", 
             "Nodes Unavailable": "0", 
             "Nodes OutOfDisk": "0", 
             "Nodes OutOfMemory": "0"
@@ -19,13 +19,13 @@
             "disk capacity": "206.06 GB", 
             "resource usage": [
                 {
-                    "RAM usage": "1.36 GB (4.33%)", 
-                    "CPU usage": "0.17 (0.73%)", 
+                    "RAM usage": "1.36 GB (4.32%)", 
+                    "CPU usage": "0.19 (0.78%)", 
                     "disk usage": "3.90 GB (1.89%)", 
                     "network I/O": [
                         {
-                            "received bytes": "44.55 KB", 
-                            "sent bytes": "483.82 KB"
+                            "received bytes": "42.04 KB", 
+                            "sent bytes": "487.22 KB"
                         }
                     ]
                 }
@@ -39,13 +39,13 @@
             "disk capacity": "206.06 GB", 
             "resource usage": [
                 {
-                    "RAM usage": "2.12 GB (6.77%)", 
-                    "CPU usage": "0.36 (1.50%)", 
-                    "disk usage": "5.42 GB (2.63%)", 
+                    "RAM usage": "2.22 GB (7.08%)", 
+                    "CPU usage": "0.32 (1.35%)", 
+                    "disk usage": "5.70 GB (2.77%)", 
                     "network I/O": [
                         {
-                            "received bytes": "1.43 MB", 
-                            "sent bytes": "235.49 KB"
+                            "received bytes": "1.41 MB", 
+                            "sent bytes": "239.44 KB"
                         }
                     ]
                 }
@@ -59,13 +59,13 @@
             "disk capacity": "206.06 GB", 
             "resource usage": [
                 {
-                    "RAM usage": "1.20 GB (3.82%)", 
-                    "CPU usage": "0.15 (0.63%)", 
+                    "RAM usage": "1.21 GB (3.86%)", 
+                    "CPU usage": "0.14 (0.60%)", 
                     "disk usage": "3.93 GB (1.91%)", 
                     "network I/O": [
                         {
-                            "received bytes": "33.46 KB", 
-                            "sent bytes": "384.21 KB"
+                            "received bytes": "26.65 KB", 
+                            "sent bytes": "374.21 KB"
                         }
                     ]
                 }
@@ -79,13 +79,13 @@
             "disk capacity": "206.06 GB", 
             "resource usage": [
                 {
-                    "RAM usage": "1.67 GB (5.33%)", 
-                    "CPU usage": "0.20 (0.82%)", 
+                    "RAM usage": "1.69 GB (5.38%)", 
+                    "CPU usage": "0.20 (0.83%)", 
                     "disk usage": "4.23 GB (2.05%)", 
                     "network I/O": [
                         {
-                            "received bytes": "183.22 KB", 
-                            "sent bytes": "396.03 KB"
+                            "received bytes": "191.09 KB", 
+                            "sent bytes": "392.53 KB"
                         }
                     ]
                 }
@@ -99,13 +99,13 @@
             "disk capacity": "206.06 GB", 
             "resource usage": [
                 {
-                    "RAM usage": "1.42 GB (4.53%)", 
-                    "CPU usage": "0.27 (1.15%)", 
+                    "RAM usage": "1.41 GB (4.49%)", 
+                    "CPU usage": "0.25 (1.05%)", 
                     "disk usage": "4.09 GB (1.98%)", 
                     "network I/O": [
                         {
-                            "received bytes": "47.51 KB", 
-                            "sent bytes": "448.06 KB"
+                            "received bytes": "42.18 KB", 
+                            "sent bytes": "436.35 KB"
                         }
                     ]
                 }
@@ -118,31 +118,31 @@
             "replicas set": 2, 
             "limit CPU": 0.8, 
             "limit RAM": "1012.00 MB", 
-            "limit Storage": "2.00 GB", 
+            "limit Storage": "2Gi", 
             "replicas": [
                 {
                     "instance": "1/2", 
                     "server": "petitprince-11.luxembourg.grid5000.fr", 
-                    "CPU usage": "0.01 (1.48%)", 
-                    "RAM usage": "161.04 MB (15.91%)", 
+                    "CPU usage": "0.01 (1.38%)", 
+                    "RAM usage": "160.95 MB (15.90%)", 
                     "disk usage": "248.00 KB (0.01%)", 
                     "network I/O": [
                         {
-                            "received bytes": "707.86 Byte", 
-                            "sent bytes": "36.28 KB"
+                            "received bytes": "678.04 Byte", 
+                            "sent bytes": "38.07 KB"
                         }
                     ]
                 }, 
                 {
                     "instance": "2/2", 
                     "server": "petitprince-11.luxembourg.grid5000.fr", 
-                    "CPU usage": "0.04 (5.20%)", 
-                    "RAM usage": "146.95 MB (14.52%)", 
+                    "CPU usage": "0.01 (1.49%)", 
+                    "RAM usage": "148.91 MB (14.71%)", 
                     "disk usage": "240.00 KB (0.01%)", 
                     "network I/O": [
                         {
-                            "received bytes": "530.99 Byte", 
-                            "sent bytes": "28.72 KB"
+                            "received bytes": "695.07 Byte", 
+                            "sent bytes": "38.42 KB"
                         }
                     ]
                 }
@@ -153,18 +153,18 @@
             "replicas set": 1, 
             "limit CPU": 0.8, 
             "limit RAM": "1012.00 MB", 
-            "limit Storage": "2.00 GB", 
+            "limit Storage": "2Gi", 
             "replicas": [
                 {
                     "instance": "1/1", 
                     "server": "petitprince-14.luxembourg.grid5000.fr", 
-                    "CPU usage": "0.01 (1.49%)", 
-                    "RAM usage": "148.60 MB (14.68%)", 
-                    "disk usage": "248.00 KB (0.01%)", 
+                    "CPU usage": "0.01 (1.38%)", 
+                    "RAM usage": "154.01 MB (15.22%)", 
+                    "disk usage": "240.00 KB (0.01%)", 
                     "network I/O": [
                         {
-                            "received bytes": "1.15 KB", 
-                            "sent bytes": "39.66 KB"
+                            "received bytes": "703.17 Byte", 
+                            "sent bytes": "39.45 KB"
                         }
                     ]
                 }
@@ -175,18 +175,18 @@
             "replicas set": 1, 
             "limit CPU": 0.8, 
             "limit RAM": "1012.00 MB", 
-            "limit Storage": "2.00 GB", 
+            "limit Storage": "2Gi", 
             "replicas": [
                 {
                     "instance": "1/1", 
                     "server": "petitprince-10.luxembourg.grid5000.fr", 
-                    "CPU usage": "0.01 (1.52%)", 
-                    "RAM usage": "161.22 MB (15.93%)", 
+                    "CPU usage": "0.01 (1.51%)", 
+                    "RAM usage": "161.13 MB (15.92%)", 
                     "disk usage": "248.00 KB (0.01%)", 
                     "network I/O": [
                         {
-                            "received bytes": "704.38 Byte", 
-                            "sent bytes": "39.41 KB"
+                            "received bytes": "701.19 Byte", 
+                            "sent bytes": "39.33 KB"
                         }
                     ]
                 }
@@ -197,18 +197,18 @@
             "replicas set": 1, 
             "limit CPU": 0.8, 
             "limit RAM": "1012.00 MB", 
-            "limit Storage": "2.00 GB", 
+            "limit Storage": "2Gi", 
             "replicas": [
                 {
                     "instance": "1/1", 
                     "server": "petitprince-2.luxembourg.grid5000.fr", 
-                    "CPU usage": "0.01 (1.55%)", 
-                    "RAM usage": "152.38 MB (15.06%)", 
+                    "CPU usage": "0.01 (1.45%)", 
+                    "RAM usage": "152.43 MB (15.06%)", 
                     "disk usage": "248.00 KB (0.01%)", 
                     "network I/O": [
                         {
-                            "received bytes": "706.35 Byte", 
-                            "sent bytes": "38.05 KB"
+                            "received bytes": "693.49 Byte", 
+                            "sent bytes": "37.87 KB"
                         }
                     ]
                 }
