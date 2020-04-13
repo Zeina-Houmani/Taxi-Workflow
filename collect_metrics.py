@@ -42,11 +42,13 @@ def get_query_result(QUERY):
 def get_cluster_metrics():
     cluster_state =  OrderedDict()
     cluster_state["Cluster"] = []
-    cluster_state.update(get_cluster_state())
+    cluster_state["Cluster"].update(get_cluster_state())
 
-    cluster_state.update(get_server_metrics())
+    cluster_state["Cluster"].update(get_server_metrics())
     write_file(cluster_state) 
    # print cluster_state
+	
+	
 	
 #Collect general metric about server	
 def get_server_metrics():
