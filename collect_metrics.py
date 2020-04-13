@@ -39,7 +39,7 @@ def get_cluster_metrics():
     cluster_state["Cluster"].append(get_cluster_state())
 
     cluster_state.update(get_server_metrics())
-    cluster_state.update(get_service_metrics)
+    cluster_state.update(get_service_metrics())
     write_file(cluster_state) 
 	
 	
