@@ -1,32 +1,218 @@
 {
+    "Cluster": [
+        {
+            "Number of nodes": "5", 
+            "Cluster CPU load": "0.96%", 
+            "Cluster RAM load": "4.96%", 
+            "Cluster storage load": "2.09%", 
+            "Nodes Unavailable": "0", 
+            "Nodes OutOfDisk": "0", 
+            "Nodes OutOfMemory": "0"
+        }
+    ], 
+    "Servers": [
+        {
+            "instance": "1/5", 
+            "name": "petitprince-10.luxembourg.grid5000.fr", 
+            "memory capacity": "31.38 GB", 
+            "cpu capacity": "24", 
+            "disk capacity": "206.06 GB", 
+            "resource usage": [
+                {
+                    "RAM usage": "1.36 GB (4.33%)", 
+                    "CPU usage": "0.17 (0.73%)", 
+                    "disk usage": "3.90 GB (1.89%)", 
+                    "network I/O": [
+                        {
+                            "received bytes": "44.55 KB", 
+                            "sent bytes": "483.82 KB"
+                        }
+                    ]
+                }
+            ]
+        }, 
+        {
+            "instance": "2/5", 
+            "name": "petitprince-11.luxembourg.grid5000.fr", 
+            "memory capacity": "31.38 GB", 
+            "cpu capacity": "24", 
+            "disk capacity": "206.06 GB", 
+            "resource usage": [
+                {
+                    "RAM usage": "2.12 GB (6.77%)", 
+                    "CPU usage": "0.36 (1.50%)", 
+                    "disk usage": "5.42 GB (2.63%)", 
+                    "network I/O": [
+                        {
+                            "received bytes": "1.43 MB", 
+                            "sent bytes": "235.49 KB"
+                        }
+                    ]
+                }
+            ]
+        }, 
+        {
+            "instance": "3/5", 
+            "name": "petitprince-14.luxembourg.grid5000.fr", 
+            "memory capacity": "31.38 GB", 
+            "cpu capacity": "24", 
+            "disk capacity": "206.06 GB", 
+            "resource usage": [
+                {
+                    "RAM usage": "1.20 GB (3.82%)", 
+                    "CPU usage": "0.15 (0.63%)", 
+                    "disk usage": "3.93 GB (1.91%)", 
+                    "network I/O": [
+                        {
+                            "received bytes": "33.46 KB", 
+                            "sent bytes": "384.21 KB"
+                        }
+                    ]
+                }
+            ]
+        }, 
+        {
+            "instance": "4/5", 
+            "name": "petitprince-16.luxembourg.grid5000.fr", 
+            "memory capacity": "31.38 GB", 
+            "cpu capacity": "24", 
+            "disk capacity": "206.06 GB", 
+            "resource usage": [
+                {
+                    "RAM usage": "1.67 GB (5.33%)", 
+                    "CPU usage": "0.20 (0.82%)", 
+                    "disk usage": "4.23 GB (2.05%)", 
+                    "network I/O": [
+                        {
+                            "received bytes": "183.22 KB", 
+                            "sent bytes": "396.03 KB"
+                        }
+                    ]
+                }
+            ]
+        }, 
+        {
+            "instance": "5/5", 
+            "name": "petitprince-2.luxembourg.grid5000.fr", 
+            "memory capacity": "31.38 GB", 
+            "cpu capacity": "24", 
+            "disk capacity": "206.06 GB", 
+            "resource usage": [
+                {
+                    "RAM usage": "1.42 GB (4.53%)", 
+                    "CPU usage": "0.27 (1.15%)", 
+                    "disk usage": "4.09 GB (1.98%)", 
+                    "network I/O": [
+                        {
+                            "received bytes": "47.51 KB", 
+                            "sent bytes": "448.06 KB"
+                        }
+                    ]
+                }
+            ]
+        }
+    ], 
     "Microservices": [
         {
             "name": "billing-service", 
-            "replicas": 2, 
-            "Limit CPU": "800m", 
-            "Limit RAM": "1012Mi", 
-            "Limit Storage": "2Gi"
+            "replicas set": 2, 
+            "limit CPU": 0.8, 
+            "limit RAM": "1012.00 MB", 
+            "limit Storage": "2.00 GB", 
+            "replicas": [
+                {
+                    "instance": "1/2", 
+                    "server": "petitprince-11.luxembourg.grid5000.fr", 
+                    "CPU usage": "0.01 (1.48%)", 
+                    "RAM usage": "161.04 MB (15.91%)", 
+                    "disk usage": "248.00 KB (0.01%)", 
+                    "network I/O": [
+                        {
+                            "received bytes": "707.86 Byte", 
+                            "sent bytes": "36.28 KB"
+                        }
+                    ]
+                }, 
+                {
+                    "instance": "2/2", 
+                    "server": "petitprince-11.luxembourg.grid5000.fr", 
+                    "CPU usage": "0.04 (5.20%)", 
+                    "RAM usage": "146.95 MB (14.52%)", 
+                    "disk usage": "240.00 KB (0.01%)", 
+                    "network I/O": [
+                        {
+                            "received bytes": "530.99 Byte", 
+                            "sent bytes": "28.72 KB"
+                        }
+                    ]
+                }
+            ]
         }, 
         {
             "name": "payment-service", 
-            "replicas": 1, 
-            "Limit CPU": "800m", 
-            "Limit RAM": "1012Mi", 
-            "Limit Storage": "2Gi"
+            "replicas set": 1, 
+            "limit CPU": 0.8, 
+            "limit RAM": "1012.00 MB", 
+            "limit Storage": "2.00 GB", 
+            "replicas": [
+                {
+                    "instance": "1/1", 
+                    "server": "petitprince-14.luxembourg.grid5000.fr", 
+                    "CPU usage": "0.01 (1.49%)", 
+                    "RAM usage": "148.60 MB (14.68%)", 
+                    "disk usage": "248.00 KB (0.01%)", 
+                    "network I/O": [
+                        {
+                            "received bytes": "1.15 KB", 
+                            "sent bytes": "39.66 KB"
+                        }
+                    ]
+                }
+            ]
         }, 
         {
             "name": "trip-service", 
-            "replicas": 1, 
-            "Limit CPU": "800m", 
-            "Limit RAM": "1012Mi", 
-            "Limit Storage": "2Gi"
+            "replicas set": 1, 
+            "limit CPU": 0.8, 
+            "limit RAM": "1012.00 MB", 
+            "limit Storage": "2.00 GB", 
+            "replicas": [
+                {
+                    "instance": "1/1", 
+                    "server": "petitprince-10.luxembourg.grid5000.fr", 
+                    "CPU usage": "0.01 (1.52%)", 
+                    "RAM usage": "161.22 MB (15.93%)", 
+                    "disk usage": "248.00 KB (0.01%)", 
+                    "network I/O": [
+                        {
+                            "received bytes": "704.38 Byte", 
+                            "sent bytes": "39.41 KB"
+                        }
+                    ]
+                }
+            ]
         }, 
         {
             "name": "users-service", 
-            "replicas": 1, 
-            "Limit CPU": "800m", 
-            "Limit RAM": "1012Mi", 
-            "Limit Storage": "2Gi"
+            "replicas set": 1, 
+            "limit CPU": 0.8, 
+            "limit RAM": "1012.00 MB", 
+            "limit Storage": "2.00 GB", 
+            "replicas": [
+                {
+                    "instance": "1/1", 
+                    "server": "petitprince-2.luxembourg.grid5000.fr", 
+                    "CPU usage": "0.01 (1.55%)", 
+                    "RAM usage": "152.38 MB (15.06%)", 
+                    "disk usage": "248.00 KB (0.01%)", 
+                    "network I/O": [
+                        {
+                            "received bytes": "706.35 Byte", 
+                            "sent bytes": "38.05 KB"
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }
