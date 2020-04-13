@@ -110,7 +110,7 @@ def get_total_resources_load():
 	CLUSTER_RAM_LOAD = get_query_result(QUERY_memory_load)[0].get('value')[1]
 	load[' Cluster RAM load'] =  str("%.2f" % CLUSTER_RAM_LOAD) + "%"
 	
-	QUERY_disk_load 'sum (container_fs_usage_bytes{device=~"^/dev/xvda.$",id="/"}) / sum (container_fs_limit_bytes{device=~"^/dev/xvda.$",id="/"}) * 100'
+	QUERY_disk_load = 'sum (container_fs_usage_bytes{device=~"^/dev/xvda.$",id="/"}) / sum (container_fs_limit_bytes{device=~"^/dev/xvda.$",id="/"}) * 100'
 	CLUSTER_disk_LOAD = get_query_result(QUERY_disk_load)[0].get('value')[1]
 	load[' Cluster storage load'] =  str("%.2f" % CLUSTER_disk_LOAD) + "%"
         print load
