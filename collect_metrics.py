@@ -19,12 +19,6 @@ TIME = ''
 counter_dict = OrderedDict()
 dict_to_file = OrderedDict()
 dict_to_file['Microservices'] = []
-
-
-#apps_api = client.AppsV1Api()
-#deployment = apps_api.list_namespaced_deployment(namespace_name, label_selector=label)
-#metrics_app["replicas"] =  deployment.items[0].spec.replicas
-#containers_list = deployment.items[0].spec.template.spec.containers	
 	
 	
 def get_query_result(QUERY):
@@ -45,8 +39,8 @@ def get_cluster_metrics():
     cluster_state["Cluster"].append(get_cluster_state())
 
     cluster_state.update(get_server_metrics())
+    cluster_state.update(get_service_metrics)
     write_file(cluster_state) 
-   # print cluster_state
 	
 	
 	
@@ -112,6 +106,11 @@ def get_server_metrics():
 
 def get_cluster_state():
 	load =  OrderedDict()
+	
+	QUERY_count_node = 'sum(node_uname_info)'
+	NODE_COUNT = get_query_result(QUERY_cpu_load)[0].get('value')[1]
+	load['Number of nodes'] = NODE_COUNT
+		
 	QUERY_cpu_load= '(sum (rate (container_cpu_usage_seconds_total{id="/"}[5m])) / sum(machine_cpu_cores) )* 100'
    	CLUSTER_CPU_LOAD = get_query_result(QUERY_cpu_load)[0].get('value')[1]
 	load['Cluster CPU load'] = str("%.2f" % float(CLUSTER_CPU_LOAD)) + "%"
@@ -215,7 +214,8 @@ def get_service_metrics():
 				
 				metrics_app['replicas'].append(dynamic)
 			dict_to_file['Microservices'].append(metrics_app)
-	write_file(dict_to_file)
+	return dict_to_file
+	#write_file(dict_to_file)
 
 	
 def get_cpu_usage(QUERY_USAGE_cpu, CPU_CAPACITY):
