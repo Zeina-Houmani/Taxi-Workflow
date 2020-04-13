@@ -91,7 +91,6 @@ def get_server_metrics():
 	metrics_node['resource usage'] .append(usage_metrics) 
 	metrics_server["Cluster"].append(metrics_node)
 	counter = counter +1
-   
    # QUERY_cpu_load= '(sum (rate (container_cpu_usage_seconds_total{id="/"}[5m])) / sum(machine_cpu_cores) )* 100'
     #CLUSTER_LOAD = get_query_result(QUERY_disk)[0].get('value')[1]
     write_file( metrics_server)   
