@@ -102,15 +102,15 @@ def get_total_resources_load():
 	load =  OrderedDict()
 	QUERY_cpu_load= '(sum (rate (container_cpu_usage_seconds_total{id="/"}[5m])) / sum(machine_cpu_cores) )* 100'
    	CLUSTER_CPU_LOAD = get_query_result(QUERY_cpu_load)[0].get('value')[1]
-	load[' Cluster CPU load'] = str("%.2f" % float(CLUSTER_CPU_LOAD)) + "%"
+	load['Cluster CPU load'] = str("%.2f" % float(CLUSTER_CPU_LOAD)) + "%"
 	
 	QUERY_memory_load = 'sum (container_memory_working_set_bytes{id="/"}) / sum (machine_memory_bytes) * 100'
 	CLUSTER_RAM_LOAD = get_query_result(QUERY_memory_load)[0].get('value')[1]
-	load[' Cluster RAM load'] =  str("%.2f" % float(CLUSTER_RAM_LOAD)) + "%"
+	load['Cluster RAM load'] =  str("%.2f" % float(CLUSTER_RAM_LOAD)) + "%"
 	
 	QUERY_disk_load = 'sum (container_fs_usage_bytes{device=~"^/dev/[sv]d[a-z][1-9]$",id="/"}) / sum (container_fs_limit_bytes{device=~"^/dev/[sv]d[a-z][1-9]$",id="/"}) * 100'
 	CLUSTER_disk_LOAD = get_query_result(QUERY_disk_load)[0].get('value')[1]
-	load[' Cluster storage load'] =  str("%.2f" % float(CLUSTER_disk_LOAD)) + "%"
+	load['Cluster storage load'] =  str("%.2f" % float(CLUSTER_disk_LOAD)) + "%"
         return load
 
 
