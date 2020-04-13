@@ -104,6 +104,7 @@ def get_server_metrics():
 	counter = counter +1
    # metrics_server.update(get_cluster_state())
     #write_file( metrics_server)   
+    return metrics_server
 
 
 
