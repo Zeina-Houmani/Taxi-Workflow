@@ -174,6 +174,8 @@ def get_service_metrics():
 			pod_list = core_api.list_namespaced_pod(namespace_name, label_selector=label)
 			replicas_count = len(pod_list.items)
 			metrics_app["replicas set"] = replicas_count
+			StoragelimitRange = core_api.read_namespaced_limit_range("storagelimits", namespace_name)
+			print StoragelimitRange
 			containers_list = pod_list.items[0].spec.containers
 			total_limit_cpu = 0
 			total_limit_mem = 0
