@@ -287,6 +287,6 @@ if __name__ == "__main__":
 	if get_prometheus_URL():
 		print PROMETHEUS_URL
         get_utc_date()
-	get_server_metrics()
-	get_service_metrics()
-	get_total_resources_load()
+	#get_server_metrics()
+	#get_service_metrics()
+	get_cluster_metrics()
