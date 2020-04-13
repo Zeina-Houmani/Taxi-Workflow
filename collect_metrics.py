@@ -200,18 +200,6 @@ def get_byte_usage(QUERY_USAGE, CAPACITY):
 	USAGE = get_query_result(QUERY_USAGE)[0].get('value')[1]
 	QUERY_USAGE_percentage = (float(USAGE) / float(CAPACITY)) * 100 
 	return  str(humanbytes(USAGE))  + " (" + str( "%.2f" % QUERY_USAGE_percentage) + "%)"
-				
-	
-def get_replicas_network_usage(POD_NAME):
-	network_usage =  OrderedDict()
-	QUERY_RECEIVE = 'rate (container_network_receive_bytes_total{image!="", pod_name="' + POD_NAME + '"}[5m])'
-	NETWORK_RECEIVE = "%.2f" % float(get_query_result(QUERY_RECEIVE)[0].get('value')[1])
-	network_usage['received bytes'] = humanbytes(NETWORK_RECEIVE)
-	
-	QUERY_TRANSMIT = 'rate (container_network_transmit_bytes_total{image!="", pod_name="' + POD_NAME + '"}[5m])'
-	NETWORK_TRANSMIT = "%.2f" % float(get_query_result(QUERY_TRANSMIT)[0].get('value')[1])
-	network_usage['sent bytes'] = humanbytes(NETWORK_TRANSMIT)
-	return network_usage
 		
 
 def get_network_usage(QUERY_RECEIVE, QUERY_TRANSMIT):
