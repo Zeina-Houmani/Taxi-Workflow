@@ -44,7 +44,6 @@ def get_server_metrics():
     metrics_server =  OrderedDict()
     metrics_capacity =  OrderedDict()
     metrics_server["Cluster"] = []
-
     QUERY_nodes = 'node_uname_info'  
     nodes = get_query_result(QUERY_nodes)
     total_nodes = len(nodes)
@@ -55,7 +54,6 @@ def get_server_metrics():
 	metrics_node['instance'] = str(counter) + "/" + str(total_nodes)
 	metrics_node["name"] = NODE_NAME
 	
-
 	QUERY_memory =  'kube_node_status_capacity_memory_bytes{node=~"' + NODE_NAME + '"}'
 	MEMORY_CAPACITY = get_query_result(QUERY_memory)[0].get('value')[1]
 	metrics_node['memory capacity'] = humanbytes(MEMORY_CAPACITY)
@@ -81,7 +79,7 @@ def get_server_metrics():
 	usage_metrics['CPU usage'] =get_cpu_usage(QUERY_USAGE_cpu, CPU_CAPACITY)
 	
 	#disk usage 
-	QUERY_USAGE_disk =  'sum(container_fs_usage_bytes{device=~"^/dev/sda.$",id="/",kubernetes_io_hostname=~"' + NODE_NAME + '"})'
+	QUERY_USAGE_disk =  'sum(container_fs_usage_bytes{device=~"^/dev/[sv]d[a-z][1-9]$",id="/",kubernetes_io_hostname=~"' + NODE_NAME + '"})'
 	usage_metrics['disk usage'] = get_disk_usage(QUERY_USAGE_disk, DISK_CAPACITY)
 	
 	#Network usage
@@ -94,8 +92,8 @@ def get_server_metrics():
 	metrics_server["Cluster"].append(metrics_node)
 	counter = counter +1
    
-    QUERY_cpu_load= '(sum (rate (container_cpu_usage_seconds_total{id="/"}[5m])) / sum(machine_cpu_cores) )* 100'
-    CLUSTER_LOAD = get_query_result(QUERY_disk)[0].get('value')[1]
+   # QUERY_cpu_load= '(sum (rate (container_cpu_usage_seconds_total{id="/"}[5m])) / sum(machine_cpu_cores) )* 100'
+    #CLUSTER_LOAD = get_query_result(QUERY_disk)[0].get('value')[1]
     write_file( metrics_server)   
 
 
@@ -110,7 +108,7 @@ def get_total_resources_load():
 	CLUSTER_RAM_LOAD = get_query_result(QUERY_memory_load)[0].get('value')[1]
 	load[' Cluster RAM load'] =  str("%.2f" % float(CLUSTER_RAM_LOAD)) + "%"
 	
-	QUERY_disk_load = 'sum (container_fs_usage_bytes{device=~"^/dev/xvda.$",id="/"}) / sum (container_fs_limit_bytes{device=~"^/dev/xvda.$",id="/"}) * 100'
+	QUERY_disk_load = 'sum (container_fs_usage_bytes{device=~"^/dev/[sv]d[a-z][1-9]$",id="/"}) / sum (container_fs_limit_bytes{device=~"^/dev/[sv]d[a-z][1-9]$",id="/"}) * 100'
 	CLUSTER_disk_LOAD = get_query_result(QUERY_disk_load)[0].get('value')[1]
 	load[' Cluster storage load'] =  str("%.2f" % float(CLUSTER_disk_LOAD)) + "%"
         print load
