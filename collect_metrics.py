@@ -84,7 +84,9 @@ def get_server_metrics():
 	
 	#Network usage
 	network =  OrderedDict()
-	network = get_server_network_usage(NODE_NAME)
+	QUERY_RECEIVE = 'sum(rate (container_network_receive_bytes_total{image!="",name=~"^k8s_.*", instance="' + NODE_NAME + '"}[5m]))'
+	QUERY_TRANSMIT = 'sum(rate (container_network_transmit_bytes_total{image!="",name=~"^k8s_.*", instance="' + NODE_NAME + '"}[5m]))'
+	network = get_network_usage(QUERY_RECEIVE, QUERY_TRANSMIT)
 	usage_metrics['network I/O'] = []
 	usage_metrics['network I/O'].append(network)
 	
@@ -156,7 +158,6 @@ def get_service_metrics():
 				total_limit_mem = total_limit_mem + int(limits["memory"][:-2])
 				total_limit_disk = total_limit_disk + int(limits["ephemeral-storage"][:-2])	
 			metrics_app["limit CPU"] = float(total_limit_cpu) / 1000
-			print metrics_app
 			metrics_app["limit RAM"] = humanbytes(total_limit_mem * 1024 * 1024)
 			metrics_app["limit Storage"] = humanbytes(total_limit_disk * 1024 * 1024 * 1024 ) 
         		metrics_app['replicas'] = []
@@ -198,13 +199,6 @@ def get_byte_usage(QUERY_USAGE, CAPACITY):
 	QUERY_USAGE_percentage = (float(USAGE) / float(CAPACITY)) * 100 
 	return  str(humanbytes(USAGE))  + " (" + str( "%.2f" % QUERY_USAGE_percentage) + "%)"
 				
-		
-#def get_disk_usage(QUERY_USAGE_disk, DISK_CAPACITY):
-#	DISK_USAGE = get_query_result(QUERY_USAGE_disk)[0].get('value')[1]
-#	QUERY_USAGE_disk_percentage = (float(DISK_USAGE) / float(DISK_CAPACITY))* 100 
-#	return str(humanbytes(DISK_USAGE))  + " (" + str("%.2f" % QUERY_USAGE_disk_percentage) + "%)"
-	
-
 	
 def get_replicas_network_usage(POD_NAME):
 	network_usage =  OrderedDict()
@@ -225,6 +219,16 @@ def get_server_network_usage(NODE_NAME):
 	network_usage['received bytes'] = humanbytes(NETWORK_RECEIVE)
 	
 	QUERY_TRANSMIT = 'sum(rate (container_network_transmit_bytes_total{image!="",name=~"^k8s_.*", instance="' + NODE_NAME + '"}[5m]))'
+	NETWORK_TRANSMIT = "%.2f" % float(get_query_result(QUERY_TRANSMIT)[0].get('value')[1])
+	network_usage['sent bytes'] = humanbytes(NETWORK_TRANSMIT)
+	return network_usage
+	
+
+def get_network_usage(QUERY_RECEIVE, QUERY_TRANSMIT):
+	network_usage =  OrderedDict()
+	NETWORK_RECEIVE = "%.2f" % float(get_query_result(QUERY_RECEIVE)[0].get('value')[1])
+	network_usage['received bytes'] = humanbytes(NETWORK_RECEIVE)
+	
 	NETWORK_TRANSMIT = "%.2f" % float(get_query_result(QUERY_TRANSMIT)[0].get('value')[1])
 	network_usage['sent bytes'] = humanbytes(NETWORK_TRANSMIT)
 	return network_usage
