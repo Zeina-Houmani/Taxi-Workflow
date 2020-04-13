@@ -93,8 +93,7 @@ def get_server_metrics():
 	metrics_node['resource usage'] .append(usage_metrics) 
 	metrics_server["Cluster"].append(metrics_node)
 	counter = counter +1
-   # QUERY_cpu_load= '(sum (rate (container_cpu_usage_seconds_total{id="/"}[5m])) / sum(machine_cpu_cores) )* 100'
-    #CLUSTER_LOAD = get_query_result(QUERY_disk)[0].get('value')[1]
+    metrics_server.update(get_total_resources_load())
     write_file( metrics_server)   
 
 
@@ -112,7 +111,7 @@ def get_total_resources_load():
 	QUERY_disk_load = 'sum (container_fs_usage_bytes{device=~"^/dev/[sv]d[a-z][1-9]$",id="/"}) / sum (container_fs_limit_bytes{device=~"^/dev/[sv]d[a-z][1-9]$",id="/"}) * 100'
 	CLUSTER_disk_LOAD = get_query_result(QUERY_disk_load)[0].get('value')[1]
 	load[' Cluster storage load'] =  str("%.2f" % float(CLUSTER_disk_LOAD)) + "%"
-        print load
+        return load
 
 
 def write_file(DATA):
