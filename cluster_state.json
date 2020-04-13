@@ -3,7 +3,7 @@
         {
             "Number of nodes": "5", 
             "Cluster CPU load": "0.92%", 
-            "Cluster RAM load": "5.03%", 
+            "Cluster RAM load": "5.04%", 
             "Cluster storage load": "2.12%", 
             "Nodes Unavailable": "0", 
             "Nodes OutOfDisk": "0", 
@@ -19,13 +19,13 @@
             "disk capacity": "206.06 GB", 
             "resource usage": [
                 {
-                    "RAM usage": "1.36 GB (4.32%)", 
-                    "CPU usage": "0.19 (0.78%)", 
+                    "RAM usage": "1.36 GB (4.33%)", 
+                    "CPU usage": "0.19 (0.79%)", 
                     "disk usage": "3.90 GB (1.89%)", 
                     "network I/O": [
                         {
-                            "received bytes": "42.04 KB", 
-                            "sent bytes": "487.22 KB"
+                            "received bytes": "38.67 KB", 
+                            "sent bytes": "490.19 KB"
                         }
                     ]
                 }
@@ -39,13 +39,13 @@
             "disk capacity": "206.06 GB", 
             "resource usage": [
                 {
-                    "RAM usage": "2.22 GB (7.08%)", 
+                    "RAM usage": "2.24 GB (7.12%)", 
                     "CPU usage": "0.32 (1.35%)", 
-                    "disk usage": "5.70 GB (2.77%)", 
+                    "disk usage": "5.71 GB (2.77%)", 
                     "network I/O": [
                         {
-                            "received bytes": "1.41 MB", 
-                            "sent bytes": "239.44 KB"
+                            "received bytes": "1.42 MB", 
+                            "sent bytes": "242.69 KB"
                         }
                     ]
                 }
@@ -64,8 +64,8 @@
                     "disk usage": "3.93 GB (1.91%)", 
                     "network I/O": [
                         {
-                            "received bytes": "26.65 KB", 
-                            "sent bytes": "374.21 KB"
+                            "received bytes": "25.09 KB", 
+                            "sent bytes": "367.16 KB"
                         }
                     ]
                 }
@@ -79,13 +79,13 @@
             "disk capacity": "206.06 GB", 
             "resource usage": [
                 {
-                    "RAM usage": "1.69 GB (5.38%)", 
+                    "RAM usage": "1.69 GB (5.39%)", 
                     "CPU usage": "0.20 (0.83%)", 
                     "disk usage": "4.23 GB (2.05%)", 
                     "network I/O": [
                         {
-                            "received bytes": "191.09 KB", 
-                            "sent bytes": "392.53 KB"
+                            "received bytes": "189.73 KB", 
+                            "sent bytes": "394.27 KB"
                         }
                     ]
                 }
@@ -104,8 +104,8 @@
                     "disk usage": "4.09 GB (1.98%)", 
                     "network I/O": [
                         {
-                            "received bytes": "42.18 KB", 
-                            "sent bytes": "436.35 KB"
+                            "received bytes": "39.20 KB", 
+                            "sent bytes": "427.74 KB"
                         }
                     ]
                 }
@@ -123,26 +123,26 @@
                 {
                     "instance": "1/2", 
                     "server": "petitprince-11.luxembourg.grid5000.fr", 
-                    "CPU usage": "0.01 (1.38%)", 
+                    "CPU usage": "0.01 (1.50%)", 
                     "RAM usage": "160.95 MB (15.90%)", 
                     "disk usage": "248.00 KB (0.01%)", 
                     "network I/O": [
                         {
-                            "received bytes": "678.04 Byte", 
-                            "sent bytes": "38.07 KB"
+                            "received bytes": "720.57 Byte", 
+                            "sent bytes": "39.55 KB"
                         }
                     ]
                 }, 
                 {
                     "instance": "2/2", 
                     "server": "petitprince-11.luxembourg.grid5000.fr", 
-                    "CPU usage": "0.01 (1.49%)", 
-                    "RAM usage": "148.91 MB (14.71%)", 
+                    "CPU usage": "0.01 (1.43%)", 
+                    "RAM usage": "148.93 MB (14.72%)", 
                     "disk usage": "240.00 KB (0.01%)", 
                     "network I/O": [
                         {
-                            "received bytes": "695.07 Byte", 
-                            "sent bytes": "38.42 KB"
+                            "received bytes": "701.83 Byte", 
+                            "sent bytes": "39.01 KB"
                         }
                     ]
                 }
@@ -158,13 +158,13 @@
                 {
                     "instance": "1/1", 
                     "server": "petitprince-14.luxembourg.grid5000.fr", 
-                    "CPU usage": "0.01 (1.38%)", 
-                    "RAM usage": "154.01 MB (15.22%)", 
+                    "CPU usage": "0.01 (1.48%)", 
+                    "RAM usage": "153.92 MB (15.21%)", 
                     "disk usage": "240.00 KB (0.01%)", 
                     "network I/O": [
                         {
-                            "received bytes": "703.17 Byte", 
-                            "sent bytes": "39.45 KB"
+                            "received bytes": "700.85 Byte", 
+                            "sent bytes": "39.29 KB"
                         }
                     ]
                 }
@@ -180,13 +180,13 @@
                 {
                     "instance": "1/1", 
                     "server": "petitprince-10.luxembourg.grid5000.fr", 
-                    "CPU usage": "0.01 (1.51%)", 
-                    "RAM usage": "161.13 MB (15.92%)", 
+                    "CPU usage": "0.01 (1.50%)", 
+                    "RAM usage": "161.19 MB (15.93%)", 
                     "disk usage": "248.00 KB (0.01%)", 
                     "network I/O": [
                         {
-                            "received bytes": "701.19 Byte", 
-                            "sent bytes": "39.33 KB"
+                            "received bytes": "699.29 Byte", 
+                            "sent bytes": "39.52 KB"
                         }
                     ]
                 }
@@ -202,13 +202,13 @@
                 {
                     "instance": "1/1", 
                     "server": "petitprince-2.luxembourg.grid5000.fr", 
-                    "CPU usage": "0.01 (1.45%)", 
+                    "CPU usage": "0.01 (1.42%)", 
                     "RAM usage": "152.43 MB (15.06%)", 
                     "disk usage": "248.00 KB (0.01%)", 
                     "network I/O": [
                         {
-                            "received bytes": "693.49 Byte", 
-                            "sent bytes": "37.87 KB"
+                            "received bytes": "649.68 Byte", 
+                            "sent bytes": "35.64 KB"
                         }
                     ]
                 }
