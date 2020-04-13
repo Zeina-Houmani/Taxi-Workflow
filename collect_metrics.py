@@ -180,7 +180,9 @@ def get_service_metrics():
 				
 				#Network usage
 				network =  OrderedDict()
-				network = get_replicas_network_usage(pod_name)
+				QUERY_RECEIVE = 'rate (container_network_receive_bytes_total{image!="", pod_name="' + pod_name + '"}[5m])'
+				QUERY_TRANSMIT = 'rate (container_network_transmit_bytes_total{image!="", pod_name="' + pod_name + '"}[5m])'
+				network = get_network_usage(QUERY_RECEIVE, QUERY_TRANSMIT)
 				dynamic['network I/O'] = []
 				dynamic['network I/O'].append(network)
 				
@@ -210,19 +212,7 @@ def get_replicas_network_usage(POD_NAME):
 	NETWORK_TRANSMIT = "%.2f" % float(get_query_result(QUERY_TRANSMIT)[0].get('value')[1])
 	network_usage['sent bytes'] = humanbytes(NETWORK_TRANSMIT)
 	return network_usage
-	
-	
-def get_server_network_usage(NODE_NAME):
-	network_usage =  OrderedDict()
-	QUERY_RECEIVE = 'sum(rate (container_network_receive_bytes_total{image!="",name=~"^k8s_.*", instance="' + NODE_NAME + '"}[5m]))'
-	NETWORK_RECEIVE = "%.2f" % float(get_query_result(QUERY_RECEIVE)[0].get('value')[1])
-	network_usage['received bytes'] = humanbytes(NETWORK_RECEIVE)
-	
-	QUERY_TRANSMIT = 'sum(rate (container_network_transmit_bytes_total{image!="",name=~"^k8s_.*", instance="' + NODE_NAME + '"}[5m]))'
-	NETWORK_TRANSMIT = "%.2f" % float(get_query_result(QUERY_TRANSMIT)[0].get('value')[1])
-	network_usage['sent bytes'] = humanbytes(NETWORK_TRANSMIT)
-	return network_usage
-	
+		
 
 def get_network_usage(QUERY_RECEIVE, QUERY_TRANSMIT):
 	network_usage =  OrderedDict()
