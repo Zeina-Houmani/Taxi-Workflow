@@ -98,15 +98,12 @@ def get_server_metrics():
 	metrics_node['resource usage'] .append(usage_metrics) 
 	metrics_server["Servers"].append(metrics_node)
 	counter = counter +1
-   # metrics_server.update(get_cluster_state())
-    #write_file( metrics_server)   
     return metrics_server
 
 
 
 def get_cluster_state():
 	load =  OrderedDict()
-	
 	QUERY_count_node = 'sum(node_uname_info)'
 	NODE_COUNT = get_query_result(QUERY_count_node)[0].get('value')[1]
 	load['Number of nodes'] = NODE_COUNT
@@ -175,7 +172,7 @@ def get_service_metrics():
 			replicas_count = len(pod_list.items)
 			metrics_app["replicas set"] = replicas_count
 			StoragelimitRange = core_api.read_namespaced_limit_range("storagelimits", namespace_name)
-			print StoragelimitRange.spec.limits[0].max.values()[0]
+			limitStorage=  StoragelimitRange.spec.limits[0].max.values()[0]
 			containers_list = pod_list.items[0].spec.containers
 			total_limit_cpu = 0
 			total_limit_mem = 0
@@ -184,10 +181,11 @@ def get_service_metrics():
 				limits = container.resources.limits
 				total_limit_cpu = total_limit_cpu + int(limits["cpu"][:-1])
 				total_limit_mem = total_limit_mem + int(limits["memory"][:-2])
-				total_limit_disk = total_limit_disk + int(limits["ephemeral-storage"][:-2])	
+				#total_limit_disk = total_limit_disk + int(limits["ephemeral-storage"][:-2])	
 			metrics_app["limit CPU"] = float(total_limit_cpu) / 1000
 			metrics_app["limit RAM"] = humanbytes(total_limit_mem * 1024 * 1024)
-			metrics_app["limit Storage"] = humanbytes(total_limit_disk * 1024 * 1024 * 1024 ) 
+			#metrics_app["limit Storage"] = humanbytes(total_limit_disk * 1024 * 1024 * 1024 ) 
+			metrics_app["limit Storage"] = limitStorage
         		metrics_app['replicas'] = []
 			counter = 1
 			for pod in pod_list.items:
@@ -204,7 +202,7 @@ def get_service_metrics():
 				dynamic['RAM usage'] = get_byte_usage(QUERY_USAGE_memory, total_limit_mem * 1024 * 1024)
 					
 				QUERY_USAGE_disk ='sum(container_fs_usage_bytes{pod_name!="", image!="", pod_name=~"' + pod_name + '"})'
-				dynamic['disk usage'] =  get_byte_usage(QUERY_USAGE_disk, total_limit_disk * 1024 * 1024 * 1024)
+				dynamic['disk usage'] =  get_byte_usage(QUERY_USAGE_disk, float(limitStorage[:-2]) * 1024 * 1024 * 1024)
 				
 				#Network usage
 				network =  OrderedDict()
