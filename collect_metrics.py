@@ -9,7 +9,7 @@ from pprint import pprint
 import json
 from collections import OrderedDict
 
-RESULT_FILE="result.json"
+RESULT_FILE="cluster_state.json"
 POD_IP = ''
 APP_PORT = 0
 URI = []
@@ -44,7 +44,7 @@ def get_cluster_metrics():
 	
 	
 	
-#Collect metric about the cluster nodes	
+#Collect metrics about the cluster nodes	
 def get_server_metrics():
     metrics_server =  OrderedDict()
     metrics_capacity =  OrderedDict()
@@ -101,7 +101,7 @@ def get_server_metrics():
     return metrics_server
 
 
-#Collect metric about the cluster state
+#Collect metrics about the cluster state
 def get_cluster_state():
 	load =  OrderedDict()
 	QUERY_count_node = 'sum(node_uname_info)'
@@ -149,7 +149,7 @@ def write_file(DATA):
         	 with open(RESULT_FILE, 'w') as fp:
         		 json.dump(feeds, fp,  indent=4)
 		
-#Collect metric about the deployed microservices	
+#Collect metrics about the deployed microservices	
 def get_service_metrics():
 	global POD_IP
 	global APP_PORT
@@ -180,11 +180,9 @@ def get_service_metrics():
 			for container in containers_list:
 				limits = container.resources.limits
 				total_limit_cpu = total_limit_cpu + int(limits["cpu"][:-1])
-				total_limit_mem = total_limit_mem + int(limits["memory"][:-2])
-				#total_limit_disk = total_limit_disk + int(limits["ephemeral-storage"][:-2])	
+				total_limit_mem = total_limit_mem + int(limits["memory"][:-2])	
 			metrics_app["limit CPU"] = float(total_limit_cpu) / 1000
 			metrics_app["limit RAM"] = humanbytes(total_limit_mem * 1024 * 1024)
-			#metrics_app["limit Storage"] = humanbytes(total_limit_disk * 1024 * 1024 * 1024 ) 
 			metrics_app["limit Storage"] = limitStorage
         		metrics_app['replicas'] = []
 			counter = 1
@@ -237,10 +235,10 @@ def get_network_usage(QUERY_RECEIVE, QUERY_TRANSMIT):
 	network_usage['sent bytes'] = humanbytes(NETWORK_TRANSMIT)
 	return network_usage
 	
-	
+
+#Get Prometheus IP address and port from the platform
 def get_prometheus_URL():
  	global PROMETHEUS_URL	
- 	#Get Prometheus IP address and port from the platform
 	config.load_kube_config()
 	core_api = client.CoreV1Api()
 	namespace_name = "istio-system"
