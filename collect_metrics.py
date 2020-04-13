@@ -39,11 +39,20 @@ def get_query_result(QUERY):
     return results
 
 
+def get_cluster_metrics():
+    cluster_state =  OrderedDict()
+    cluster_state["Cluster"] = []
+    cluster_state.update(get_cluster_state())
+
+    cluster_state.update(get_server_metrics())
+    write_file(cluster_state) 
+   # print cluster_state
+	
 #Collect general metric about server	
 def get_server_metrics():
     metrics_server =  OrderedDict()
     metrics_capacity =  OrderedDict()
-    metrics_server["Cluster"] = []
+    metrics_server["Servers"] = []
     QUERY_nodes = 'node_uname_info'  
     nodes = get_query_result(QUERY_nodes)
     total_nodes = len(nodes)
@@ -91,14 +100,14 @@ def get_server_metrics():
 	usage_metrics['network I/O'].append(network)
 	
 	metrics_node['resource usage'] .append(usage_metrics) 
-	metrics_server["Cluster"].append(metrics_node)
+	metrics_server["Servers"].append(metrics_node)
 	counter = counter +1
-    metrics_server.update(get_total_resources_load())
-    write_file( metrics_server)   
+   # metrics_server.update(get_cluster_state())
+    #write_file( metrics_server)   
 
 
 
-def get_total_resources_load():
+def get_cluster_state():
 	load =  OrderedDict()
 	QUERY_cpu_load= '(sum (rate (container_cpu_usage_seconds_total{id="/"}[5m])) / sum(machine_cpu_cores) )* 100'
    	CLUSTER_CPU_LOAD = get_query_result(QUERY_cpu_load)[0].get('value')[1]
@@ -111,6 +120,22 @@ def get_total_resources_load():
 	QUERY_disk_load = 'sum (container_fs_usage_bytes{device=~"^/dev/[sv]d[a-z][1-9]$",id="/"}) / sum (container_fs_limit_bytes{device=~"^/dev/[sv]d[a-z][1-9]$",id="/"}) * 100'
 	CLUSTER_disk_LOAD = get_query_result(QUERY_disk_load)[0].get('value')[1]
 	load['Cluster storage load'] =  str("%.2f" % float(CLUSTER_disk_LOAD)) + "%"
+	
+	QUERY_unavailable= 'sum(kube_node_spec_unschedulable)'
+	COUNT_UNAVAILABLE = get_query_result(QUERY_unavailable)[0].get('value')[1]
+	load['Nodes Unavailable'] = COUNT_UNAVAILABLE
+	
+	QUERY_diskPressure= 'sum(kube_node_status_condition{condition="DiskPressure", status="true"})'
+	COUNT_diskPressure = get_query_result(QUERY_diskPressure)[0].get('value')[1]
+	load['Nodes OutOfDisk'] = COUNT_diskPressure
+	
+	QUERY_RAMPressure= 'sum(kube_node_status_condition{condition="MemoryPressure", status="true"})'
+	COUNT_RAMPressure = get_query_result(QUERY_RAMPressure)[0].get('value')[1]
+	load['Nodes OutOfMemory'] = COUNT_RAMPressure
+	
+	QUERY_CPUPressure= 'sum(kube_node_status_condition{condition="MemoryPressure", status="true"})'
+	COUNT_CPUPressure = get_query_result(QUERY_CPUPressure)[0].get('value')[1]
+	load['Nodes OutOfMemory'] = COUNT_CPUPressure
         return load
 
 
